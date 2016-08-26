@@ -15,8 +15,14 @@ public class RequestTest {
     public void testSetRequestLine() {
         Request request = new Request();
         request.setRequestLine("GET /path/to/file HTTP/1.0");
-        assertEquals("GET", request.getMethodType());
+        assertEquals(Methods.GET, request.getMethodType());
         assertEquals("/path/to/file", request.getUri());
         assertEquals("HTTP/1.0", request.getVersion());
+    }
+
+    public void testSetBody() {
+        Request request = new Request();
+        request.setBody("my=data");
+        assertEquals("my=data", request.getBody());
     }
 }

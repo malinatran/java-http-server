@@ -2,14 +2,17 @@ package com.malinatran;
 
 public class Response {
 
-    public static final String STATUS_OK = "HTTP/1.1 200 OK\r\n\r\n";
-    public static final String STATUS_NOT_FOUND = "HTTP/1.1 404 Not Found\r\n\r\n";
+    public String getResponse(Request request) {
+        String method = request.getMethodType();
+        String uri = request.getUri();
+        String body = request.getBody();
 
-    public String getResponse(String uri) {
-        if (uri.equals("/")) {
-            return STATUS_OK;
+        if ((method.equals(Methods.PUT) || method.equals(Methods.POST)) && body.length() != 0) {
+            return StatusCodes.OK;
+        } else if ((method.equals(Methods.GET) || method.equals(Methods.HEAD)) && uri.equals("/")) {
+            return StatusCodes.OK;
         } else {
-            return STATUS_NOT_FOUND;
+            return StatusCodes.NOT_FOUND;
         }
     }
 }

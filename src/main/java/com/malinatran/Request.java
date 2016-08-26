@@ -8,6 +8,7 @@ public class Request {
     private String methodType;
     private String uri;
     private String version;
+    private String body;
 
     public Request() {
         headers = new HashMap<String, String>();
@@ -18,6 +19,10 @@ public class Request {
         String key = keyAndValue[0];
         String value = keyAndValue[1];
         headers.put(key, value);
+    }
+
+    public void setBody(String body) {
+       this.body = body;
     }
 
     public String getHeaderValue(String headerName) {
@@ -43,7 +48,7 @@ public class Request {
         return uri;
     }
 
-    public String getVersion() {
-        return version;
-    }
+    public String getVersion() { return version; }
+
+    public String getBody() { return body; }
 }
