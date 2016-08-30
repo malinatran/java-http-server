@@ -1,41 +1,36 @@
 package com.malinatran;
 
 import java.lang.Runnable;
-import java.net.Socket;
 import java.io.*;
 
 public class ClientHandler implements Runnable {
 
-    private Socket clientSocket;
+    private final BufferedWriter out;
+    private final BufferedReader in;
 
-    ClientHandler (Socket clientSocket) {
-        this.clientSocket = clientSocket;
+    ClientHandler (BufferedWriter out, BufferedReader in) throws IOException {
+        this.out = out;
+        this.in = in;
     }
 
     public void run() {
         try {
-            BufferedWriter out = new BufferedWriter(
-                    new OutputStreamWriter(clientSocket.getOutputStream()));
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(clientSocket.getInputStream()));
-
-            getRequestAndResponse(in, out);
-            closeStreamsAndSockets(in, out, clientSocket);
+            getRequestAndResponse(out, in);
+            closeStreams(out, in);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void getRequestAndResponse(BufferedReader in, BufferedWriter out) throws IOException {
+    private void getRequestAndResponse(BufferedWriter out, BufferedReader in) throws IOException {
         RequestListener requestListener = new RequestListener();
         Request request = requestListener.getNextRequest(in);
         String response = new Response().getResponse(request);
         out.write(response);
     }
 
-    public void closeStreamsAndSockets(BufferedReader in, BufferedWriter out, Socket clientSocket) throws IOException {
+    private void closeStreams(BufferedWriter out, BufferedReader in) throws IOException {
         out.close();
         in.close();
-        clientSocket.close();
     }
 }

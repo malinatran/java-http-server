@@ -21,15 +21,22 @@ public class RequestListener {
         }
     }
 
-    public void setRequestHeaders(Request request, BufferedReader in) throws IOException {
-        String line;
+    private String formatReadLine(BufferedReader in) throws IOException {
+        return in.readLine().trim();
+    }
 
-        while (((line = in.readLine().trim()) != null) && !line.isEmpty()) {
+    private void setRequestHeaders(Request request, BufferedReader in) throws IOException {
+        while (true) {
+            String line = formatReadLine(in);
+
+            if (line == null || line.isEmpty()) {
+                break;
+            }
             request.setHeader(line);
         }
     }
 
-    public void setRequestBody(Request request, BufferedReader in) throws IOException {
+    private void setRequestBody(Request request, BufferedReader in) throws IOException {
         if (request.hasHeader(CONTENT_LENGTH)) {
             int contentLength = Integer.parseInt(request.getHeaderValue(CONTENT_LENGTH));
             char[] body = new char[contentLength];

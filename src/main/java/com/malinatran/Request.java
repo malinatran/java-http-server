@@ -5,9 +5,9 @@ import java.util.Map;
 public class Request {
 
     private Map<String, String> headers;
-    private String methodType;
-    private String uri;
-    private String version;
+    private String method;
+    private String path;
+    private String protocolAndVersion;
     private String body;
 
     public Request() {
@@ -35,20 +35,23 @@ public class Request {
 
     public void setRequestLine(String requestLine) {
         String[] parts = requestLine.split(" ");
-        methodType = parts[0];
-        uri = parts[1];
-        version = parts[2];
+        method = parts[0];
+        path = parts[1];
+        protocolAndVersion = parts[2];
     }
 
-    public String getMethodType() {
-        return methodType;
+    public String getMethod() {
+        return method;
     }
 
-    public String getUri() {
-        return uri;
+    public String getPath() {
+        return path;
     }
 
-    public String getVersion() { return version; }
+    public String getProtocolAndVersion() {
+        return protocolAndVersion;
+    }
 
-    public String getBody() { return body; }
+    public String getBody() {
+        return body; }
 }

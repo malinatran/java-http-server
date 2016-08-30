@@ -1,10 +1,11 @@
 package com.malinatran;
 
+import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class RequestTest {
-    @org.junit.Test
 
+    @Test
     public void testSetHeader() {
         Request request = new Request();
         request.setHeader("Host: google.com");
@@ -12,14 +13,16 @@ public class RequestTest {
         assertTrue(request.hasHeader("Host"));
     }
 
+    @Test
     public void testSetRequestLine() {
         Request request = new Request();
         request.setRequestLine("GET /path/to/file HTTP/1.0");
-        assertEquals(Methods.GET, request.getMethodType());
-        assertEquals("/path/to/file", request.getUri());
-        assertEquals("HTTP/1.0", request.getVersion());
+        assertEquals(Method.GET, request.getMethod());
+        assertEquals("/path/to/file", request.getPath());
+        assertEquals("HTTP/1.0", request.getProtocolAndVersion());
     }
 
+    @Test
     public void testSetBody() {
         Request request = new Request();
         request.setBody("my=data");
