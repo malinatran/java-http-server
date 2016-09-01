@@ -1,4 +1,5 @@
-package com.malinatran;
+package com.malinatran.request;
+
 import java.util.HashMap;
 import java.util.Map;
 

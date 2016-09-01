@@ -1,4 +1,6 @@
-package com.malinatran;
+package com.malinatran.request;
+
+import com.malinatran.constants.Method;
 
 import org.junit.Test;
 import static org.junit.Assert.*;

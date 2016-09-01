@@ -1,0 +1,21 @@
+package com.malinatran.mocks;
+
+import com.malinatran.constants.Status;
+import com.malinatran.request.Request;
+import com.malinatran.response.Response;
+import com.malinatran.router.Router;
+
+public class MockRouter extends Router {
+
+    @Override
+    public Response getResponse(Request request) {
+        Response response = new Response(
+                "GET",
+                "HTTP/1.1",
+                "/",
+                null
+        );
+        response.setStatus(Status.OK);
+        return response;
+    }
+}

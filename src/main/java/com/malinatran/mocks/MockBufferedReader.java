@@ -1,4 +1,4 @@
-package com.malinatran;
+package com.malinatran.mocks;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
