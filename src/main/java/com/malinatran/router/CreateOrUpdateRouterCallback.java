@@ -4,9 +4,8 @@ import com.malinatran.constants.Status;
 import com.malinatran.request.Request;
 import com.malinatran.response.Response;
 
-public class CreateOrUpdateRouterCallback extends RouterCallback {
+public class CreateOrUpdateRouterCallback implements RouterCallback {
 
-    @Override
     public void run(Request request, Response response) {
         String body = request.getBody();
 

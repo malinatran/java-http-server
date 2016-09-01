@@ -1,21 +1,21 @@
 package com.malinatran;
 
+import com.malinatran.reader.Reader;
+import com.malinatran.writer.Writer;
 import com.malinatran.request.Request;
 import com.malinatran.request.RequestListener;
 import com.malinatran.response.Response;
 import com.malinatran.router.Router;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
+import java.io.*;
 
 public class ClientHandler implements Runnable {
 
-    private final BufferedWriter out;
-    private final BufferedReader in;
+    private final Writer out;
+    private final Reader in;
     private final Router router;
 
-    ClientHandler (BufferedWriter out, BufferedReader in, Router router) throws IOException {
+    ClientHandler (Writer out, Reader in, Router router) throws IOException {
         this.out = out;
         this.in = in;
         this.router = router;
@@ -30,14 +30,14 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    private void getRequestAndResponse(BufferedWriter out, BufferedReader in) throws IOException {
+    private void getRequestAndResponse(Writer out, Reader in) throws IOException {
         RequestListener requestListener = new RequestListener();
         Request request = requestListener.getNextRequest(in);
         Response response = router.getResponse(request);
         out.write(response.toString());
     }
 
-    private void closeStreams(BufferedWriter out, BufferedReader in) throws IOException {
+    private void closeStreams(Writer out, Reader in) throws IOException {
         out.close();
         in.close();
     }

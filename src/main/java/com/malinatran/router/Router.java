@@ -38,7 +38,9 @@ public class Router {
             response.setStatus(Status.NOT_FOUND);
         }
 
-        callback.run(request, response);
+        if (callback != null) {
+            callback.run(request, response);
+        }
         return response;
     }
 

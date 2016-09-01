@@ -4,9 +4,8 @@ import com.malinatran.constants.Status;
 import com.malinatran.request.Request;
 import com.malinatran.response.Response;
 
-public class IndexRouterCallback extends RouterCallback {
+public class IndexRouterCallback implements RouterCallback {
 
-    @Override
     public void run(Request request, Response response) {
         response.setStatus(Status.OK);
     }

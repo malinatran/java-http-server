@@ -1,19 +1,20 @@
 package com.malinatran.request;
 
-import com.malinatran.mocks.MockBufferedReader;
+import com.malinatran.reader.Reader;
+import com.malinatran.mocks.MockRequestReader;
 
-import java.io.BufferedReader;
+import java.io.IOException;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class RequestListenerTest {
 
     @Test
-    public void testGetNextRequest() {
-        BufferedReader br = new MockBufferedReader(new String[]
-                {"GET / HTTP/1.1", "User-Agent: MalinaBrowser", "Host: localhost/5000", ""});
+    public void testGetNextRequest() throws IOException {
+        Reader rr = new MockRequestReader(new String[]
+                {"GET / HTTP/1.1", "User-Agent: MalinaBrowser", "Host: localhost:5000", ""});
         RequestListener requestListener = new RequestListener();
-        Request request = requestListener.getNextRequest(br);
+        Request request = requestListener.getNextRequest(rr);
         assertEquals("GET", request.getMethod());
         assertEquals("/", request.getPath());
     }

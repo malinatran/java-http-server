@@ -1,4 +1,4 @@
-package com.malinatran;
+package com.malinatran.mocks;
 
 public class MessageLogger {
     public String response = "";

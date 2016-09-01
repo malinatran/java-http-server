@@ -1,5 +1,7 @@
 package com.malinatran;
 
+import com.malinatran.reader.RequestReader;
+import com.malinatran.writer.ResponseWriter;
 import com.malinatran.router.Router;
 import com.malinatran.router.Routes;
 
@@ -9,7 +11,7 @@ import java.net.Socket;
 
 public class Main {
 
-    private static final int PORT_NUMBER = 6000;
+    private static final int PORT_NUMBER = 5000;
     private static ServerSocket serverSocket;
     private static Socket clientSocket;
     private static ClientHandler clientHandler;
@@ -23,8 +25,8 @@ public class Main {
 
         while (true) {
             clientSocket = serverSocket.accept();
-            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
-            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            ResponseWriter out = new ResponseWriter(clientSocket);
+            RequestReader in = new RequestReader(clientSocket);
             clientHandler = new ClientHandler(out, in, router);
             thread = new Thread(clientHandler);
             thread.start();

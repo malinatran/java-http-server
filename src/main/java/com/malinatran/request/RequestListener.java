@@ -1,6 +1,7 @@
 package com.malinatran.request;
 
-import java.io.BufferedReader;
+import com.malinatran.reader.Reader;
+
 import java.io.IOException;
 
 @SuppressWarnings("ALL")
@@ -8,7 +9,7 @@ public class RequestListener {
 
     public static final String CONTENT_LENGTH = "Content-Length";
 
-    public Request getNextRequest(BufferedReader in) {
+    public Request getNextRequest(Reader in) {
         try {
             Request request = new Request();
             request.setRequestLine(in.readLine());
@@ -21,11 +22,11 @@ public class RequestListener {
         }
     }
 
-    private String formatReadLine(BufferedReader in) throws IOException {
+    private String formatReadLine(Reader in) throws IOException {
         return in.readLine().trim();
     }
 
-    private void setRequestHeaders(Request request, BufferedReader in) throws IOException {
+    private void setRequestHeaders(Request request, Reader in) throws IOException {
         while (true) {
             String line = formatReadLine(in);
 
@@ -36,7 +37,7 @@ public class RequestListener {
         }
     }
 
-    private void setRequestBody(Request request, BufferedReader in) throws IOException {
+    private void setRequestBody(Request request, Reader in) throws IOException {
         if (request.hasHeader(CONTENT_LENGTH)) {
             int contentLength = Integer.parseInt(request.getHeaderValue(CONTENT_LENGTH));
             char[] body = new char[contentLength];
