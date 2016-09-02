@@ -1,4 +1,4 @@
-package com.malinatran;
+package com.malinatran.constants;
 
 public class Method {
 
