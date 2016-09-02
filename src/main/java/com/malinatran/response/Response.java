@@ -1,7 +1,10 @@
 package com.malinatran.response;
 
 import com.malinatran.constants.Status;
+import com.malinatran.request.Request;
+import com.malinatran.router.Logger;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,6 +15,7 @@ public class Response {
     private String body;
     private String protocol;
     private String status;
+    private String bodyContent;
 
     private Map<String, String> headers;
 
@@ -31,8 +35,16 @@ public class Response {
         this.status = status;
     }
 
+    public void setBodyContent(String bodyContent) {
+        this.bodyContent = bodyContent;
+    }
+
+    public String getBodyContent() {
+        return (bodyContent == null ? "" : "\r\n" + bodyContent + "\r\n");
+    }
+
     public String getStatus() {
-       return status;
+        return status;
     }
 
     public void setHeader(String key, String val) {
@@ -48,6 +60,11 @@ public class Response {
         setHeader("Location", url);
     }
 
+    public void setLogsToBody(Logger logger) {
+        setStatus(Status.OK);
+        setBodyContent(logger.getLoggedRequests());
+    }
+
     public String getStatusLine() {
         String statusLine = protocol + " " + status;
 
@@ -57,6 +74,7 @@ public class Response {
     public String toString() {
         String response = Formatter.addNewLine(getStatusLine());
         response += getHeaderLines();
+        response += getBodyContent();
 
         return response;
     }

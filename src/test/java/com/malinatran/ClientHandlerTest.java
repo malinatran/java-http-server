@@ -5,6 +5,7 @@ import com.malinatran.mocks.MessageLogger;
 import com.malinatran.mocks.MockRequestReader;
 import com.malinatran.mocks.MockResponseWriter;
 import com.malinatran.mocks.MockRouter;
+import com.malinatran.router.Logger;
 import com.malinatran.router.Router;
 
 import java.io.IOException;
@@ -19,10 +20,11 @@ public class ClientHandlerTest {
     public void testRunWrites() throws IOException {
         MessageLogger messageLogger = new MessageLogger();
         Router mockRouter = new MockRouter();
+        Logger logger = new Logger();
         Writer rw = new MockResponseWriter(messageLogger);
         Reader rr = new MockRequestReader(new String[]
                 {"GET / HTTP/1.1", "User-Agent: MalinaBrowser", "Host: localhost:6000", ""});
-        ClientHandler clientHandler = new ClientHandler(rw, rr, mockRouter);
+        ClientHandler clientHandler = new ClientHandler(rw, rr, logger, mockRouter);
         clientHandler.run();
         assertEquals("HTTP/1.1 200 OK\r\n", messageLogger.getLoggedMessage());
     }

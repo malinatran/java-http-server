@@ -1,5 +1,6 @@
 package com.malinatran.router;
 
+import com.malinatran.constants.Method;
 import com.malinatran.constants.Status;
 import com.malinatran.request.Request;
 import com.malinatran.response.Response;
@@ -18,7 +19,7 @@ public class Router {
         routes.put(method + " " + path, callback);
     }
 
-    public Response getResponse(Request request) {
+    public Response getResponse(Request request, Logger logger) {
         Response response = new Response(
                 request.getMethod(),
                 request.getProtocolAndVersion(),
@@ -26,11 +27,22 @@ public class Router {
                 request.getBody()
         );
 
+        logger.addRequestLine(request);
+        RouterCallback callback = setCallback(request, response, logger);
+        runCallback(request, response, callback);
+
+        return response;
+    }
+
+    private RouterCallback setCallback (Request request, Response response, Logger logger) {
         String route = getRoute(request);
         String method = request.getMethod();
         RouterCallback callback = null;
 
-        if (hasRoute(route)) {
+        if (validRouteAndCredentials(request)) {
+            response.setLogsToBody(logger);
+            callback = null;
+        } else if (hasRoute(route)) {
             callback = routes.get(route);
         } else if (hasRoute(method + " *")) {
             callback = routes.get(method + " *");
@@ -38,10 +50,27 @@ public class Router {
             response.setStatus(Status.NOT_FOUND);
         }
 
+        return callback;
+    }
+
+    private void runCallback(Request request, Response response, RouterCallback callback) {
         if (callback != null) {
             callback.run(request, response);
         }
-        return response;
+    }
+
+    private Boolean validRouteAndCredentials(Request request) {
+        String method = request.getMethod();
+        String path = request.getPath();
+        String credentials = request.getHeaderValue("Authorization");
+
+        return (method.equals(Method.GET) &&
+                path.equals("/logs") &&
+                validCredentials(credentials));
+    }
+
+    private Boolean validCredentials(String credentials) {
+        return ((credentials != null) && credentials.equals("Basic YWRtaW46aHVudGVyMg=="));
     }
 
     public Boolean hasRoute(String route) {
