@@ -16,7 +16,9 @@ public class CreateOrUpdateRouterCallbackTest {
         request.setRequestLine("POST / HTTP/1.1");
         request.setBody("Get down with the get down");
         Response response = new Response("POST", "HTTP/1.1", "/", "Get down with the get down");
+
         callback.run(request, response);
+
         assertEquals(Status.OK, response.getStatus());
     }
 
@@ -26,7 +28,9 @@ public class CreateOrUpdateRouterCallbackTest {
         Request request = new Request();
         request.setRequestLine("PUT / HTTP/1.1");
         Response response = new Response("PUT", "HTTP/1.1", "/", null);
+
         callback.run(request, response);
+
         assertEquals(Status.NOT_FOUND, response.getStatus());
     }
 }

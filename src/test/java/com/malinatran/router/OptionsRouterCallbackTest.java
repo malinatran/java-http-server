@@ -15,7 +15,9 @@ public class OptionsRouterCallbackTest {
         Request request = new Request();
         request.setRequestLine("OPTIONS /method_options HTTP/1.1");
         Response response = new Response("OPTIONS", "HTTP/1.1", "/method_options", null);
+
         callback.run(request, response);
+
         assertEquals(Status.OK, response.getStatus());
         assertTrue(response.hasHeader("Allow"));
     }

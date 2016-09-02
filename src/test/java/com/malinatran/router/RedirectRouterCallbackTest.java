@@ -15,7 +15,9 @@ public class RedirectRouterCallbackTest {
         Request request = new Request();
         request.setRequestLine("GET /redirect HTTP/1.1");
         Response response = new Response("GET", "HTTP/1.1", "/redirect", null);
+
         callback.run(request, response);
+
         assertEquals(Status.FOUND, response.getStatus());
     }
 }

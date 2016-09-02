@@ -1,10 +1,8 @@
 package com.malinatran.response;
 
 import com.malinatran.constants.Status;
-import com.malinatran.request.Request;
 import com.malinatran.router.Logger;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 

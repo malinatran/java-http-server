@@ -11,10 +11,12 @@ public class RequestListenerTest {
 
     @Test
     public void testGetNextRequest() throws IOException {
-        Reader rr = new MockRequestReader(new String[]
+        Reader reader = new MockRequestReader(new String[]
                 {"GET / HTTP/1.1", "User-Agent: MalinaBrowser", "Host: localhost:5000", ""});
         RequestListener requestListener = new RequestListener();
-        Request request = requestListener.getNextRequest(rr);
+
+        Request request = requestListener.getNextRequest(reader);
+
         assertEquals("GET", request.getMethod());
         assertEquals("/", request.getPath());
     }

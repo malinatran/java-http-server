@@ -15,7 +15,9 @@ public class IndexRouterCallbackTest {
         Request request = new Request();
         request.setRequestLine("GET / HTTP/1.1");
         Response response = new Response("GET", "HTTP/1.1", "/", null);
+
         callback.run(request, response);
+
         assertEquals(Status.OK, response.getStatus());
     }
 }
