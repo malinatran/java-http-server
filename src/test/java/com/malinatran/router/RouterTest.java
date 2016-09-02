@@ -19,12 +19,13 @@ public class RouterTest {
     }
 
     @Test
-    public void testGetResponse() {
+    public void testGetResponseOK() {
         Request request = new Request();
+        Logger logger = new Logger();
         request.setRequestLine("GET / HTTP/1.1");
         request.setBody("my=data");
         Router mockRouter = new MockRouter();
-        Response response = mockRouter.getResponse(request);
+        Response response = mockRouter.getResponse(request, logger);
         assertEquals(responseOK, response.getStatusLine());
     }
 }

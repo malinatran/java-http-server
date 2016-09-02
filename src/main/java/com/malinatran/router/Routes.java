@@ -15,6 +15,10 @@ public class Routes {
         router.addRoute(Method.GET, "/", new IndexRouterCallback());
         router.addRoute(Method.HEAD, "/", new IndexRouterCallback());
         router.addRoute(Method.GET, "/redirect", new RedirectRouterCallback());
+        router.addRoute(Method.GET, "/logs", new LogsRouterCallback());
+        router.addRoute(Method.GET, "/log", new LogsRouterCallback());
+        router.addRoute(Method.PUT, "/these", new LogsRouterCallback());
+        router.addRoute(Method.HEAD, "/request", new LogsRouterCallback());
     }
 }
 
