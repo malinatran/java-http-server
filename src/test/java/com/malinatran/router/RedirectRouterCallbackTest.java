@@ -1,5 +1,6 @@
 package com.malinatran.router;
 
+import com.malinatran.constants.Method;
 import com.malinatran.constants.Status;
 import com.malinatran.request.Request;
 import com.malinatran.response.Response;
@@ -14,7 +15,7 @@ public class RedirectRouterCallbackTest {
         RouterCallback callback = new RedirectRouterCallback();
         Request request = new Request();
         request.setRequestLine("GET /redirect HTTP/1.1");
-        Response response = new Response("GET", "HTTP/1.1", "/redirect", null);
+        Response response = new Response(Method.GET, "HTTP/1.1", "/", null);
 
         callback.run(request, response);
 

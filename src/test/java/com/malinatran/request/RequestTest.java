@@ -21,11 +21,11 @@ public class RequestTest {
     public void testSetRequestLine() {
         Request request = new Request();
 
-        request.setRequestLine("GET /path/to/file HTTP/1.0");
+        request.setRequestLine("GET /path/to/file HTTP/1.1");
 
         assertEquals(Method.GET, request.getMethod());
         assertEquals("/path/to/file", request.getPath());
-        assertEquals("HTTP/1.0", request.getProtocolAndVersion());
+        assertEquals("HTTP/1.1", request.getProtocolAndVersion());
     }
 
     @Test

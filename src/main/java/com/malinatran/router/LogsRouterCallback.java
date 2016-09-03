@@ -6,18 +6,20 @@ import com.malinatran.response.Response;
 
 public class LogsRouterCallback implements RouterCallback {
 
-    private Boolean validCredentials(String credentials) {
-        return ((credentials != null) && credentials.equals("Basic YWRtaW46aHVudGVyMg=="));
-    }
+    private static final String AUTHORIZATION = "Authorization";
+    private static final String WWW_AUTHENTICATE = "WWW-Authenticate";
+    private static final String MESSAGE = "Basic realm=MALINA_REALM";
 
     public void run(Request request, Response response) {
-        String credentials = request.getHeaderValue("Authorization");
+        String credentials = request.getHeaderValue(AUTHORIZATION);
 
-       if (validCredentials(credentials)) {
+        RouterValidator validator = new RouterValidator();
+
+        if (validator.isValidCredentials(credentials)) {
             response.setStatus(Status.OK);
-        } else if (credentials == null || !validCredentials(credentials)) {
+        } else if (credentials == null || !validator.isValidCredentials(credentials)) {
             response.setStatus(Status.UNAUTHORIZED);
-            response.setHeader("WWW-Authenticate", "Basic realm=MALINA_REALM");
+            response.setHeader(WWW_AUTHENTICATE, MESSAGE);
         }
     }
 }

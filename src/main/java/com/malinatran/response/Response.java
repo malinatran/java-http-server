@@ -8,14 +8,16 @@ import java.util.Map;
 
 public class Response {
 
+    private static final String LOCATION = "Location";
+
     private String method;
     private String path;
     private String body;
     private String protocol;
     private String status;
     private String bodyContent;
-
     private Map<String, String> headers;
+
 
     public Response(String method, String protocol, String path) {
         this(method, protocol, path, null);
@@ -55,7 +57,7 @@ public class Response {
 
     public void redirectTo(String url) {
         setStatus(Status.FOUND);
-        setHeader("Location", url);
+        setHeader(LOCATION, url);
     }
 
     public void setLogsToBody(Logger logger) {

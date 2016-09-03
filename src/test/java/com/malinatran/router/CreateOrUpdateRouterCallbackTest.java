@@ -1,5 +1,6 @@
 package com.malinatran.router;
 
+import com.malinatran.constants.Method;
 import com.malinatran.constants.Status;
 import com.malinatran.request.Request;
 import com.malinatran.response.Response;
@@ -9,13 +10,15 @@ import static org.junit.Assert.*;
 
 public class CreateOrUpdateRouterCallbackTest {
 
+    private static final String BODY_MESSAGE = "Get down with the get down";
+
     @Test
     public void testRunWithBody() {
         RouterCallback callback = new CreateOrUpdateRouterCallback();
         Request request = new Request();
         request.setRequestLine("POST / HTTP/1.1");
-        request.setBody("Get down with the get down");
-        Response response = new Response("POST", "HTTP/1.1", "/", "Get down with the get down");
+        request.setBody(BODY_MESSAGE);
+        Response response = new Response(Method.POST, "HTTP/1.1", "/", BODY_MESSAGE);
 
         callback.run(request, response);
 

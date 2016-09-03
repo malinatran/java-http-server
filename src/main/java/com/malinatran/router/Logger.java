@@ -5,6 +5,7 @@ import com.malinatran.request.Request;
 import java.util.ArrayList;
 
 public class Logger {
+
     private ArrayList<String> loggedRequestLines;
     private String requestLines;
 

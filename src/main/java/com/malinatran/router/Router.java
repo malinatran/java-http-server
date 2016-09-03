@@ -1,6 +1,5 @@
 package com.malinatran.router;
 
-import com.malinatran.constants.Method;
 import com.malinatran.constants.Status;
 import com.malinatran.request.Request;
 import com.malinatran.response.Response;
@@ -37,9 +36,10 @@ public class Router {
     private RouterCallback setCallback (Request request, Response response, Logger logger) {
         String route = getRoute(request);
         String method = request.getMethod();
+        RouterValidator validator = new RouterValidator();
         RouterCallback callback = null;
 
-        if (validRouteAndCredentials(request)) {
+        if (validator.isValidRouteAndCredentials(request)) {
             response.setLogsToBody(logger);
             callback = null;
         } else if (hasRoute(route)) {
@@ -57,20 +57,6 @@ public class Router {
         if (callback != null) {
             callback.run(request, response);
         }
-    }
-
-    private Boolean validRouteAndCredentials(Request request) {
-        String method = request.getMethod();
-        String path = request.getPath();
-        String credentials = request.getHeaderValue("Authorization");
-
-        return (method.equals(Method.GET) &&
-                path.equals("/logs") &&
-                validCredentials(credentials));
-    }
-
-    private Boolean validCredentials(String credentials) {
-        return ((credentials != null) && credentials.equals("Basic YWRtaW46aHVudGVyMg=="));
     }
 
     public Boolean hasRoute(String route) {
