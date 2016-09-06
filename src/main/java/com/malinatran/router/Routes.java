@@ -17,6 +17,8 @@ public class Routes {
         router.addRoute(HEAD, "/", new IndexRouterCallback());
         router.addRoute(GET, "/redirect", new RedirectRouterCallback());
         router.addRoute(GET, "/logs", new LogsRouterCallback());
+        router.addRoute(GET, "/coffee", new EasterEggRouterCallback());
+        router.addRoute(GET, "/tea", new EasterEggRouterCallback());
     }
 }
 

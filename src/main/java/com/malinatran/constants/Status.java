@@ -6,4 +6,5 @@ public class Status {
     public static final String NOT_FOUND = "404 Not Found";
     public static final String FOUND = "302 Found";
     public static final String UNAUTHORIZED = "401 Unauthorized";
+    public static final String TEAPOT = "418 I'm a teapot";
 }
