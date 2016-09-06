@@ -21,4 +21,16 @@ public class IndexRouterCallbackTest {
 
         assertEquals(Status.OK, response.getStatus());
     }
+
+    @Test
+    public void testRunWithFoobarPath() {
+        RouterCallback callback = new IndexRouterCallback();
+        Request request = new Request();
+        request.setRequestLine("GET /foobar HTTP/1.1");
+        Response response = new Response(Method.GET, "HTTP/1.1", "/foobar", null);
+
+        callback.run(request, response);
+
+        assertEquals(Status.NOT_FOUND, response.getStatus());
+    }
 }
