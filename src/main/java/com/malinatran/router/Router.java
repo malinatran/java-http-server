@@ -47,7 +47,7 @@ public class Router {
         } else if (hasRoute(method + " *")) {
             callback = routes.get(method + " *");
         } else {
-            response.setStatus(Status.NOT_FOUND);
+            response.setStatus(Status.METHOD_NOT_ALLOWED);
         }
 
         return callback;
