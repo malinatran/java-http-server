@@ -14,17 +14,22 @@ public class RouterTest {
     @Test
     public void testAddRoute() {
         Router router = new Router();
+
         router.addRoute("GET", "/malina", new IndexRouterCallback());
+
         assertTrue(router.hasRoute("GET /malina"));
     }
 
     @Test
     public void testGetResponse() {
         Request request = new Request();
+        Logger logger = new Logger();
         request.setRequestLine("GET / HTTP/1.1");
         request.setBody("my=data");
         Router mockRouter = new MockRouter();
-        Response response = mockRouter.getResponse(request);
+
+        Response response = mockRouter.getResponse(request, logger);
+
         assertEquals(responseOK, response.getStatusLine());
     }
 }

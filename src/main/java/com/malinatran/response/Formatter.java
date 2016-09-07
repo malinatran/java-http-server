@@ -7,12 +7,12 @@ public class Formatter {
 
     public static String formatHeaderLines(Map headers) {
         String headerLines = "";
-        Iterator it = headers.entrySet().iterator();
+        Iterator iterator = headers.entrySet().iterator();
 
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry)it.next();
+        while (iterator.hasNext()) {
+            Map.Entry pair = (Map.Entry)iterator.next();
             headerLines += addNewLine(pair.getKey() + ": " + pair.getValue());
-            it.remove();
+            iterator.remove();
         }
 
         return headerLines;
