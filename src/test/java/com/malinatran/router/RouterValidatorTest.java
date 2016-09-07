@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 public class RouterValidatorTest {
 
     @Test
-    public void testIsValidRouteAndCredentials() {
+    public void isValidRouteAndCredentialsReturnsTrueWithCorrectRouteAndCredentials() {
         Request request = new Request();
         request.setRequestLine("GET /logs HTTP/1.1");
         request.setHeader("Authorization: Basic YWRtaW46aHVudGVyMg==");
@@ -19,7 +19,7 @@ public class RouterValidatorTest {
     }
 
     @Test
-    public void testIsValidCredentials() {
+    public void isValidCredentialsReturnsFalseWithIncorrectCredentials() {
         RouterValidator validator = new RouterValidator();
 
         Boolean isValidCredentials = validator.isValidCredentials("Basic Hello");

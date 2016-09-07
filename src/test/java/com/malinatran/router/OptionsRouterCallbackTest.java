@@ -11,11 +11,11 @@ import static org.junit.Assert.*;
 public class OptionsRouterCallbackTest {
 
     @Test
-    public void testRun() {
+    public void runWithMethodOptionsPathAndOptionsMethodReturns200AndAllowHeader() {
         RouterCallback callback = new OptionsRouterCallback();
         Request request = new Request();
         request.setRequestLine("OPTIONS /method_options HTTP/1.1");
-        Response response = new Response(Method.GET, "HTTP/1.1", "/method_options", null);
+        Response response = new Response("HTTP/1.1", null);
 
         callback.run(request, response);
 

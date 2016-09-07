@@ -7,11 +7,9 @@ import java.util.ArrayList;
 public class Logger {
 
     private ArrayList<String> loggedRequestLines;
-    private String requestLines;
 
     public Logger() {
         loggedRequestLines = new ArrayList<String>();
-        requestLines = "";
     }
 
     public void addRequestLine(Request request) {
@@ -20,6 +18,8 @@ public class Logger {
     }
 
     public String getLoggedRequests() {
+        String requestLines = "";
+
         for (String line : loggedRequestLines) {
             requestLines += line;
         }

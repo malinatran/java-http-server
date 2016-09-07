@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
 public class RequestTest {
 
     @Test
-    public void testSetHeader() {
+    public void setHeaderStoresValuesIntoHashMap() {
         Request request = new Request();
 
         request.setHeader("Host: google.com");
@@ -18,7 +18,7 @@ public class RequestTest {
     }
 
     @Test
-    public void testSetRequestLine() {
+    public void setRequestLineSetsMethodPathAndProtocolAsStrings() {
         Request request = new Request();
 
         request.setRequestLine("GET /path/to/file HTTP/1.1");
@@ -29,7 +29,7 @@ public class RequestTest {
     }
 
     @Test
-    public void testSetBody() {
+    public void setBodySetsValueAsString() {
         Request request = new Request();
 
         request.setBody("my=data");
