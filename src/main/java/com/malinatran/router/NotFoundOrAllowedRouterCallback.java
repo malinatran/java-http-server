@@ -1,18 +1,19 @@
 package com.malinatran.router;
 
+import com.malinatran.constants.Method;
 import com.malinatran.constants.Status;
 import com.malinatran.request.Request;
 import com.malinatran.response.Response;
 
-public class IndexRouterCallback implements RouterCallback {
+public class NotFoundOrAllowedRouterCallback implements RouterCallback {
 
     public void run(Request request, Response response) {
-       String path = request.getPath();
+        String method = request.getMethod();
 
-        if (path.equals("/foobar")) {
+        if (method.equals(Method.HEAD)) {
             response.setStatus(Status.NOT_FOUND);
         } else {
-            response.setStatus(Status.OK);
+            response.setStatus(Status.METHOD_NOT_ALLOWED);
         }
     }
 }
