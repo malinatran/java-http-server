@@ -5,9 +5,8 @@ import com.malinatran.response.Response;
 
 public class RedirectRouterCallback implements RouterCallback {
 
-    public static final String URL = "http://localhost:5000/";
-
     public void run(Request request, Response response) {
-        response.redirectTo(URL);
+        String host = request.getHeaderValue("Host");
+        response.redirectTo("http://" + host);
     }
 }

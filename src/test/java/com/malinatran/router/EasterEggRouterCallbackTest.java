@@ -10,14 +10,13 @@ import static org.junit.Assert.*;
 
 public class EasterEggRouterCallbackTest {
 
-    private static final String TEAPOT_MESSAGE = "\r\nI'm a teapot\r\n";
-
     @Test
-    public void testRunCoffee() {
+    public void runWithCoffeePathReturns418AndMessage() {
+        String TEAPOT_MESSAGE = "\r\nI'm a teapot\r\n";
         RouterCallback callback = new EasterEggRouterCallback();
         Request request = new Request();
         request.setRequestLine("GET /coffee HTTP/1.1");
-        Response response = new Response(Method.GET, "HTTP/1.1", "/coffee");
+        Response response = new Response("HTTP/1.1");
 
         callback.run(request, response);
 
@@ -26,11 +25,11 @@ public class EasterEggRouterCallbackTest {
     }
 
     @Test
-    public void testRunTea() {
+    public void runWithTeaPathReturns200() {
         RouterCallback callback = new EasterEggRouterCallback();
         Request request = new Request();
         request.setRequestLine("GET /tea HTTP/1.1");
-        Response response = new Response(Method.GET, "HTTP/1.1", "/tea");
+        Response response = new Response("HTTP/1.1");
 
         callback.run(request, response);
 

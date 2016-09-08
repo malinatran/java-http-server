@@ -9,23 +9,21 @@ import static org.junit.Assert.*;
 public class FormatterTest {
 
     @Test
-    public void testFormatHeaderLines() {
+    public void formatHeaderLinesIteratesThroughHashMapAndReturnsStringWithNewLine() {
         Map<String, String> headers = new HashMap<String, String>();
         headers.put("Allow", "GET,HEAD,POST,OPTIONS,PUT");
-        Formatter formatter = new Formatter();
 
-        String formattedLines = formatter.formatHeaderLines(headers);
+        String formattedLines = Formatter.formatHeaderLines(headers);
         String expected = "Allow: GET,HEAD,POST,OPTIONS,PUT\r\n";
 
         assertEquals(expected, formattedLines);
     }
 
     @Test
-    public void testAddNewLine() {
+    public void addNewLineReturnsStringWithNewLine() {
         String name = "Malina";
-        Formatter formatter = new Formatter();
 
-        String formattedLine = formatter.addNewLine(name);
+        String formattedLine = Formatter.addNewLine(name);
         String expected = "Malina\r\n";
 
         assertEquals(expected, formattedLine);

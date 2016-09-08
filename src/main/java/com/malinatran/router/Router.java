@@ -20,9 +20,7 @@ public class Router {
 
     public Response getResponse(Request request, Logger logger) {
         Response response = new Response(
-                request.getMethod(),
                 request.getProtocolAndVersion(),
-                request.getPath(),
                 request.getBody()
         );
 

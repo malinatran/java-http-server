@@ -17,6 +17,7 @@ public class Routes {
         router.addRoute(POST, "/text-file.txt", new NotFoundOrAllowedRouterCallback());
         router.addRoute(GET, "/", new IndexRouterCallback());
         router.addRoute(GET, "*", new IndexRouterCallback());
+        router.addRoute(GET, "/foobar", new NotFoundOrAllowedRouterCallback());
         router.addRoute(HEAD, "/", new IndexRouterCallback());
         router.addRoute(HEAD, "*", new NotFoundOrAllowedRouterCallback());
         router.addRoute(GET, "/redirect", new RedirectRouterCallback());

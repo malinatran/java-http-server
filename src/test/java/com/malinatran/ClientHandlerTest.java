@@ -7,17 +7,17 @@ import com.malinatran.mocks.MockResponseWriter;
 import com.malinatran.mocks.MockRouter;
 import com.malinatran.router.Logger;
 import com.malinatran.router.Router;
+import com.malinatran.writer.Writer;
 
 import java.io.IOException;
 
-import com.malinatran.writer.Writer;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class ClientHandlerTest {
 
     @Test
-    public void testRunWrites() throws IOException {
+    public void runWritesResponse() throws IOException {
         MessageLogger messageLogger = new MessageLogger();
         Router mockRouter = new MockRouter();
         Logger logger = new Logger();

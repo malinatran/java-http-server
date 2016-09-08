@@ -7,10 +7,10 @@ import com.malinatran.response.Response;
 
 public class OptionsRouterCallback implements RouterCallback {
 
-    public static final String ALLOW_HEADER = "Allow";
-    public static final String ALL_METHODS = "GET,HEAD,POST,OPTIONS,PUT";
-    public static final String SOME_METHODS = "GET,OPTIONS";
-    public static final String METHOD_OPTIONS_PATH = "/method_options";
+    private static final String ALLOW_HEADER = "Allow";
+    private static final String ALL_METHODS = "GET,HEAD,POST,OPTIONS,PUT";
+    private static final String SOME_METHODS = "GET,OPTIONS";
+    private static final String METHOD_OPTIONS_PATH = "/method_options";
 
     public void run(Request request, Response response) {
         String method = request.getMethod();

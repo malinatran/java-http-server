@@ -10,24 +10,18 @@ public class Response {
 
     private static final String LOCATION = "Location";
 
-    private String method;
-    private String path;
-    private String body;
     private String protocol;
     private String status;
     private String bodyContent;
     private Map<String, String> headers;
 
 
-    public Response(String method, String protocol, String path) {
-        this(method, protocol, path, null);
+    public Response(String protocol) {
+        this(protocol, null);
     }
 
-    public Response(String method, String protocol, String path, String body) {
-        this.method = method;
+    public Response(String protocol, String body) {
         this.protocol = protocol;
-        this.path = path;
-        this.body = body;
         this.headers = new HashMap<String, String>();
     }
 
@@ -66,9 +60,7 @@ public class Response {
     }
 
     public String getStatusLine() {
-        String statusLine = protocol + " " + status;
-
-        return statusLine;
+        return protocol + " " + status;
     }
 
     public String toString() {

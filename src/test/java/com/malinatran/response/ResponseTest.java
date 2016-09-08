@@ -9,8 +9,8 @@ import static org.junit.Assert.*;
 public class ResponseTest {
 
     @Test
-    public void testSetAndGetStatus() {
-        Response response = new Response(Method.GET, "HTTP/1.1", "/", null);
+    public void setStatusSetsValueAsString() {
+        Response response = new Response("HTTP/1.1", null);
 
         response.setStatus(Status.OK);
 
@@ -18,8 +18,8 @@ public class ResponseTest {
     }
 
     @Test
-    public void testSetHeader() {
-        Response response = new Response(Method.POST, "HTTP/1.1", "/", "hello world");
+    public void setHeaderStoresValuesIntoHashMap() {
+        Response response = new Response("HTTP/1.1", "hello world");
 
         response.setHeader("Host", "google.com");
 
@@ -27,8 +27,8 @@ public class ResponseTest {
     }
 
     @Test
-    public void testRedirectTo() {
-        Response response = new Response(Method.POST, "HTTP/1.1", "/", "hello world");
+    public void redirectToReturns302WithLocationHeader() {
+        Response response = new Response("HTTP/1.1", "hello world");
 
         response.redirectTo("malinatran.com");
 
@@ -37,8 +37,8 @@ public class ResponseTest {
     }
 
     @Test
-    public void testGetStatusLine() {
-        Response response = new Response(Method.POST, "HTTP/1.1", "/", "hello world");
+    public void getStatusLineReturnsProtocolAnd200() {
+        Response response = new Response("HTTP/1.1", "hello world");
         response.setStatus(Status.OK);
 
         String statusLine = response.getStatusLine();
@@ -47,8 +47,8 @@ public class ResponseTest {
     }
 
     @Test
-    public void testToString() {
-        Response response = new Response(Method.PUT, "HTTP/1.1", "/", "hello squirrel");
+    public void toStringReturnsLineBreak() {
+        Response response = new Response("HTTP/1.1", "hello squirrel");
         response.setStatus(Status.OK);
 
         String formattedResponse = response.toString();

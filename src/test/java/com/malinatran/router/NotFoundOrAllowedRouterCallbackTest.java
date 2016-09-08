@@ -10,11 +10,11 @@ import static org.junit.Assert.*;
 public class NotFoundOrAllowedRouterCallbackTest {
 
     @Test
-    public void testRunWithHEAD() {
+    public void runWithHeadReturns404() {
         RouterCallback callback = new NotFoundOrAllowedRouterCallback();
         Request request = new Request();
         request.setRequestLine("HEAD /file1 HTTP/1.1");
-        Response response = new Response("HEAD", "HTTP/1.1", "/file1", null);
+        Response response = new Response("HTTP/1.1", null);
 
         callback.run(request, response);
 
@@ -22,11 +22,11 @@ public class NotFoundOrAllowedRouterCallbackTest {
     }
 
     @Test
-    public void testRunWithPUT() {
+    public void runWithPutReturns405() {
         RouterCallback callback = new NotFoundOrAllowedRouterCallback();
         Request request = new Request();
         request.setRequestLine("PUT /file1 HTTP/1.1");
-        Response response = new Response("PUT", "HTTP/1.1", "/file1", null);
+        Response response = new Response("HTTP/1.1", null);
 
         callback.run(request, response);
 

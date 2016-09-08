@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
 public class LoggerTest {
 
     @Test
-    public void testAddRequestLine() {
+    public void addRequestLineAddsStringToLogger() {
         Logger logger = new Logger();
         Request request = new Request();
         request.setRequestLine("GET / HTTP/1.1");
@@ -19,7 +19,7 @@ public class LoggerTest {
     }
 
     @Test
-    public void testMultipleRequestLines() {
+    public void addRequestLineAddsMultipleStringsToLogger() {
         Logger logger = new Logger();
         Request firstRequest = new Request();
         firstRequest.setRequestLine("PUT /these HTTP/1.1");

@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 public class RequestListenerTest {
 
     @Test
-    public void testGetNextRequest() throws IOException {
+    public void getNextRequestReturnsWithRequestLineHeadersBody() throws IOException {
         Reader reader = new MockRequestReader(new String[]
                 {"GET / HTTP/1.1", "User-Agent: MalinaBrowser", "Host: localhost:5000", ""});
         RequestListener requestListener = new RequestListener();
@@ -20,5 +20,6 @@ public class RequestListenerTest {
 
         assertEquals("GET", request.getMethod());
         assertEquals("/", request.getPath());
+        assertEquals("MalinaBrowser", request.getHeaderValue("User-Agent"));
     }
 }

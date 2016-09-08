@@ -10,15 +10,14 @@ import static org.junit.Assert.*;
 
 public class CreateOrUpdateRouterCallbackTest {
 
-    private static final String BODY_MESSAGE = "Get down with the get down";
-
     @Test
-    public void testRunWithBody() {
+    public void runWithBodyReturns200() {
+        String BODY_MESSAGE = "Get down with the get down";
         RouterCallback callback = new CreateOrUpdateRouterCallback();
         Request request = new Request();
         request.setRequestLine("POST / HTTP/1.1");
         request.setBody(BODY_MESSAGE);
-        Response response = new Response(Method.POST, "HTTP/1.1", "/", BODY_MESSAGE);
+        Response response = new Response("HTTP/1.1", BODY_MESSAGE);
 
         callback.run(request, response);
 
@@ -26,11 +25,11 @@ public class CreateOrUpdateRouterCallbackTest {
     }
 
     @Test
-    public void testRunWithoutBody() {
+    public void runWithoutBodyReturns404() {
         RouterCallback callback = new CreateOrUpdateRouterCallback();
         Request request = new Request();
         request.setRequestLine("PUT / HTTP/1.1");
-        Response response = new Response("PUT", "HTTP/1.1", "/", null);
+        Response response = new Response("HTTP/1.1", null);
 
         callback.run(request, response);
 

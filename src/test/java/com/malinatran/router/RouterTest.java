@@ -13,7 +13,7 @@ public class RouterTest {
     private String responseNotAllowed = "HTTP/1.1 405 Method Not Allowed";
 
     @Test
-    public void testAddRoute() {
+    public void addRouteStoresValueIntoHashMap() {
         Router router = new Router();
 
         router.addRoute("GET", "/malina", new IndexRouterCallback());
@@ -22,7 +22,7 @@ public class RouterTest {
     }
 
     @Test
-    public void testGetResponseGETRoot() {
+    public void getResponseForGetReturns200() {
         Request request = new Request();
         Logger logger = new Logger();
         request.setRequestLine("GET / HTTP/1.1");
@@ -35,7 +35,7 @@ public class RouterTest {
     }
 
     @Test
-    public void testGetResponseBogusRequest() {
+    public void getResponseForBogusReturns405() {
         Request request = new Request();
         Logger logger = new Logger();
         request.setRequestLine("BOGUS /file1 HTTP/1.1");
@@ -47,7 +47,7 @@ public class RouterTest {
     }
 
     @Test
-    public void testGetResponseGetRandomPath() {
+    public void getResponseForGetWithRandomPathReturns200() {
         Request request = new Request();
         Logger logger = new Logger();
         request.setRequestLine("GET /file1 HTTP/1.1");
@@ -59,7 +59,7 @@ public class RouterTest {
     }
 
     @Test
-    public void testGetResponsePutRandomPath() {
+    public void getResponseForPutWithRandomPathReturns405() {
         Request request = new Request();
         Logger logger = new Logger();
         request.setRequestLine("PUT /file1 HTTP/1.1");
@@ -71,7 +71,7 @@ public class RouterTest {
     }
 
     @Test
-    public void testGetResponsePostRandomPath() {
+    public void getResponseForPostWithRandomPathReturns405() {
         Request request = new Request();
         Logger logger = new Logger();
         request.setRequestLine("POST /hello HTTP/1.1");
