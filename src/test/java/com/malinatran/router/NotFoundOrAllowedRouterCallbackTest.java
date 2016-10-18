@@ -5,12 +5,14 @@ import com.malinatran.request.Request;
 import com.malinatran.response.Response;
 import org.junit.Test;
 
+import java.io.IOException;
+
 import static org.junit.Assert.*;
 
 public class NotFoundOrAllowedRouterCallbackTest {
 
     @Test
-    public void runWithHeadReturns404() {
+    public void runWithHeadReturns404() throws IOException {
         RouterCallback callback = new NotFoundOrAllowedRouterCallback();
         Request request = new Request();
         request.setRequestLine("HEAD /file1 HTTP/1.1");
@@ -22,7 +24,7 @@ public class NotFoundOrAllowedRouterCallbackTest {
     }
 
     @Test
-    public void runWithPutReturns405() {
+    public void runWithPutReturns405() throws IOException {
         RouterCallback callback = new NotFoundOrAllowedRouterCallback();
         Request request = new Request();
         request.setRequestLine("PUT /file1 HTTP/1.1");

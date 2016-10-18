@@ -6,12 +6,15 @@ import com.malinatran.request.Request;
 import com.malinatran.response.Response;
 
 import org.junit.Test;
+
+import java.io.IOException;
+
 import static org.junit.Assert.*;
 
 public class LogsRouterCallbackTest {
 
     @Test
-    public void runWithValidCredentialsReturns200() {
+    public void runWithValidCredentialsReturns200() throws IOException {
         RouterCallback callback = new LogsRouterCallback();
         Request request = new Request();
         request.setRequestLine("GET /logs HTTP/1.1");
@@ -24,7 +27,7 @@ public class LogsRouterCallbackTest {
     }
 
     @Test
-    public void runWithInvalidCredentialsReturns401() {
+    public void runWithInvalidCredentialsReturns401() throws IOException {
         RouterCallback callback = new LogsRouterCallback();
         Request request = new Request();
         request.setRequestLine("GET /logs HTTP/1.1");

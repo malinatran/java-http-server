@@ -4,6 +4,7 @@ import com.malinatran.constants.Status;
 import com.malinatran.request.Request;
 import com.malinatran.response.Response;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,11 +15,15 @@ public class Router {
         routes = new HashMap<String, RouterCallback>();
     }
 
+    public Boolean hasRoute(String route) {
+        return routes.containsKey(route);
+    }
+
     public void addRoute(String method, String path, RouterCallback callback) {
         routes.put(method + " " + path, callback);
     }
 
-    public Response getResponse(Request request, Logger logger) {
+    public Response getResponse(Request request, Logger logger) throws IOException {
         Response response = new Response(
                 request.getProtocolAndVersion(),
                 request.getBody()
@@ -51,14 +56,10 @@ public class Router {
         return callback;
     }
 
-    private void runCallback(Request request, Response response, RouterCallback callback) {
+    private void runCallback(Request request, Response response, RouterCallback callback) throws IOException {
         if (callback != null) {
             callback.run(request, response);
         }
-    }
-
-    public Boolean hasRoute(String route) {
-        return routes.containsKey(route);
     }
 
     private String getRoute(Request request) {

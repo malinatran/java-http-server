@@ -5,6 +5,9 @@ import com.malinatran.request.Request;
 import com.malinatran.response.Response;
 
 import org.junit.Test;
+
+import java.io.IOException;
+
 import static org.junit.Assert.*;
 
 public class RouterTest {
@@ -22,7 +25,7 @@ public class RouterTest {
     }
 
     @Test
-    public void getResponseForGetReturns200() {
+    public void getResponseForGetReturns200() throws IOException {
         Request request = new Request();
         Logger logger = new Logger();
         request.setRequestLine("GET / HTTP/1.1");
@@ -35,7 +38,7 @@ public class RouterTest {
     }
 
     @Test
-    public void getResponseForBogusReturns405() {
+    public void getResponseForBogusReturns405() throws IOException {
         Request request = new Request();
         Logger logger = new Logger();
         request.setRequestLine("BOGUS /file1 HTTP/1.1");
@@ -47,7 +50,7 @@ public class RouterTest {
     }
 
     @Test
-    public void getResponseForGetWithRandomPathReturns200() {
+    public void getResponseForGetWithRandomPathReturns200() throws IOException {
         Request request = new Request();
         Logger logger = new Logger();
         request.setRequestLine("GET /file1 HTTP/1.1");
@@ -59,7 +62,7 @@ public class RouterTest {
     }
 
     @Test
-    public void getResponseForPutWithRandomPathReturns405() {
+    public void getResponseForPutWithRandomPathReturns405() throws IOException {
         Request request = new Request();
         Logger logger = new Logger();
         request.setRequestLine("PUT /file1 HTTP/1.1");
@@ -71,7 +74,7 @@ public class RouterTest {
     }
 
     @Test
-    public void getResponseForPostWithRandomPathReturns405() {
+    public void getResponseForPostWithRandomPathReturns405() throws IOException {
         Request request = new Request();
         Logger logger = new Logger();
         request.setRequestLine("POST /hello HTTP/1.1");
