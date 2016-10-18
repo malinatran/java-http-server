@@ -4,10 +4,11 @@ import java.io.File;
 
 public class DirectoryReader {
 
-    public String getLinks(String directoryName) {
-        File directory = new File("/Users/mteatran/Development/cob_spec/" + directoryName);
-        String[] files = directory.list();
+    private static final String ROOT_DIRECTORY = System.getProperty("user.home") + "/Development/cob_spec/";
 
+    public String getLinks(String directoryName) {
+        File directory = new File(ROOT_DIRECTORY + directoryName);
+        String[] files = directory.list();
         return (files != null) ? getAnchorTagLinks(files) : "";
     }
 

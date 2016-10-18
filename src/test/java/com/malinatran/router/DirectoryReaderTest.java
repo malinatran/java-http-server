@@ -1,7 +1,6 @@
 package com.malinatran.router;
 
 import java.io.File;
-
 import org.junit.Assert;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
