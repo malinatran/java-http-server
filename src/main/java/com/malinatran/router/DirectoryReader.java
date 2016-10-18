@@ -4,19 +4,20 @@ import java.io.File;
 
 public class DirectoryReader {
 
-    public String getListing(String fileName) {
-        String listing = "";
-        File file = new File(System.getProperty("user.dir") + "/" + fileName);
-        String[] paths = file.list();
+    public String getLinks(String directoryName) {
+        File directory = new File("/Users/mteatran/Development/cob_spec/" + directoryName);
+        String[] files = directory.list();
 
-        if (paths != null) {
-            for (String path : paths) {
-                listing += path;
-            }
+        return (files != null) ? getAnchorTagLinks(files) : "";
+    }
 
-            return listing;
+    private String getAnchorTagLinks(String[] files) {
+        String links = "";
+
+        for (String file : files) {
+            links += "<a href=\"/" + file + "\">" + file + "</a>\n";
         }
 
-        return "";
+        return links;
     }
 }
