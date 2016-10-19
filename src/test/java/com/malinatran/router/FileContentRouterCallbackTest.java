@@ -10,25 +10,11 @@ import static org.junit.Assert.*;
 public class FileContentRouterCallbackTest {
 
     @Test
-    public void runWithGetRequestToExistingResourceAndValidFileFormatReturns200() throws IOException {
-        RouterCallback callback = new FileContentRouterCallback();
-        Request request = new Request();
-        request.setRequestLine("GET /text-file.txt HTTP/1.1");
-        Response response = new Response("HTTP/1.1", null);
-        String content = "file1 contents";
-
-        callback.run(request, response);
-
-        assertEquals(Status.OK, response.getStatus());
-        assertEquals(content, response.getBodyContent().trim());
-    }
-
-    @Test
     public void runWithGetRequestToNonexistentResourceAndValidFileFormatReturns404() throws IOException {
         RouterCallback callback = new FileContentRouterCallback();
         Request request = new Request();
         request.setRequestLine("GET /lala.txt HTTP/1.1");
-        Response response = new Response("HTTP/1.1", null);
+        Response response = new Response("HTTP/1.1");
 
         callback.run(request, response);
 
@@ -40,7 +26,7 @@ public class FileContentRouterCallbackTest {
         RouterCallback callback = new FileContentRouterCallback();
         Request request = new Request();
         request.setRequestLine("GET /image.pdf HTTP/1.1");
-        Response response = new Response("HTTP/1.1", null);
+        Response response = new Response("HTTP/1.1");
 
         callback.run(request, response);
 

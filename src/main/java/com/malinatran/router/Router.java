@@ -24,10 +24,7 @@ public class Router {
     }
 
     public Response getResponse(Request request, Logger logger) throws IOException {
-        Response response = new Response(
-                request.getProtocolAndVersion(),
-                request.getBody()
-        );
+        Response response = new Response(request.getProtocolAndVersion());
 
         logger.addRequestLine(request);
         RouterCallback callback = setCallback(request, response, logger);

@@ -1,9 +1,6 @@
 package com.malinatran.router;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 public class DirectoryReader {
 
@@ -26,7 +23,7 @@ public class DirectoryReader {
 
     public String readTextFile(String fileName) throws IOException {
         String content = "";
-        String line = null;
+        String line;
 
         FileReader fileReader = new FileReader(ROOT_DIRECTORY + fileName);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -42,7 +39,6 @@ public class DirectoryReader {
         return (fileName.indexOf(".") == -1) || (fileName.endsWith(".txt"));
     }
 
-
     public Boolean isImageFile(String fileName) {
         for (String extension : IMAGE_EXTENSIONS) {
             if (fileName.endsWith(extension)) {
@@ -51,12 +47,6 @@ public class DirectoryReader {
         }
 
         return false;
-    }
-
-    public String getImageType(String fileName) {
-        int startIndex = fileName.indexOf(".") + 1;
-        int endIndex = fileName.length();
-        return fileName.substring(startIndex, endIndex);
     }
 
     private String getAnchorTagLinks(String[] files) {

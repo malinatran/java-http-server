@@ -10,7 +10,7 @@ public class ResponseTest {
 
     @Test
     public void setStatusSetsValueAsString() {
-        Response response = new Response("HTTP/1.1", null);
+        Response response = new Response("HTTP/1.1");
 
         response.setStatus(Status.OK);
 
@@ -19,7 +19,7 @@ public class ResponseTest {
 
     @Test
     public void setHeaderStoresValuesIntoHashMap() {
-        Response response = new Response("HTTP/1.1", "hello world");
+        Response response = new Response("HTTP/1.1");
 
         response.setHeader("Host", "google.com");
 
@@ -28,7 +28,7 @@ public class ResponseTest {
 
     @Test
     public void redirectToReturns302WithLocationHeader() {
-        Response response = new Response("HTTP/1.1", "hello world");
+        Response response = new Response("HTTP/1.1");
 
         response.redirectTo("malinatran.com");
 
@@ -38,7 +38,7 @@ public class ResponseTest {
 
     @Test
     public void getStatusLineReturnsProtocolAnd200() {
-        Response response = new Response("HTTP/1.1", "hello world");
+        Response response = new Response("HTTP/1.1");
         response.setStatus(Status.OK);
 
         String statusLine = response.getStatusLine();
@@ -48,7 +48,7 @@ public class ResponseTest {
 
     @Test
     public void toStringReturnsLineBreak() {
-        Response response = new Response("HTTP/1.1", "hello squirrel");
+        Response response = new Response("HTTP/1.1");
         response.setStatus(Status.OK);
 
         String formattedResponse = response.toString();

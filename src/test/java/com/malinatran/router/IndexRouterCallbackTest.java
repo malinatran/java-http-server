@@ -14,7 +14,7 @@ public class IndexRouterCallbackTest {
         RouterCallback callback = new IndexRouterCallback();
         Request request = new Request();
         request.setRequestLine("GET / HTTP/1.1");
-        Response response = new Response("HTTP/1.1", null);
+        Response response = new Response("HTTP/1.1");
 
         callback.run(request, response);
 

@@ -9,20 +9,36 @@ public class FileContentRouterCallback implements RouterCallback {
 
     public void run(Request request, Response response) throws IOException {
         String path = request.getPath();
-        String file = path.replace("/", "").trim();
-        DirectoryReader directoryReader = new DirectoryReader();
-        Boolean isTextFile = directoryReader.isTextFile(file);
-        Boolean isImageFile = directoryReader.isImageFile(file);
-        String imageType = directoryReader.getImageType(file);
-        Boolean exists = directoryReader.existsInDirectory(file);
+        String fileName = path.replace("/", "").trim();
+        DirectoryReader reader = new DirectoryReader();
+        Boolean isTextFile = reader.isTextFile(fileName);
+        Boolean isImageFile = reader.isImageFile(fileName);
 
-        if (isTextFile && exists) {
-            response.setStatus(Status.OK);
-            response.setBodyContent(directoryReader.readTextFile(file));
-        } else if (isTextFile && !exists) {
-            response.setStatus(Status.NOT_FOUND);
+        if (isTextFile) {
+            handleTextFile(fileName, reader, response);
+        } else if (isImageFile) {
+            handleImageFile(fileName, response);
         } else {
             response.setStatus(Status.UNSUPPORTED_MEDIA_TYPE);
         }
+    }
+
+    private void handleTextFile(String fileName, DirectoryReader reader, Response response) throws IOException {
+        Boolean exists = reader.existsInDirectory(fileName);
+
+        if (exists) {
+            response.setStatus(Status.OK);
+            response.setBodyContent(reader.readTextFile(fileName));
+        } else {
+            response.setStatus(Status.NOT_FOUND);
+        }
+    }
+
+    private void handleImageFile(String fileName, Response response) throws IOException {
+        Image image = new Image();
+        String fileType = image.getImageType(fileName);
+        byte[] imageInBytes = image.extractBytes(fileName);
+
+        response.setImage(fileType, imageInBytes);
     }
 }

@@ -15,12 +15,10 @@ public class CreateOrUpdateRouterCallbackTest {
 
     @Test
     public void runWithBodyReturns200() throws IOException {
-        String BODY_MESSAGE = "Get down with the get down";
         RouterCallback callback = new CreateOrUpdateRouterCallback();
         Request request = new Request();
         request.setRequestLine("POST / HTTP/1.1");
-        request.setBody(BODY_MESSAGE);
-        Response response = new Response("HTTP/1.1", BODY_MESSAGE);
+        Response response = new Response("HTTP/1.1");
 
         callback.run(request, response);
 
@@ -32,7 +30,7 @@ public class CreateOrUpdateRouterCallbackTest {
         RouterCallback callback = new CreateOrUpdateRouterCallback();
         Request request = new Request();
         request.setRequestLine("PUT / HTTP/1.1");
-        Response response = new Response("HTTP/1.1", null);
+        Response response = new Response("HTTP/1.1");
 
         callback.run(request, response);
 

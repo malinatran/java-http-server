@@ -1,5 +1,6 @@
 package com.malinatran.mocks;
 
+import com.malinatran.response.Response;
 import com.malinatran.writer.Writer;
 
 import java.io.IOException;
@@ -12,8 +13,8 @@ public class MockResponseWriter implements Writer {
         this.messageLogger = messageLogger;
     }
 
-    public void write(String response) {
-        messageLogger.logMessage(response);
+    public void write(Response response) {
+        messageLogger.logMessage(response.toString());
     }
 
     public void close() {

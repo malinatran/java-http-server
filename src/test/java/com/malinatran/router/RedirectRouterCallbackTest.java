@@ -19,7 +19,7 @@ public class RedirectRouterCallbackTest {
         Request request = new Request();
         request.setRequestLine("GET /redirect HTTP/1.1");
         request.setHeader("Host: localhost:5000");
-        Response response = new Response("HTTP/1.1", null);
+        Response response = new Response("HTTP/1.1");
 
         callback.run(request, response);
 
@@ -31,7 +31,7 @@ public class RedirectRouterCallbackTest {
         RouterCallback callback = new RedirectRouterCallback();
         Request request = new Request();
         request.setHeader("Host: localhost:5000");
-        Response response = new Response("HTTP/1.1", null);
+        Response response = new Response("HTTP/1.1");
 
         callback.run(request, response);
 

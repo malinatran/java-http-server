@@ -1,18 +1,16 @@
 package com.malinatran.response;
 
-import java.util.Iterator;
 import java.util.Map;
 
 public class Formatter {
 
-    public static String formatHeaderLines(Map headers) {
+    public static String formatHeaderLines(Map<String, String> headers) {
         String headerLines = "";
-        Iterator iterator = headers.entrySet().iterator();
 
-        while (iterator.hasNext()) {
-            Map.Entry pair = (Map.Entry)iterator.next();
-            headerLines += addNewLine(pair.getKey() + ": " + pair.getValue());
-            iterator.remove();
+        for (Map.Entry<String, String> entry : headers.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+            headerLines += addNewLine(key + ": " + value);
         }
 
         return headerLines;
@@ -21,4 +19,6 @@ public class Formatter {
     public static String addNewLine(String line) {
         return line + "\r\n";
     }
+
+    public static String addNewLines(String line) { return "\r\n" + addNewLine(line); }
 }

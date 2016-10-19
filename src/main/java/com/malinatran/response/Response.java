@@ -2,13 +2,7 @@ package com.malinatran.response;
 
 import com.malinatran.constants.Status;
 import com.malinatran.router.Logger;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Response {
 
@@ -20,36 +14,8 @@ public class Response {
     private Map<String, String> headers;
 
     public Response(String protocol) {
-        this(protocol, null);
-    }
-
-    public Response(String protocol, String body) {
         this.protocol = protocol;
         this.headers = new HashMap<String, String>();
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public void setBodyContent(String bodyContent) {
-        this.bodyContent = bodyContent;
-    }
-
-    public String getBodyContent() {
-        return (bodyContent == null ? "" : "\r\n" + bodyContent +"\r\n");
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setHeader(String key, String val) {
-        headers.put(key, val);
-    }
-
-    public Boolean hasHeader(String key) {
-        return headers.containsKey(key);
     }
 
     public void redirectTo(String url) {
@@ -62,16 +28,48 @@ public class Response {
         setBodyContent(logger.getLoggedRequests());
     }
 
-    public String getStatusLine() {
-        return protocol + " " + status;
+    public void setImage(String fileType, byte[] image) {
+        setStatus(Status.OK);
+        setHeader("Content-Type", "image/" + fileType);
+        setHeader("Content-Length", String.valueOf(image.length));
+        setBodyContent(image);
     }
 
-    public String toString() {
-        String response = Formatter.addNewLine(getStatusLine());
-        response += getHeaderLines();
-        response += getBodyContent();
+    public Boolean hasHeader(String key) {
+        return headers.containsKey(key);
+    }
 
-        return response;
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setHeader(String key, String val) {
+        headers.put(key, val);
+    }
+
+    public void setBodyContent(String bodyContent) {
+        this.bodyContent = bodyContent;
+    }
+
+    public void setBodyContent(byte[] bodyContent) {
+        this.bodyContent = new String(bodyContent);
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public byte[] getBodyContent() {
+        return bodyContent == null ? new byte[0] : Formatter.addNewLines(bodyContent).getBytes();
+    }
+
+    public byte[] getHeaders() {
+        String header = getStatusLine() + getHeaderLines();
+        return header.getBytes();
+    }
+
+    public String getStatusLine() {
+        return Formatter.addNewLine(protocol + " " + status);
     }
 
     private String getHeaderLines() {

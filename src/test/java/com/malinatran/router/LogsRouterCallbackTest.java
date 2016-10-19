@@ -19,7 +19,7 @@ public class LogsRouterCallbackTest {
         Request request = new Request();
         request.setRequestLine("GET /logs HTTP/1.1");
         request.setHeader("Authorization: Basic YWRtaW46aHVudGVyMg==");
-        Response response = new Response("HTTP/1.1", null);
+        Response response = new Response("HTTP/1.1");
 
         callback.run(request, response);
 
@@ -32,7 +32,7 @@ public class LogsRouterCallbackTest {
         Request request = new Request();
         request.setRequestLine("GET /logs HTTP/1.1");
         request.setHeader("Authorization: Basic HelloWorld");
-        Response response = new Response("HTTP/1.1", null);
+        Response response = new Response("HTTP/1.1");
 
         callback.run(request, response);
 
