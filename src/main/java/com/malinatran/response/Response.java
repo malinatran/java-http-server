@@ -3,6 +3,10 @@ package com.malinatran.response;
 import com.malinatran.constants.Status;
 import com.malinatran.router.Logger;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,7 +37,7 @@ public class Response {
     }
 
     public String getBodyContent() {
-        return (bodyContent == null ? "" : "\r\n" + bodyContent + "\r\n");
+        return (bodyContent == null ? "" : "\r\n" + bodyContent +"\r\n");
     }
 
     public String getStatus() {

@@ -1,23 +1,27 @@
 package com.malinatran.router;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class DirectoryReader {
 
     private static final String ROOT_DIRECTORY = System.getProperty("user.home") + "/Development/cob_spec/public/";
+    private static final String[] IMAGE_EXTENSIONS = { ".gif", ".jpeg", ".png" };
 
     public String getLinks() {
         File directory = new File(ROOT_DIRECTORY);
         String[] files = directory.list();
 
-        return (files != null) ? getAnchorTagLinks(files) : "";
+        return (files != null ? getAnchorTagLinks(files) : "");
     }
 
     public Boolean existsInDirectory(String fileName) {
         File directory = new File(ROOT_DIRECTORY);
         String[] files = directory.list();
 
-        return (files != null) ? hasFileName(files, fileName) : false;
+        return (files != null ? hasFileName(files, fileName) : false);
     }
 
     public String readTextFile(String fileName) throws IOException {
@@ -36,6 +40,23 @@ public class DirectoryReader {
 
     public Boolean isTextFile(String fileName) {
         return (fileName.indexOf(".") == -1) || (fileName.endsWith(".txt"));
+    }
+
+
+    public Boolean isImageFile(String fileName) {
+        for (String extension : IMAGE_EXTENSIONS) {
+            if (fileName.endsWith(extension)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public String getImageType(String fileName) {
+        int startIndex = fileName.indexOf(".") + 1;
+        int endIndex = fileName.length();
+        return fileName.substring(startIndex, endIndex);
     }
 
     private String getAnchorTagLinks(String[] files) {
