@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
 public class IndexRouterCallbackTest {
 
     @Test
-    public void runReturns200IfGETRequestToRootRoute() throws IOException {
+    public void runWithGetRequestToRootReturns200() throws IOException {
         RouterCallback callback = new IndexRouterCallback();
         Request request = new Request();
         request.setRequestLine("GET / HTTP/1.1");
@@ -26,21 +26,21 @@ public class IndexRouterCallbackTest {
     }
 
     @Test
-    public void runReturns200IfGETRequestToExistingResourceWithValidFileFormat() throws IOException {
+    public void runWithGetRequestToExistingResourceAndValidFileFormatReturns200() throws IOException {
         RouterCallback callback = new IndexRouterCallback();
         Request request = new Request();
         request.setRequestLine("GET /text-file.txt HTTP/1.1");
         Response response = new Response("HTTP/1.1", null);
-        String content = "This is a file that contains text to read part of in order to fulfill a 206.\n";
+        String content = "file1 contents";
 
         callback.run(request, response);
 
         assertEquals(Status.OK, response.getStatus());
-//        assertEquals(content, response.getBodyContent());
+        assertEquals(content, response.getBodyContent().trim());
     }
 
     @Test
-    public void runReturns415IfGETRequestToExistingResourceWithInvalidFileFormat() throws IOException {
+    public void runWithGetRequestToExistingResourceAndInvalidFormatReturns415() throws IOException {
         RouterCallback callback = new IndexRouterCallback();
         Request request = new Request();
         request.setRequestLine("GET /image.gif HTTP/1.1");
@@ -52,7 +52,7 @@ public class IndexRouterCallbackTest {
     }
 
     @Test
-    public void runReturns404IfGETRequestToNonexistentResourceAndValidFileFormat() throws IOException {
+    public void runWithGetRequestToNonexistentResourceAndValidFileFormatReturns404() throws IOException {
         RouterCallback callback = new IndexRouterCallback();
         Request request = new Request();
         request.setRequestLine("GET /lala.txt HTTP/1.1");
@@ -64,7 +64,7 @@ public class IndexRouterCallbackTest {
     }
 
     @Test
-    public void runReturns415IfGETRequestToNonexistentResourceAndInvalidFileFormat() throws IOException {
+    public void runWithGetRequestToNonexistentResourceAndInvalidFileFormatReturns415() throws IOException {
         RouterCallback callback = new IndexRouterCallback();
         Request request = new Request();
         request.setRequestLine("GET /image.pdf HTTP/1.1");

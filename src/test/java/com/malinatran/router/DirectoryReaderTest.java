@@ -1,8 +1,5 @@
 package com.malinatran.router;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 
 import org.junit.Assert;
@@ -52,7 +49,7 @@ public class DirectoryReaderTest {
     public void isFileFormatSupportedReturnsTrueIfTextFile() {
         DirectoryReader directoryReader = new DirectoryReader();
 
-        Boolean result = directoryReader.isFileFormatSupported("lala.txt");
+        Boolean result = directoryReader.isTextFile("lala.txt");
 
         Assert.assertTrue(result);
     }
@@ -61,7 +58,7 @@ public class DirectoryReaderTest {
     public void isFileFormatSupportedReturnsFalseIfNotTextFile() {
         DirectoryReader directoryReader = new DirectoryReader();
 
-        Boolean result = directoryReader.isFileFormatSupported("lala.pdf");
+        Boolean result = directoryReader.isTextFile("lala.pdf");
 
         Assert.assertFalse(result);
     }

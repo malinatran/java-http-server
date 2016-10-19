@@ -10,7 +10,7 @@ public class DirectoryReader {
         File directory = new File(ROOT_DIRECTORY);
         String[] files = directory.list();
 
-        return  (files != null) ? getAnchorTagLinks(files) : "";
+        return (files != null) ? getAnchorTagLinks(files) : "";
     }
 
     public Boolean existsInDirectory(String fileName) {
@@ -34,8 +34,8 @@ public class DirectoryReader {
         return content;
     }
 
-    public Boolean isFileFormatSupported(String fileName) {
-        return !fileName.endsWith(".gif") && !fileName.endsWith(".jpeg") && !fileName.endsWith(".pdf") && !fileName.endsWith(".png");
+    public Boolean isTextFile(String fileName) {
+        return (fileName.indexOf(".") == -1) || (fileName.endsWith(".txt"));
     }
 
     private String getAnchorTagLinks(String[] files) {
