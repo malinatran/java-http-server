@@ -6,12 +6,15 @@ import com.malinatran.request.Request;
 import com.malinatran.response.Response;
 
 import org.junit.Test;
+
+import java.io.IOException;
+
 import static org.junit.Assert.*;
 
 public class CreateOrUpdateRouterCallbackTest {
 
     @Test
-    public void runWithBodyReturns200() {
+    public void runWithBodyReturns200() throws IOException {
         String BODY_MESSAGE = "Get down with the get down";
         RouterCallback callback = new CreateOrUpdateRouterCallback();
         Request request = new Request();
@@ -25,7 +28,7 @@ public class CreateOrUpdateRouterCallbackTest {
     }
 
     @Test
-    public void runWithoutBodyReturns404() {
+    public void runWithoutBodyReturns404() throws IOException {
         RouterCallback callback = new CreateOrUpdateRouterCallback();
         Request request = new Request();
         request.setRequestLine("PUT / HTTP/1.1");

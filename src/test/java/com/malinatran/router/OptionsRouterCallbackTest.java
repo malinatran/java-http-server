@@ -6,12 +6,15 @@ import com.malinatran.request.Request;
 import com.malinatran.response.Response;
 
 import org.junit.Test;
+
+import java.io.IOException;
+
 import static org.junit.Assert.*;
 
 public class OptionsRouterCallbackTest {
 
     @Test
-    public void runWithMethodOptionsPathAndOptionsMethodReturns200AndAllowHeader() {
+    public void runWithMethodOptionsPathAndOptionsMethodReturns200AndAllowHeader() throws IOException {
         RouterCallback callback = new OptionsRouterCallback();
         Request request = new Request();
         request.setRequestLine("OPTIONS /method_options HTTP/1.1");
