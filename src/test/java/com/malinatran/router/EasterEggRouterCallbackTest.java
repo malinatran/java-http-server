@@ -1,6 +1,5 @@
 package com.malinatran.router;
 
-import com.malinatran.constants.Method;
 import com.malinatran.constants.Status;
 import com.malinatran.request.Request;
 import com.malinatran.response.Response;
@@ -15,7 +14,7 @@ public class EasterEggRouterCallbackTest {
 
     @Test
     public void runWithCoffeePathReturns418AndMessage() throws IOException {
-        String TEAPOT_MESSAGE = "\r\nI'm a teapot\r\n";
+        String TEAPOT_MESSAGE = "I'm a teapot";
         RouterCallback callback = new EasterEggRouterCallback();
         Request request = new Request();
         request.setRequestLine("GET /coffee HTTP/1.1");
@@ -24,7 +23,7 @@ public class EasterEggRouterCallbackTest {
         callback.run(request, response);
 
         assertEquals(Status.TEAPOT, response.getStatus());
-        assertEquals(TEAPOT_MESSAGE, response.getBodyContent());
+        assertEquals(TEAPOT_MESSAGE, new String(response.getBodyContent()));
     }
 
     @Test

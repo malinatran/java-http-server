@@ -18,7 +18,7 @@ public class OptionsRouterCallbackTest {
         RouterCallback callback = new OptionsRouterCallback();
         Request request = new Request();
         request.setRequestLine("OPTIONS /method_options HTTP/1.1");
-        Response response = new Response("HTTP/1.1", null);
+        Response response = new Response("HTTP/1.1");
 
         callback.run(request, response);
 

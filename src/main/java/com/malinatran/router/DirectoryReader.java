@@ -5,24 +5,25 @@ import java.io.*;
 public class DirectoryReader {
 
     private static final String ROOT_DIRECTORY = System.getProperty("user.home") + "/Development/cob_spec/public/";
+    private static final String[] IMAGE_EXTENSIONS = { ".gif", ".jpeg", ".png" };
 
     public String getLinks() {
         File directory = new File(ROOT_DIRECTORY);
         String[] files = directory.list();
 
-        return (files != null) ? getAnchorTagLinks(files) : "";
+        return (files != null ? getAnchorTagLinks(files) : "");
     }
 
     public Boolean existsInDirectory(String fileName) {
         File directory = new File(ROOT_DIRECTORY);
         String[] files = directory.list();
 
-        return (files != null) ? hasFileName(files, fileName) : false;
+        return hasFileName(files, fileName);
     }
 
     public String readTextFile(String fileName) throws IOException {
         String content = "";
-        String line = null;
+        String line;
 
         FileReader fileReader = new FileReader(ROOT_DIRECTORY + fileName);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -38,11 +39,21 @@ public class DirectoryReader {
         return (fileName.indexOf(".") == -1) || (fileName.endsWith(".txt"));
     }
 
+    public Boolean isImageFile(String fileName) {
+        for (String extension : IMAGE_EXTENSIONS) {
+            if (fileName.endsWith(extension)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     private String getAnchorTagLinks(String[] files) {
         String links = "";
 
         for (String file : files) {
-            links += "<a href=\"/" + file + "\">" + file + "</a>\n";
+            links += "<a style=\"display: block\" href=\"/" + file + "\">" + file + "</a>\n";
         }
 
         return links;

@@ -16,7 +16,7 @@ public class NotFoundOrAllowedRouterCallbackTest {
         RouterCallback callback = new NotFoundOrAllowedRouterCallback();
         Request request = new Request();
         request.setRequestLine("HEAD /file1 HTTP/1.1");
-        Response response = new Response("HTTP/1.1", null);
+        Response response = new Response("HTTP/1.1");
 
         callback.run(request, response);
 
@@ -28,7 +28,7 @@ public class NotFoundOrAllowedRouterCallbackTest {
         RouterCallback callback = new NotFoundOrAllowedRouterCallback();
         Request request = new Request();
         request.setRequestLine("PUT /file1 HTTP/1.1");
-        Response response = new Response("HTTP/1.1", null);
+        Response response = new Response("HTTP/1.1");
 
         callback.run(request, response);
 

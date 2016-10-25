@@ -37,7 +37,7 @@ public class ClientHandler implements Runnable {
         RequestListener requestListener = new RequestListener();
         Request request = requestListener.getNextRequest(in);
         Response response = router.getResponse(request, logger);
-        out.write(response.toString());
+        out.write(response);
     }
 
     private void closeStreams(Writer out, Reader in) throws IOException {

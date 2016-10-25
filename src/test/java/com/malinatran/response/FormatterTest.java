@@ -2,7 +2,6 @@ package com.malinatran.response;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -14,7 +13,7 @@ public class FormatterTest {
         headers.put("Allow", "GET,HEAD,POST,OPTIONS,PUT");
 
         String formattedLines = Formatter.formatHeaderLines(headers);
-        String expected = "Allow: GET,HEAD,POST,OPTIONS,PUT\r\n";
+        String expected = "Allow: GET,HEAD,POST,OPTIONS,PUT\r\n\r\n";
 
         assertEquals(expected, formattedLines);
     }

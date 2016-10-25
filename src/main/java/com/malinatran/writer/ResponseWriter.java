@@ -1,20 +1,24 @@
 package com.malinatran.writer;
 
-import java.io.BufferedWriter;
+import com.malinatran.response.Response;
+
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
+import java.io.OutputStream;
 import java.net.Socket;
 
 public class ResponseWriter implements Writer {
 
-    private BufferedWriter writer;
+    private OutputStream output;
+    private DataOutputStream writer;
 
     public ResponseWriter(Socket socket) throws IOException {
-        writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+        output = socket.getOutputStream();
+        writer = new DataOutputStream(output);
     }
 
-    public void write(String response) throws IOException {
-        writer.write(response);
+    public void write(Response response) throws IOException {
+        writer.write(response.getResponseHeadersAndBody());
     }
 
     public void close() throws IOException {

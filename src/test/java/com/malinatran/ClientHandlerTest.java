@@ -1,7 +1,7 @@
 package com.malinatran;
 
 import com.malinatran.reader.Reader;
-import com.malinatran.mocks.MessageLogger;
+import com.malinatran.mocks.ResponseLogger;
 import com.malinatran.mocks.MockRequestReader;
 import com.malinatran.mocks.MockResponseWriter;
 import com.malinatran.mocks.MockRouter;
@@ -18,7 +18,7 @@ public class ClientHandlerTest {
 
     @Test
     public void runWritesResponse() throws IOException {
-        MessageLogger messageLogger = new MessageLogger();
+        ResponseLogger messageLogger = new ResponseLogger();
         Router mockRouter = new MockRouter();
         Logger logger = new Logger();
         Writer writer = new MockResponseWriter(messageLogger);
@@ -28,6 +28,6 @@ public class ClientHandlerTest {
 
         clientHandler.run();
 
-        assertEquals("HTTP/1.1 200 OK\r\n", messageLogger.getLoggedMessage());
+        assertEquals("HTTP/1.1 200 OK\r\n", messageLogger.getLoggedResponse().getStatusLine());
     }
 }
