@@ -18,6 +18,7 @@ public class CreateOrUpdateRouterCallbackTest {
         RouterCallback callback = new CreateOrUpdateRouterCallback();
         Request request = new Request();
         request.setRequestLine("POST / HTTP/1.1");
+        request.setBody("Testing");
         Response response = new Response("HTTP/1.1");
 
         callback.run(request, response);

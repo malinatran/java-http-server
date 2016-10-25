@@ -3,20 +3,20 @@ package com.malinatran.router;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-public class ImageAttributeTest {
+public class ImageTest {
 
-    Image imageAttribute = new Image();
+    Image image = new Image();
 
     @Test
     public void getImageTypeReturnsImageFileExtension() {
-        String result = imageAttribute.getImageType("test.png");
+        String result = image.getImageType("test.png");
 
         assertEquals("png", result);
     }
 
     @Test
     public void getImageTypeReturnsFileNameIfNoExtension() {
-        String result = imageAttribute.getImageType("lala");
+        String result = image.getImageType("lala");
 
         assertEquals("lala", result);
     }

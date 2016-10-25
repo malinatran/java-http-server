@@ -15,30 +15,29 @@ public class FileContentRouterCallback implements RouterCallback {
         Boolean isImageFile = reader.isImageFile(fileName);
 
         if (isTextFile) {
-            handleTextFile(fileName, reader, response);
+            processTextFile(fileName, reader, response);
         } else if (isImageFile) {
-            handleImageFile(fileName, response);
+            processImageFile(fileName, response);
         } else {
             response.setStatus(Status.UNSUPPORTED_MEDIA_TYPE);
         }
     }
 
-    private void handleTextFile(String fileName, DirectoryReader reader, Response response) throws IOException {
+    private void processTextFile(String fileName, DirectoryReader reader, Response response) throws IOException {
         Boolean exists = reader.existsInDirectory(fileName);
 
         if (exists) {
-            response.setStatus(Status.OK);
-            response.setBodyContent(reader.readTextFile(fileName));
+            response.setText(reader.readTextFile(fileName));
         } else {
             response.setStatus(Status.NOT_FOUND);
         }
     }
 
-    private void handleImageFile(String fileName, Response response) throws IOException {
+    private void processImageFile(String fileName, Response response) throws IOException {
         Image image = new Image();
         String fileType = image.getImageType(fileName);
-        byte[] imageInBytes = image.extractBytes(fileName);
+        byte[] imageAsBytes = image.extractBytes(fileName);
 
-        response.setImage(fileType, imageInBytes);
+        response.setImage(fileType, imageAsBytes);
     }
 }

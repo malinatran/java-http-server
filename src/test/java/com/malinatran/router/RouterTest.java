@@ -34,7 +34,7 @@ public class RouterTest {
 
         Response response = mockRouter.getResponse(request, logger);
 
-        assertEquals(responseOK, response.getStatusLine());
+        assertEquals(responseOK + "\r\n", response.getStatusLine());
     }
 
     @Test
@@ -46,7 +46,7 @@ public class RouterTest {
 
         Response response = router.getResponse(request, logger);
 
-        assertEquals(responseNotAllowed, response.getStatusLine());
+        assertEquals(responseNotAllowed + "\r\n", response.getStatusLine());
     }
 
     @Test
@@ -58,7 +58,7 @@ public class RouterTest {
 
         Response response = mockRouter.getResponse(request, logger);
 
-        assertEquals(responseOK, response.getStatusLine());
+        assertEquals(responseOK + "\r\n", response.getStatusLine());
     }
 
     @Test
@@ -70,7 +70,7 @@ public class RouterTest {
 
         Response response = router.getResponse(request, logger);
 
-        assertEquals(responseNotAllowed, response.getStatusLine());
+        assertEquals(responseNotAllowed + "\r\n", response.getStatusLine());
     }
 
     @Test
@@ -82,6 +82,6 @@ public class RouterTest {
 
         Response response = router.getResponse(request, logger);
 
-        assertEquals(responseNotAllowed, response.getStatusLine());
+        assertEquals(responseNotAllowed + "\r\n", response.getStatusLine());
     }
 }

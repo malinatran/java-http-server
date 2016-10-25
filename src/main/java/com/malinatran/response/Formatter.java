@@ -13,12 +13,10 @@ public class Formatter {
             headerLines += addNewLine(key + ": " + value);
         }
 
-        return headerLines;
+        return addNewLine(headerLines);
     }
 
     public static String addNewLine(String line) {
         return line + "\r\n";
     }
-
-    public static String addNewLines(String line) { return "\r\n" + addNewLine(line); }
 }

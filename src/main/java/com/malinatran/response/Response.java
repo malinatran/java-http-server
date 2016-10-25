@@ -10,7 +10,7 @@ public class Response {
 
     private String protocol;
     private String status;
-    private String bodyContent;
+    private byte[] bodyContent;
     private Map<String, String> headers;
 
     public Response(String protocol) {
@@ -26,6 +26,12 @@ public class Response {
     public void setLogsToBody(Logger logger) {
         setStatus(Status.OK);
         setBodyContent(logger.getLoggedRequests());
+    }
+
+    public void setText(String text) {
+       setStatus(Status.OK);
+        setHeader("Content-Type", "text/plain");
+        setBodyContent(text);
     }
 
     public void setImage(String fileType, byte[] image) {
@@ -48,28 +54,38 @@ public class Response {
     }
 
     public void setBodyContent(String bodyContent) {
-        this.bodyContent = bodyContent;
+        this.bodyContent = bodyContent.getBytes();
     }
 
     public void setBodyContent(byte[] bodyContent) {
-        this.bodyContent = new String(bodyContent);
+        this.bodyContent = bodyContent;
     }
 
     public String getStatus() {
         return status;
     }
 
-    public byte[] getBodyContent() {
-        return bodyContent == null ? new byte[0] : Formatter.addNewLines(bodyContent).getBytes();
+    public byte[] getResponseHeadersAndBody() {
+        byte[] header = getHeaders().getBytes();
+        byte[] body = getBodyContent();
+        byte[] response = new byte[header.length + body.length];
+
+        System.arraycopy(header, 0, response, 0, header.length);
+        System.arraycopy(body, 0, response, header.length, body.length);
+
+        return response;
     }
 
-    public byte[] getHeaders() {
-        String header = getStatusLine() + getHeaderLines();
-        return header.getBytes();
+    public byte[] getBodyContent() {
+        return (bodyContent == null ? new byte[0] : bodyContent);
     }
 
     public String getStatusLine() {
         return Formatter.addNewLine(protocol + " " + status);
+    }
+
+    private String getHeaders() {
+        return getStatusLine() + getHeaderLines();
     }
 
     private String getHeaderLines() {

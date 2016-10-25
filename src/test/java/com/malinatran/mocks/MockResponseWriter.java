@@ -7,14 +7,14 @@ import java.io.IOException;
 
 public class MockResponseWriter implements Writer {
 
-    private MessageLogger messageLogger;
+    private ResponseLogger responseLogger;
 
-    public MockResponseWriter(MessageLogger messageLogger) throws IOException {
-        this.messageLogger = messageLogger;
+    public MockResponseWriter(ResponseLogger responseLogger) throws IOException {
+        this.responseLogger = responseLogger;
     }
 
     public void write(Response response) {
-        messageLogger.logMessage(response.toString());
+        responseLogger.logResponse(response);
     }
 
     public void close() {
