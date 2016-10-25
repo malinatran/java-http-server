@@ -1,25 +1,28 @@
 package com.malinatran.router;
 
 import java.io.File;
-
+import org.junit.Assert;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public class DirectoryReaderTest {
 
     @Test
-    public void getListingWithExistingDirectoryReturnsListing() {
+    public void getLinksWithExistingDirectoryReturnsLinks() {
         DirectoryReader directoryReader = new DirectoryReader();
-        File test = new File("test1/folder");
-        Boolean isCreated = test.mkdirs();
-        String listing = directoryReader.getListing("test1");
-        assertEquals("folder", listing);
+
+        String link = directoryReader.getLinks("public");
+
+        Assert.assertTrue(link.contains("<a href=\"/image.png\">image.png</a>"));
     }
 
     @Test
-    public void getListingWithNoDirectoryReturnsEmptyString() {
+    public void getLinksWithEmptyDirectoryReturnsEmptyString() {
         DirectoryReader directoryReader = new DirectoryReader();
-        String listing = directoryReader.getListing("test2");
+        new File("test3");
+
+        String listing = directoryReader.getLinks("test3");
+
         assertEquals("", listing);
     }
 }

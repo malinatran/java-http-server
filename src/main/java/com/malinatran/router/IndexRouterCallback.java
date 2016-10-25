@@ -8,6 +8,6 @@ public class IndexRouterCallback implements RouterCallback {
 
     public void run(Request request, Response response) {
         response.setStatus(Status.OK);
-        response.setBodyContent(new DirectoryReader().getListing("public"));
+        response.setBodyContent(new DirectoryReader().getLinks("public"));
     }
 }

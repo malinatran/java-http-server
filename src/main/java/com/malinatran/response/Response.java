@@ -15,7 +15,6 @@ public class Response {
     private String bodyContent;
     private Map<String, String> headers;
 
-
     public Response(String protocol) {
         this(protocol, null);
     }
