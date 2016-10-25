@@ -7,15 +7,26 @@ import java.io.IOException;
 
 public class FileContentRouterCallback implements RouterCallback {
 
+    DirectoryReader reader = new DirectoryReader();
+
     public void run(Request request, Response response) throws IOException {
         String path = request.getPath();
         String fileName = path.replace("/", "").trim();
-        DirectoryReader reader = new DirectoryReader();
+        Boolean exists = reader.existsInDirectory(fileName);
+
+        if (exists) {
+            processExistingTextOrImageFile(fileName, response);
+        } else {
+            response.setStatus(Status.NOT_FOUND);
+        }
+    }
+
+    private void processExistingTextOrImageFile(String fileName, Response response) throws IOException {
         Boolean isTextFile = reader.isTextFile(fileName);
         Boolean isImageFile = reader.isImageFile(fileName);
 
         if (isTextFile) {
-            processTextFile(fileName, reader, response);
+            processTextFile(fileName, response);
         } else if (isImageFile) {
             processImageFile(fileName, response);
         } else {
@@ -23,14 +34,8 @@ public class FileContentRouterCallback implements RouterCallback {
         }
     }
 
-    private void processTextFile(String fileName, DirectoryReader reader, Response response) throws IOException {
-        Boolean exists = reader.existsInDirectory(fileName);
-
-        if (exists) {
-            response.setText(reader.readTextFile(fileName));
-        } else {
-            response.setStatus(Status.NOT_FOUND);
-        }
+    private void processTextFile(String fileName, Response response) throws IOException {
+        response.setText(reader.readTextFile(fileName));
     }
 
     private void processImageFile(String fileName, Response response) throws IOException {

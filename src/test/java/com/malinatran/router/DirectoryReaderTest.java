@@ -14,7 +14,7 @@ public class DirectoryReaderTest {
     public void getLinksWithExistingDirectoryReturnsLinks() {
         String link = directoryReader.getLinks();
 
-        assertTrue(link.contains("<a href=\"/image.png\">image.png</a>"));
+        assertTrue(link.contains("<a style=\"display: block\" href=\"/image.png\">image.png</a>"));
     }
 
     @Test

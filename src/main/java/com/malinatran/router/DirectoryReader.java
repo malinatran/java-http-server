@@ -18,7 +18,7 @@ public class DirectoryReader {
         File directory = new File(ROOT_DIRECTORY);
         String[] files = directory.list();
 
-        return (files != null ? hasFileName(files, fileName) : false);
+        return hasFileName(files, fileName);
     }
 
     public String readTextFile(String fileName) throws IOException {
@@ -53,7 +53,7 @@ public class DirectoryReader {
         String links = "";
 
         for (String file : files) {
-            links += "<a href=\"/" + file + "\">" + file + "</a>\n";
+            links += "<a style=\"display: block\" href=\"/" + file + "\">" + file + "</a>\n";
         }
 
         return links;
