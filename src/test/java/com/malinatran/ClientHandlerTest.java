@@ -24,7 +24,7 @@ public class ClientHandlerTest {
         Writer writer = new MockResponseWriter(messageLogger);
         Reader reader = new MockRequestReader(new String[]
                 {"GET / HTTP/1.1", "User-Agent: MalinaBrowser", "Host: localhost:6000", ""});
-        ClientHandler clientHandler = new ClientHandler(writer, reader, logger, mockRouter);
+        ClientHandler clientHandler = new ClientHandler(writer, reader, logger, mockRouter, "/path/to/somewhere/");
 
         clientHandler.run();
 

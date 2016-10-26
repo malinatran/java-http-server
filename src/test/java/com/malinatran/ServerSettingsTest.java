@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import static org.junit.Assert.*;
 
-public class ServerConfigurationTest {
+public class ServerSettingsTest {
 
     @Test
     public void constructorSetsPortAndDirectoryWithNewValues() {
@@ -13,7 +13,7 @@ public class ServerConfigurationTest {
         map.put("Port", "5050");
         map.put("Directory", "/hi/there/");
 
-        ServerConfiguration config = new ServerConfiguration(map);
+        ServerSettings config = new ServerSettings(map);
 
         assertEquals(5050, config.getPort());
 //        assertEquals("/Users/mteatran/hi/there/", config.getFullPath());
@@ -24,7 +24,7 @@ public class ServerConfigurationTest {
         Map<String, String> map = new HashMap<String, String>();
         map.put("Directory", "/no/port/");
 
-        ServerConfiguration config = new ServerConfiguration(map);
+        ServerSettings config = new ServerSettings(map);
 
         assertEquals(5000, config.getPort());
     }

@@ -9,11 +9,12 @@ public class IndexRouterCallback implements RouterCallback {
 
     public void run(Request request, Response response) throws IOException {
         String path = request.getPath();
+        String fullPath = request.getDirectoryPath();
         DirectoryReader directoryReader = new DirectoryReader();
 
         if (path.equals("/")) {
             response.setStatus(Status.OK);
-            response.setBodyContent(directoryReader.getLinks());
+            response.setBodyContent(directoryReader.getLinks(fullPath));
         }
     }
 }

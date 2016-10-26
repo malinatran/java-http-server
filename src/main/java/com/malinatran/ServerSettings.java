@@ -2,15 +2,15 @@ package com.malinatran;
 
 import java.util.Map;
 
-public class ServerConfiguration {
+public class ServerSettings {
 
     private int port;
     private String path;
     private int DEFAULT_PORT = 5000;
     private String DEFAULT_PATH = "/Development/cob_spec/public/";
-    private String fullPath = System.getProperty("user.home") + path;
+    private String directoryPath = System.getProperty("user.home") + path;
 
-    public ServerConfiguration(Map<String, String> configuration) {
+    public ServerSettings(Map<String, String> configuration) {
         this.port = getPort(configuration);
         this.path = getDirectory(configuration);
     }
@@ -27,7 +27,7 @@ public class ServerConfiguration {
         return port;
     }
 
-    public String getFullPath() {
-        return fullPath;
+    public String getDirectoryPath() {
+        return directoryPath;
     }
 }

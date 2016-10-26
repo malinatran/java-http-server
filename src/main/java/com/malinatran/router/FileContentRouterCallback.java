@@ -11,22 +11,23 @@ public class FileContentRouterCallback implements RouterCallback {
 
     public void run(Request request, Response response) throws IOException {
         String path = request.getPath();
+        String fullPath = request.getDirectoryPath();
         String fileName = path.replace("/", "").trim();
-        Boolean exists = reader.existsInDirectory(fileName);
+        Boolean exists = reader.existsInDirectory(fullPath, fileName);
 
         if (exists) {
-            processExistingTextOrImageFile(fileName, response);
+            processExistingTextOrImageFile(fullPath, fileName, response);
         } else {
             response.setStatus(Status.NOT_FOUND);
         }
     }
 
-    private void processExistingTextOrImageFile(String fileName, Response response) throws IOException {
+    private void processExistingTextOrImageFile(String fullPath, String fileName, Response response) throws IOException {
         Boolean isTextFile = reader.isTextFile(fileName);
         Boolean isImageFile = reader.isImageFile(fileName);
 
         if (isTextFile) {
-            processTextFile(fileName, response);
+            processTextFile(fullPath, fileName, response);
         } else if (isImageFile) {
             processImageFile(fileName, response);
         } else {
@@ -34,8 +35,8 @@ public class FileContentRouterCallback implements RouterCallback {
         }
     }
 
-    private void processTextFile(String fileName, Response response) throws IOException {
-        response.setText(reader.readTextFile(fileName));
+    private void processTextFile(String fullPath, String fileName, Response response) throws IOException {
+        response.setText(reader.readTextFile(fullPath, fileName));
     }
 
     private void processImageFile(String fileName, Response response) throws IOException {

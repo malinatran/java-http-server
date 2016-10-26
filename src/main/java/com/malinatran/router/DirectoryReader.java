@@ -4,28 +4,28 @@ import java.io.*;
 
 public class DirectoryReader {
 
-    private static final String ROOT_DIRECTORY = System.getProperty("user.home") + "/Development/cob_spec/public/";
+//    private static final String ROOT_DIRECTORY = System.getProperty("user.home") + "/Development/cob_spec/public/";
     private static final String[] IMAGE_EXTENSIONS = { ".gif", ".jpeg", ".png" };
 
-    public String getLinks() {
-        File directory = new File(ROOT_DIRECTORY);
+    public String getLinks(String fullPath) {
+        File directory = new File(fullPath);
         String[] files = directory.list();
 
         return (files != null ? getAnchorTagLinks(files) : "");
     }
 
-    public Boolean existsInDirectory(String fileName) {
-        File directory = new File(ROOT_DIRECTORY);
+    public Boolean existsInDirectory(String fullPath, String fileName) {
+        File directory = new File(fullPath);
         String[] files = directory.list();
 
         return hasFileName(files, fileName);
     }
 
-    public String readTextFile(String fileName) throws IOException {
+    public String readTextFile(String fullPath, String fileName) throws IOException {
         String content = "";
         String line;
 
-        FileReader fileReader = new FileReader(ROOT_DIRECTORY + fileName);
+        FileReader fileReader = new FileReader(fullPath + fileName);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
 
         while ((line = bufferedReader.readLine()) != null) {
