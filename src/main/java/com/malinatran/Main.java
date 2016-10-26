@@ -33,7 +33,7 @@ public class Main {
             clientSocket = serverSocket.accept();
             ResponseWriter out = new ResponseWriter(clientSocket);
             RequestReader in = new RequestReader(clientSocket);
-            clientHandler = new ClientHandler(out, in, logger, router, settings.getDirectoryPath());
+            clientHandler = new ClientHandler(out, in, logger, router, settings.getPath());
             thread = new Thread(clientHandler);
             thread.start();
         }

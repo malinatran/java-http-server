@@ -4,7 +4,6 @@ import java.io.*;
 
 public class DirectoryReader {
 
-//    private static final String ROOT_DIRECTORY = System.getProperty("user.home") + "/Development/cob_spec/public/";
     private static final String[] IMAGE_EXTENSIONS = { ".gif", ".jpeg", ".png" };
 
     public String getLinks(String fullPath) {
