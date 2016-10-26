@@ -35,6 +35,6 @@ public class RedirectRouterCallbackTest {
 
         callback.run(request, response);
 
-        assertEquals("localhost:5000/", request.getHeaderValue("Host"));
+        assertEquals("localhost:5000", request.getHeaderValue("Host"));
     }
 }

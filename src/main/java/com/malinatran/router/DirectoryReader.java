@@ -6,25 +6,25 @@ public class DirectoryReader {
 
     private static final String[] IMAGE_EXTENSIONS = { ".gif", ".jpeg", ".png" };
 
-    public String getLinks(String fullPath) {
-        File directory = new File(fullPath);
+    public String getLinks(String directoryPath) {
+        File directory = new File(directoryPath);
         String[] files = directory.list();
 
         return (files != null ? getAnchorTagLinks(files) : "");
     }
 
-    public Boolean existsInDirectory(String fullPath, String fileName) {
-        File directory = new File(fullPath);
+    public Boolean existsInDirectory(String directoryPath, String fileName) {
+        File directory = new File(directoryPath);
         String[] files = directory.list();
 
         return hasFileName(files, fileName);
     }
 
-    public String readTextFile(String fullPath, String fileName) throws IOException {
+    public String readTextFile(String directoryPath, String fileName) throws IOException {
         String content = "";
         String line;
 
-        FileReader fileReader = new FileReader(fullPath + fileName);
+        FileReader fileReader = new FileReader(directoryPath + fileName);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
 
         while ((line = bufferedReader.readLine()) != null) {
