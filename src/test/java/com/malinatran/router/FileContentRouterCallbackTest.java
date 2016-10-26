@@ -77,5 +77,7 @@ public class FileContentRouterCallbackTest {
 
         assertEquals(Status.UNSUPPORTED_MEDIA_TYPE, response.getStatus());
         assertTrue(file.exists());
+
+        file.delete();
     }
 }
