@@ -7,16 +7,11 @@ import java.util.Map;
 
 public class ParameterDecoder {
 
-    private String path;
     private Map<String, String> decoderMapping;
 
-    ParameterDecoder(String path) {
-        this.path = path;
-    }
-
-    public String decodeText() {
+    public String decodeText(String path) {
         setupDecoderMapping();
-        String[] formattedPath = formatPath();
+        String[] formattedPath = formatPath(path);
         List<Integer> voidIndex = new ArrayList<Integer>();
         String decodedText = "";
 
@@ -66,8 +61,8 @@ public class ParameterDecoder {
         decoderMapping.put("%5D", "]");
     }
 
-    private String[] formatPath() {
-        return removeQuery().replace("=", " = ").replace("&", "\n").split("");
+    private String[] formatPath(String path) {
+        return removeQuery(path).replace("=", " = ").replace("&", "\n").split("");
     }
 
     private String replaceCode(int index, String currentChar, String[] path) {
@@ -78,7 +73,7 @@ public class ParameterDecoder {
         return decoderMapping.get(code);
     }
 
-    private String removeQuery() {
+    private String removeQuery(String path) {
         String pathWithoutQuery = "";
 
         if (path.startsWith("/") && path.contains("?")) {
