@@ -40,6 +40,13 @@ public class DirectoryReaderTest {
     }
 
     @Test
+    public void existsInDirectoryReturnsFalseIfNotDirectory() {
+        Boolean result = directoryReader.existsInDirectory(DEFAULT_PATH + "text-file.txt", "file1");
+
+        assertFalse(result);
+    }
+
+    @Test
     public void isTextFileReturnsTrueIfFileWithNoExtension() {
         Boolean result = directoryReader.isTextFile("testing");
 

@@ -16,7 +16,6 @@ public class ServerSettingsTest {
         ServerSettings config = new ServerSettings(map);
 
         assertEquals(5050, config.getPort());
-//        assertEquals("/Users/mteatran/hi/there/", config.getFullPath());
     }
 
     @Test

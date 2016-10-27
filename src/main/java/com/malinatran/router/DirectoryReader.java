@@ -15,9 +15,14 @@ public class DirectoryReader {
 
     public Boolean existsInDirectory(String directoryPath, String fileName) {
         File directory = new File(directoryPath);
-        String[] files = directory.list();
+        String[] files;
 
-        return hasFileName(files, fileName);
+        if (directory.isDirectory()) {
+            files = directory.list();
+            return hasFileName(files, fileName);
+        } else {
+           return false;
+        }
     }
 
     public String readTextFile(String directoryPath, String fileName) throws IOException {

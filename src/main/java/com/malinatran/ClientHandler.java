@@ -28,21 +28,21 @@ public class ClientHandler implements Runnable {
 
     public void run() {
         try {
-            getRequestAndResponse(out, in, router, logger, directoryPath);
-            closeStreams(out, in);
+            getRequestAndResponse();
+            closeStreams();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void getRequestAndResponse(Writer out, Reader in, Router router, Logger logger, String directoryPath) throws IOException {
+    private void getRequestAndResponse() throws IOException {
         RequestListener requestListener = new RequestListener();
         Request request = requestListener.getNextRequest(in, directoryPath);
         Response response = router.getResponse(request, logger);
         out.write(response);
     }
 
-    private void closeStreams(Writer out, Reader in) throws IOException {
+    private void closeStreams() throws IOException {
         out.close();
         in.close();
     }
