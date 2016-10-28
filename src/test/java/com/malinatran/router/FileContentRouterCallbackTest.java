@@ -87,4 +87,18 @@ public class FileContentRouterCallbackTest {
 
         file.delete();
     }
+
+    @Test
+    public void RunWithGetRequestForPartialContentReturns206() throws IOException {
+        RouterCallback callback = new FileContentRouterCallback();
+        Request request = new Request();
+        request.setHeader("Range: bytes=0-4");
+        request.setRequestLine("GET /text-file.txt HTTP/1.1");
+        request.setDirectoryPath(DEFAULT_PATH);
+        Response response = new Response("HTTP/1.1");
+
+        callback.run(request, response);
+
+        assertEquals(Status.PARTIAL_CONTENT, response.getStatus());
+    }
 }

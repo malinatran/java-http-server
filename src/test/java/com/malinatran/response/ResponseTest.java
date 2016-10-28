@@ -3,6 +3,10 @@ package com.malinatran.response;
 import com.malinatran.constants.Status;
 import com.malinatran.router.Logger;
 import org.junit.Test;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.junit.Assert.*;
 
 public class ResponseTest {
@@ -33,7 +37,19 @@ public class ResponseTest {
 
         response.setText(text);
 
+        assertEquals(Status.OK, response.getStatus());
         assertTrue(response.hasHeader("Content-Type"));
+    }
+
+    @Test
+     public void setPartialTextReturns206AndSetsContentRangeAsHeader() {
+        String text = "Just a text file";
+        Map<String, Integer> map = new HashMap<String, Integer>();
+
+        response.setPartialText(text, map);
+
+        assertEquals(Status.PARTIAL_CONTENT, response.getStatus());
+        assertTrue(response.hasHeader("Content-Range"));
     }
 
     @Test

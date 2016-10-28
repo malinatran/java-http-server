@@ -22,6 +22,7 @@ public class Routes {
         router.addRoute(GET, "/coffee", new EasterEggRouterCallback());
         router.addRoute(GET, "/tea", new EasterEggRouterCallback());
 
+        // TODO: Remove
         router.addRoute(GET, "/foobar", new NotFoundOrAllowedRouterCallback());
         router.addRoute(POST, "/text-file.txt", new NotFoundOrAllowedRouterCallback());
         router.addRoute(PUT, "/file1", new NotFoundOrAllowedRouterCallback());

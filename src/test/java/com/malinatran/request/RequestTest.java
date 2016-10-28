@@ -3,6 +3,10 @@ package com.malinatran.request;
 import com.malinatran.constants.Method;
 
 import org.junit.Test;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.junit.Assert.*;
 
 public class RequestTest {
@@ -35,5 +39,45 @@ public class RequestTest {
         request.setBody("my=data");
 
         assertEquals("my=data", request.getBody());
+    }
+
+    @Test
+    public void getRangeBytesWithStartAndEndRangeReturnsHashMapWithBothValues() {
+        Request request = new Request();
+        request.setHeader("Range: bytes=0-99");
+        Map<String, Integer> expected = new HashMap<String, Integer>();
+        expected.put("Start", 0);
+        expected.put("End", 99);
+
+        Map<String, Integer> actual = request.getRangeBytes();
+
+        assertEquals(expected.get("Start"), actual.get("Start"));
+        assertEquals(expected.get("End"), actual.get("End"));
+    }
+
+    @Test
+    public void getRangeBytesWithStartRangeAndNoEndRangeReturnsHashMapWithStartValue() {
+        Request request = new Request();
+        request.setHeader("Range: bytes=4-");
+        Map<String, Integer> expected = new HashMap<String, Integer>();
+        expected.put("Start", 4);
+
+        Map<String, Integer> actual = request.getRangeBytes();
+
+        assertEquals(expected.get("Start"), actual.get("Start"));
+        assertNull(actual.get("End"));
+    }
+
+    @Test
+    public void getRangeBytesWithEndRangeAndNoStartRangeReturnsHashMapWithEndValue() {
+        Request request = new Request();
+        request.setHeader("Range: bytes=-10");
+        Map<String, Integer> expected = new HashMap<String, Integer>();
+        expected.put("End", 10);
+
+        Map<String, Integer> actual = request.getRangeBytes();
+
+        assertEquals(expected.get("End"), actual.get("End"));
+        assertNull(actual.get("Start"));
     }
 }

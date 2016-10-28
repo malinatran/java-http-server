@@ -1,6 +1,7 @@
 package com.malinatran.router;
 
 import java.io.*;
+import java.util.Map;
 
 public class DirectoryReader {
 
@@ -25,6 +26,12 @@ public class DirectoryReader {
         }
     }
 
+    public int getCharCountOfTextFile(String directoryPath, String fileName) throws IOException {
+        String content = readTextFile(directoryPath, fileName);
+        return content.length();
+    }
+
+    // TODO: read only set of bytes determined by rangeBytes
     public String readTextFile(String directoryPath, String fileName) throws IOException {
         String content = "";
         String line;
@@ -37,6 +44,43 @@ public class DirectoryReader {
         }
 
         return content;
+    }
+
+    public int[] calculatePartialContentSize(Map<String, Integer> rangeBytes, int totalCount) {
+        int[] contentSize = new int[2];
+
+        if (hasStartAndEndRange(rangeBytes)) {
+            contentSize[0] = rangeBytes.get("Start");
+            contentSize[1] = rangeBytes.get("End");
+        } else if (hasStartRangeOnly(rangeBytes)) {
+            contentSize[0] = rangeBytes.get("Start");
+            contentSize[1] = totalCount;
+        } else if (hasEndRangeOnly(rangeBytes)) {
+            contentSize[0] = totalCount - (rangeBytes.get("End") - 1);
+            contentSize[1] = totalCount;
+        }
+
+        return contentSize;
+    }
+
+    private Boolean hasStartAndEndRange(Map<String, Integer> rangeBytes) {
+        return hasStartRange(rangeBytes) && hasEndRange(rangeBytes);
+    }
+
+    private Boolean hasStartRangeOnly(Map<String, Integer> rangeBytes) {
+       return hasStartRange(rangeBytes) && !hasEndRange(rangeBytes);
+    }
+
+    private Boolean hasEndRangeOnly(Map<String, Integer> rangeBytes) {
+        return !hasStartRange(rangeBytes) && hasEndRange(rangeBytes);
+    }
+
+    private Boolean hasStartRange(Map<String, Integer> rangeBytes) {
+        return rangeBytes.containsKey("Start");
+    }
+
+    private Boolean hasEndRange(Map<String, Integer> rangeBytes) {
+        return rangeBytes.containsKey("End");
     }
 
     public Boolean isTextFile(String fileName) {

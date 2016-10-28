@@ -29,8 +29,15 @@ public class Response {
     }
 
     public void setText(String text) {
-       setStatus(Status.OK);
+        setStatus(Status.OK);
         setHeader("Content-Type", "text/plain");
+        setBodyContent(text);
+    }
+
+    public void setPartialText(String text, Map<String, Integer> range) {
+        setStatus(Status.PARTIAL_CONTENT);
+        setHeader("Content-Type", "text/plain");
+        setHeader("Content-Range", range.get("Start") + "-" + range.get("End"));
         setBodyContent(text);
     }
 

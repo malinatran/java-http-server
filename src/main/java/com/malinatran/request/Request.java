@@ -17,7 +17,7 @@ public class Request {
     }
 
     public void setDirectoryPath(String directoryPath) {
-       this.directoryPath = directoryPath;
+        this.directoryPath = directoryPath;
     }
 
     public String getDirectoryPath() {
@@ -32,7 +32,7 @@ public class Request {
     }
 
     public void setBody(String body) {
-       this.body = body;
+        this.body = body;
     }
 
     public String getHeaderValue(String headerName) {
@@ -48,6 +48,28 @@ public class Request {
         method = parts[0];
         path = parts[1];
         protocolAndVersion = parts[2];
+    }
+
+    public Map<String, Integer> getRangeBytes() {
+        Map<String, Integer> ranges = new HashMap<String, Integer>();
+
+        if (getHeaderValue("Range") != null) {
+            String rangeHeader = getHeaderValue("Range");
+            int indexOfEqualSign = rangeHeader.indexOf("=");
+            int indexOfDash = rangeHeader.indexOf("-");
+            String start = rangeHeader.substring(indexOfEqualSign + 1, indexOfDash);
+            String end = rangeHeader.substring(indexOfDash + 1, rangeHeader.length());
+
+            if (start.length() > 0) {
+                ranges.put("Start", Integer.parseInt(start));
+            }
+
+            if (end.length() > 0) {
+                ranges.put("End", Integer.parseInt(end));
+            }
+        }
+
+        return ranges;
     }
 
     public String getMethod() {
