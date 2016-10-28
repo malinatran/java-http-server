@@ -14,6 +14,7 @@ public class IndexRouterCallbackTest {
         RouterCallback callback = new IndexRouterCallback();
         Request request = new Request();
         request.setRequestLine("GET / HTTP/1.1");
+        request.setDirectoryPath("/test/directory/");
         Response response = new Response("HTTP/1.1");
 
         callback.run(request, response);

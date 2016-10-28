@@ -16,31 +16,33 @@ public class ClientHandler implements Runnable {
     private final Reader in;
     private final Router router;
     private final Logger logger;
+    private final String directoryPath;
 
-    ClientHandler (Writer out, Reader in, Logger logger, Router router) throws IOException {
+    ClientHandler (Writer out, Reader in, Logger logger, Router router, String directoryPath) throws IOException {
         this.out = out;
         this.in = in;
         this.logger = logger;
         this.router = router;
+        this.directoryPath = directoryPath;
     }
 
     public void run() {
         try {
-            getRequestAndResponse(out, in, logger);
-            closeStreams(out, in);
+            getRequestAndResponse();
+            closeStreams();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void getRequestAndResponse(Writer out, Reader in, Logger logger) throws IOException {
+    private void getRequestAndResponse() throws IOException {
         RequestListener requestListener = new RequestListener();
-        Request request = requestListener.getNextRequest(in);
+        Request request = requestListener.getNextRequest(in, directoryPath);
         Response response = router.getResponse(request, logger);
         out.write(response);
     }
 
-    private void closeStreams(Writer out, Reader in) throws IOException {
+    private void closeStreams() throws IOException {
         out.close();
         in.close();
     }

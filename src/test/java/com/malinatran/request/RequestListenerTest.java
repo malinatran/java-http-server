@@ -16,7 +16,7 @@ public class RequestListenerTest {
                 {"GET / HTTP/1.1", "User-Agent: MalinaBrowser", "Host: localhost:5000", ""});
         RequestListener requestListener = new RequestListener();
 
-        Request request = requestListener.getNextRequest(reader);
+        Request request = requestListener.getNextRequest(reader, "/path/to/somewhere/");
 
         assertEquals("GET", request.getMethod());
         assertEquals("/", request.getPath());

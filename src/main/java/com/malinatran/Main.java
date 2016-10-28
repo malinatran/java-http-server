@@ -7,12 +7,14 @@ import com.malinatran.router.Router;
 import com.malinatran.router.Routes;
 
 import java.io.IOException;
+import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Main {
 
-    private static final int PORT_NUMBER = 5000;
+    private static CommandLineArgsParser parser;
+    private static ServerSettings settings;
     private static ServerSocket serverSocket;
     private static Socket clientSocket;
     private static ClientHandler clientHandler;
@@ -21,7 +23,9 @@ public class Main {
     private static Logger logger;
 
     public static void main(String[] args) throws IOException {
-        serverSocket = new ServerSocket(PORT_NUMBER);
+        parser = new CommandLineArgsParser(args);
+        settings = new ServerSettings(parser.getConfiguration());
+        serverSocket = new ServerSocket(settings.getPort());
         router = new Router();
         logger = new Logger();
         new Routes(router);
@@ -30,7 +34,7 @@ public class Main {
             clientSocket = serverSocket.accept();
             ResponseWriter out = new ResponseWriter(clientSocket);
             RequestReader in = new RequestReader(clientSocket);
-            clientHandler = new ClientHandler(out, in, logger, router);
+            clientHandler = new ClientHandler(out, in, logger, router, settings.getPath());
             thread = new Thread(clientHandler);
             thread.start();
         }

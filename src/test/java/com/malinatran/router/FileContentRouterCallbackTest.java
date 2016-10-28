@@ -16,11 +16,14 @@ import static org.junit.Assert.*;
 
 public class FileContentRouterCallbackTest {
 
+    String DEFAULT_PATH = System.getProperty("user.home") + "/Development/cob_spec/public/";
+
     @Test
     public void runWithGetRequestToExistingResourceAndValidTextFileReturns200() throws IOException {
         RouterCallback callback = new FileContentRouterCallback();
         Request request = new Request();
         request.setRequestLine("GET /patch-content.txt HTTP/1.1");
+        request.setDirectoryPath(DEFAULT_PATH);
         Response response = new Response("HTTP/1.1");
 
         callback.run(request, response);
@@ -33,6 +36,7 @@ public class FileContentRouterCallbackTest {
         RouterCallback callback = new FileContentRouterCallback();
         Request request = new Request();
         request.setRequestLine("GET /image.gif HTTP/1.1");
+        request.setDirectoryPath(DEFAULT_PATH);
         Response response = new Response("HTTP/1.1");
 
         callback.run(request, response);
@@ -45,6 +49,7 @@ public class FileContentRouterCallbackTest {
         RouterCallback callback = new FileContentRouterCallback();
         Request request = new Request();
         request.setRequestLine("GET /lala.txt HTTP/1.1");
+        request.setDirectoryPath(DEFAULT_PATH);
         Response response = new Response("HTTP/1.1");
 
         callback.run(request, response);
@@ -57,6 +62,7 @@ public class FileContentRouterCallbackTest {
         RouterCallback callback = new FileContentRouterCallback();
         Request request = new Request();
         request.setRequestLine("GET /image.pdf HTTP/1.1");
+        request.setDirectoryPath(DEFAULT_PATH);
         Response response = new Response("HTTP/1.1");
 
         callback.run(request, response);
@@ -71,11 +77,14 @@ public class FileContentRouterCallbackTest {
         File file = new File("/Users/mteatran/Development/cob_spec/public/exist.pdf");
         file.createNewFile();
         request.setRequestLine("GET /exist.pdf HTTP/1.1");
+        request.setDirectoryPath(DEFAULT_PATH);
         Response response = new Response("HTTP/1.1");
 
         callback.run(request, response);
 
         assertEquals(Status.UNSUPPORTED_MEDIA_TYPE, response.getStatus());
         assertTrue(file.exists());
+
+        file.delete();
     }
 }

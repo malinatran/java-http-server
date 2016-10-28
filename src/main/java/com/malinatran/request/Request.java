@@ -10,9 +10,18 @@ public class Request {
     private String path;
     private String protocolAndVersion;
     private String body;
+    private String directoryPath;
 
     public Request() {
         headers = new HashMap<String, String>();
+    }
+
+    public void setDirectoryPath(String directoryPath) {
+       this.directoryPath = directoryPath;
+    }
+
+    public String getDirectoryPath() {
+        return directoryPath;
     }
 
     public void setHeader(String header) {

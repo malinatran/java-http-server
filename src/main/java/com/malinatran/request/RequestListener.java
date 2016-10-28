@@ -9,10 +9,11 @@ public class RequestListener {
 
     public static final String CONTENT_LENGTH = "Content-Length";
 
-    public Request getNextRequest(Reader in) {
+    public Request getNextRequest(Reader in, String fullPath) {
         try {
             Request request = new Request();
             request.setRequestLine(in.readLine());
+            request.setDirectoryPath(fullPath);
             setRequestHeaders(request, in);
             setRequestBody(request, in);
             return request;
