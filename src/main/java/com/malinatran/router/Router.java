@@ -25,8 +25,11 @@ public class Router {
 
     public Response getResponse(Request request, Logger logger) throws IOException {
         Response response = new Response(request.getProtocolAndVersion());
+        ParameterDecoder decoder = new ParameterDecoder();
+        String decoded = decoder.decodeText(request.getPath());
 
         logger.addRequestLine(request);
+        response.setBodyContent(decoded);
         RouterCallback callback = setCallback(request, response, logger);
         runCallback(request, response, callback);
 
