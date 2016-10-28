@@ -13,23 +13,23 @@ public class FileContentRouterCallback implements RouterCallback {
     public void run(Request request, Response response) throws IOException {
         String path = request.getPath();
         String fullPath = request.getDirectoryPath();
-        Map<String, Integer> rangeBytes = request.getRangeBytes();
+        Map<String, Integer> ranges = request.getRangeValues();
         String fileName = path.replace("/", "").trim();
         Boolean exists = reader.existsInDirectory(fullPath, fileName);
 
         if (exists) {
-            processExistingTextOrImageFile(fullPath, fileName, rangeBytes, response);
+            processExistingTextOrImageFile(fullPath, fileName, ranges, response);
         } else {
             response.setStatus(Status.NOT_FOUND);
         }
     }
 
-    private void processExistingTextOrImageFile(String fullPath, String fileName, Map<String, Integer> rangeBytes, Response response) throws IOException {
+    private void processExistingTextOrImageFile(String fullPath, String fileName, Map<String, Integer> ranges, Response response) throws IOException {
         Boolean isTextFile = reader.isTextFile(fileName);
         Boolean isImageFile = reader.isImageFile(fileName);
 
         if (isTextFile) {
-            processTextFile(fullPath, fileName, rangeBytes, response);
+            processTextFile(fullPath, fileName, ranges, response);
         } else if (isImageFile) {
             processImageFile(fileName, response);
         } else {
@@ -37,13 +37,13 @@ public class FileContentRouterCallback implements RouterCallback {
         }
     }
 
-    private void processTextFile(String fullPath, String fileName, Map<String, Integer> rangeBytes, Response response) throws IOException {
-        String content = reader.readTextFile(fullPath, fileName);
-
-        if (rangeBytes.isEmpty()) {
+    private void processTextFile(String fullPath, String fileName, Map<String, Integer> ranges, Response response) throws IOException {
+        if (ranges.isEmpty()) {
+            String content = reader.readTextFile(fullPath, fileName);
             response.setText(content);
         } else {
-            response.setPartialText(content, rangeBytes);
+            String content = reader.readPartialTextFile(fullPath, fileName, ranges);
+            response.setPartialText(content, ranges);
         }
     }
 

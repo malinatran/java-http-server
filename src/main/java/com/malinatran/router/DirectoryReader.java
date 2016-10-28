@@ -6,6 +6,8 @@ import java.util.Map;
 public class DirectoryReader {
 
     private static final String[] IMAGE_EXTENSIONS = { ".gif", ".jpeg", ".png" };
+    private final String START = "Start";
+    private final String END = "End";
 
     public String getLinks(String directoryPath) {
         File directory = new File(directoryPath);
@@ -26,12 +28,27 @@ public class DirectoryReader {
         }
     }
 
-    public int getCharCountOfTextFile(String directoryPath, String fileName) throws IOException {
+    public String readPartialTextFile(String directoryPath, String fileName, Map<String, Integer> range) throws IOException {
+        int count = getCharacterCount(directoryPath, fileName);
+        int[] contentRange = setPartialContentRange(range, count);
         String content = readTextFile(directoryPath, fileName);
+
+        int start = contentRange[0];
+        int end = Math.min(contentRange[1] + 1, count);
+
+        return content.substring(start, end) + addNewLine(end, count);
+    }
+
+    private String addNewLine(int end, int count) {
+        return (end == count ?  "\n" : "");
+    }
+
+    public int getCharacterCount(String directoryPath, String fileName) throws IOException {
+        String content = readTextFile(directoryPath, fileName);
+
         return content.length();
     }
 
-    // TODO: read only set of bytes determined by rangeBytes
     public String readTextFile(String directoryPath, String fileName) throws IOException {
         String content = "";
         String line;
@@ -46,41 +63,41 @@ public class DirectoryReader {
         return content;
     }
 
-    public int[] calculatePartialContentSize(Map<String, Integer> rangeBytes, int totalCount) {
-        int[] contentSize = new int[2];
+    public int[] setPartialContentRange(Map<String, Integer> range, int totalCount) {
+        int[] contentRange = new int[2];
 
-        if (hasStartAndEndRange(rangeBytes)) {
-            contentSize[0] = rangeBytes.get("Start");
-            contentSize[1] = rangeBytes.get("End");
-        } else if (hasStartRangeOnly(rangeBytes)) {
-            contentSize[0] = rangeBytes.get("Start");
-            contentSize[1] = totalCount;
-        } else if (hasEndRangeOnly(rangeBytes)) {
-            contentSize[0] = totalCount - (rangeBytes.get("End") - 1);
-            contentSize[1] = totalCount;
+        if (hasStartAndEndRange(range)) {
+            contentRange[0] = getValue(range, START);
+            contentRange[1] = getValue(range, END);
+        } else if (hasStartRangeOnly(range)) {
+            contentRange[0] = getValue(range, START);
+            contentRange[1] = totalCount;
+        } else if (hasEndRangeOnly(range)) {
+            contentRange[0] = totalCount - (getValue(range, END) - 1);
+            contentRange[1] = totalCount;
         }
 
-        return contentSize;
+        return contentRange;
     }
 
-    private Boolean hasStartAndEndRange(Map<String, Integer> rangeBytes) {
-        return hasStartRange(rangeBytes) && hasEndRange(rangeBytes);
+    private int getValue(Map<String, Integer> range, String key) {
+        return range.get(key);
     }
 
-    private Boolean hasStartRangeOnly(Map<String, Integer> rangeBytes) {
-       return hasStartRange(rangeBytes) && !hasEndRange(rangeBytes);
+    private Boolean hasStartAndEndRange(Map<String, Integer> range) {
+        return hasRange(range, START) && hasRange(range, END);
     }
 
-    private Boolean hasEndRangeOnly(Map<String, Integer> rangeBytes) {
-        return !hasStartRange(rangeBytes) && hasEndRange(rangeBytes);
+    private Boolean hasStartRangeOnly(Map<String, Integer> range) {
+       return hasRange(range, START) && !hasRange(range, END);
     }
 
-    private Boolean hasStartRange(Map<String, Integer> rangeBytes) {
-        return rangeBytes.containsKey("Start");
+    private Boolean hasEndRangeOnly(Map<String, Integer> range) {
+        return !hasRange(range, START) && hasRange(range, END);
     }
 
-    private Boolean hasEndRange(Map<String, Integer> rangeBytes) {
-        return rangeBytes.containsKey("End");
+    private Boolean hasRange(Map<String, Integer> range, String key) {
+        return range.containsKey(key);
     }
 
     public Boolean isTextFile(String fileName) {

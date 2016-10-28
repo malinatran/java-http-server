@@ -42,40 +42,49 @@ public class RequestTest {
     }
 
     @Test
-    public void getRangeBytesWithStartAndEndRangeReturnsHashMapWithBothValues() {
+    public void getHeaderValueReturnsNullIfHeaderDoesNotExist() {
+        Request request = new Request();
+
+        String result = request.getHeaderValue("Range");
+
+        assertNull(result);
+    }
+
+    @Test
+    public void getRangeValuesWithStartAndEndRangeReturnsHashMapWithBothValues() {
         Request request = new Request();
         request.setHeader("Range: bytes=0-99");
         Map<String, Integer> expected = new HashMap<String, Integer>();
         expected.put("Start", 0);
         expected.put("End", 99);
 
-        Map<String, Integer> actual = request.getRangeBytes();
+        Map<String, Integer> actual = request.getRangeValues();
 
         assertEquals(expected.get("Start"), actual.get("Start"));
         assertEquals(expected.get("End"), actual.get("End"));
     }
 
     @Test
-    public void getRangeBytesWithStartRangeAndNoEndRangeReturnsHashMapWithStartValue() {
+    public void getRangeValuesWithStartRangeAndNoEndRangeReturnsHashMapWithStartValue() {
         Request request = new Request();
         request.setHeader("Range: bytes=4-");
         Map<String, Integer> expected = new HashMap<String, Integer>();
         expected.put("Start", 4);
 
-        Map<String, Integer> actual = request.getRangeBytes();
+        Map<String, Integer> actual = request.getRangeValues();
 
         assertEquals(expected.get("Start"), actual.get("Start"));
         assertNull(actual.get("End"));
     }
 
     @Test
-    public void getRangeBytesWithEndRangeAndNoStartRangeReturnsHashMapWithEndValue() {
+    public void getRangeValuesWithEndRangeAndNoStartRangeReturnsHashMapWithEndValue() {
         Request request = new Request();
         request.setHeader("Range: bytes=-10");
         Map<String, Integer> expected = new HashMap<String, Integer>();
         expected.put("End", 10);
 
-        Map<String, Integer> actual = request.getRangeBytes();
+        Map<String, Integer> actual = request.getRangeValues();
 
         assertEquals(expected.get("End"), actual.get("End"));
         assertNull(actual.get("Start"));

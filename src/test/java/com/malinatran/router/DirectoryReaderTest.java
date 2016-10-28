@@ -22,8 +22,26 @@ public class DirectoryReaderTest {
     }
 
     @Test
-    public void getBytesOfTextFileReturnsCharacterCount() throws IOException {
-        int count = directoryReader.getCharCountOfTextFile(DEFAULT_PATH, "text-file.txt");
+    public void readPartialTextFileReturnsBeginningOfText() throws IOException {
+        rangeBytes.put("Start", 0);
+        rangeBytes.put("End", 10);
+        String result = directoryReader.readPartialTextFile(DEFAULT_PATH, "text-file.txt", rangeBytes);
+
+        assertEquals("file1 conte", result);
+    }
+
+    @Test
+    public void readPartialTextFileReturnsEndOfText() throws IOException {
+        rangeBytes.put("Start", 5);
+        rangeBytes.put("End", 14);
+        String result = directoryReader.readPartialTextFile(DEFAULT_PATH, "text-file.txt", rangeBytes);
+
+        assertEquals(" contents\n", result);
+    }
+
+    @Test
+    public void getCharacterCountReturnsIntegerRepresentingTotalNumberOfCharacters() throws IOException {
+        int count = directoryReader.getCharacterCount(DEFAULT_PATH, "text-file.txt");
 
         assertEquals(14, count);
     }
@@ -36,31 +54,31 @@ public class DirectoryReaderTest {
     }
 
     @Test
-    public void calculatePartialContentSizeTakesStartAndEndRanges() {
+    public void setPartialContentRangeTakesStartAndEndRanges() {
         rangeBytes.put("Start", 1);
         rangeBytes.put("End", 5);
 
-        int[] result = directoryReader.calculatePartialContentSize(rangeBytes, 10);
+        int[] result = directoryReader.setPartialContentRange(rangeBytes, 10);
 
         assertEquals(1, result[0]);
         assertEquals(5, result[1]);
     }
 
     @Test
-    public void calculatePartialContentSizeTakesStartRange() {
+    public void setPartialContentRangeTakesStartRange() {
         rangeBytes.put("Start", 1);
 
-        int[] result = directoryReader.calculatePartialContentSize(rangeBytes, 10);
+        int[] result = directoryReader.setPartialContentRange(rangeBytes, 10);
 
         assertEquals(1, result[0]);
         assertEquals(10, result[1]);
     }
 
     @Test
-    public void calculatePartialContentSizeTakesEndRange() {
+    public void setPartialContentRangeTakesEndRange() {
         rangeBytes.put("End", 5);
 
-        int[] result = directoryReader.calculatePartialContentSize(rangeBytes, 10);
+        int[] result = directoryReader.setPartialContentRange(rangeBytes, 10);
 
         assertEquals(6, result[0]);
         assertEquals(10, result[1]);
