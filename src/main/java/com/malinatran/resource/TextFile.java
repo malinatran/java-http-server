@@ -5,31 +5,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Map;
 
-public class TextFileReader {
+public class TextFile {
 
     private final String START = "Start";
     private final String END = "End";
-
-    public String readPartialTextFile(String directoryPath, String fileName, Map<String, Integer> range) throws IOException {
-        int count = getCharacterCount(directoryPath, fileName);
-        int[] contentRange = setPartialContentRange(range, count);
-        String content = readTextFile(directoryPath, fileName);
-
-        int start = contentRange[0];
-        int end = Math.min(contentRange[1] + 1, count);
-
-        return content.substring(start, end) + addNewLine(end, count);
-    }
-
-    private String addNewLine(int end, int count) {
-        return (end == count ?  "\n" : "");
-    }
-
-    public int getCharacterCount(String directoryPath, String fileName) throws IOException {
-        String content = readTextFile(directoryPath, fileName);
-
-        return content.length();
-    }
 
     public String readTextFile(String directoryPath, String fileName) throws IOException {
         String content = "";
@@ -45,7 +24,28 @@ public class TextFileReader {
         return content;
     }
 
-    public int[] setPartialContentRange(Map<String, Integer> range, int totalCount) {
+    public String readPartialTextFile(String directoryPath, String fileName, Map<String, Integer> range) throws IOException {
+        int count = getCharacterCount(directoryPath, fileName);
+        int[] contentRange = setContentRange(range, count);
+        String content = readTextFile(directoryPath, fileName);
+
+        int start = contentRange[0];
+        int end = Math.min(contentRange[1] + 1, count);
+
+        return content.substring(start, end) + addEOFCharacter(end, count);
+    }
+
+    private int getCharacterCount(String directoryPath, String fileName) throws IOException {
+        String content = readTextFile(directoryPath, fileName);
+
+        return content.length();
+    }
+
+    private String addEOFCharacter(int end, int count) {
+        return (end == count ?  "\n" : "");
+    }
+
+    private int[] setContentRange(Map<String, Integer> range, int totalCount) {
         int[] contentRange = new int[2];
 
         if (hasStartAndEndRange(range)) {

@@ -1,5 +1,6 @@
 package com.malinatran.router;
 
+import com.malinatran.constants.Header;
 import com.malinatran.constants.Method;
 import com.malinatran.constants.Status;
 import com.malinatran.request.Request;
@@ -23,7 +24,7 @@ public class OptionsRouterCallbackTest {
         callback.run(request, response);
 
         assertEquals(Status.OK, response.getStatus());
-        assertTrue(response.hasHeader("Allow"));
+        assertTrue(response.hasHeader(Header.ALLOW));
     }
 
 }

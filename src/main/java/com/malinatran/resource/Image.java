@@ -6,13 +6,11 @@ import java.nio.file.Paths;
 
 public class Image {
 
-    private static final String ROOT_DIRECTORY = System.getProperty("user.home") + "/Development/cob_spec/public/";
-
-    public byte[] extractBytes(String fileName) {
+    public byte[] extractBytes(String fullPath, String fileName) {
         byte[] byteArray = new byte[0];
 
         try {
-            byteArray = Files.readAllBytes(Paths.get(ROOT_DIRECTORY + fileName));
+            byteArray = Files.readAllBytes(Paths.get(fullPath + fileName));
         } catch (IOException e) {
             e.printStackTrace();
         }

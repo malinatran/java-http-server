@@ -13,8 +13,8 @@ import static org.junit.Assert.*;
 
 public class RouterTest {
 
-    private String responseOK = "HTTP/1.1 200 OK";
-    private String responseNotAllowed = "HTTP/1.1 405 Method Not Allowed";
+    String responseOK = "HTTP/1.1 200 OK";
+    String responseNotAllowed = "HTTP/1.1 405 Method Not Allowed";
 
     @Test
     public void addRouteStoresValueIntoHashMap() {

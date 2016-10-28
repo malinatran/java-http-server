@@ -7,70 +7,70 @@ import java.util.Map;
 
 public class ParameterDecoder {
 
-    private Map<String, String> decoderMapping;
+    private Map<String, String> encodedSymbols;
 
     public String decodeText(String path) {
-        setupDecoderMapping();
+        setupEncodedSymbols();
         String[] formattedPath = formatPath(path);
         List<Integer> voidIndex = new ArrayList<Integer>();
         String decodedText = "";
 
         for (int i = 0; i < formattedPath.length; i++) {
-            String currentChar = formattedPath[i];
+            String current = formattedPath[i];
 
-            if (currentChar.equals("%") && i == -3) {
-                decodedText += replaceCode(i, currentChar, formattedPath);
+            if (current.equals("%") && i == -3) {
+                decodedText += replaceCode(i, current, formattedPath);
                 break;
-            } else if (currentChar.equals("%")) {
-                decodedText += replaceCode(i, currentChar, formattedPath);
+            } else if (current.equals("%")) {
+                decodedText += replaceCode(i, current, formattedPath);
                 voidIndex.add(i + 1);
                 voidIndex.add(i + 2);
             } else if (!voidIndex.contains(i)) {
-                decodedText += currentChar;
+                decodedText += current;
             }
         }
 
-        return decodedText;
+        return decodedText + "\n";
     }
 
-    public Map<String, String> getDecoderMapping() {
-        return decoderMapping;
+    public Map<String, String> getEncodedSymbols() {
+        return encodedSymbols;
     }
 
-    private void setupDecoderMapping() {
-        decoderMapping = new HashMap<String, String>();
-        addDecoderMapping();
+    private void setupEncodedSymbols() {
+        encodedSymbols = new HashMap<String, String>();
+        addEncodedSymbols();
     }
 
-    private void addDecoderMapping() {
-        decoderMapping.put("%20", " ");
-        decoderMapping.put("%22", "\"");
-        decoderMapping.put("%23", "#");
-        decoderMapping.put("%24", "$");
-        decoderMapping.put("%26", "&");
-        decoderMapping.put("%2B", "+");
-        decoderMapping.put("%2C", ",");
-        decoderMapping.put("%3A", ":");
-        decoderMapping.put("%3B", ";");
-        decoderMapping.put("%3C", "<");
-        decoderMapping.put("%3D", "=");
-        decoderMapping.put("%3E", ">");
-        decoderMapping.put("%3F", "?");
-        decoderMapping.put("%40", "@");
-        decoderMapping.put("%5B", "[");
-        decoderMapping.put("%5D", "]");
+    private void addEncodedSymbols() {
+        encodedSymbols.put("%20", " ");
+        encodedSymbols.put("%22", "\"");
+        encodedSymbols.put("%23", "#");
+        encodedSymbols.put("%24", "$");
+        encodedSymbols.put("%26", "&");
+        encodedSymbols.put("%2B", "+");
+        encodedSymbols.put("%2C", ",");
+        encodedSymbols.put("%3A", ":");
+        encodedSymbols.put("%3B", ";");
+        encodedSymbols.put("%3C", "<");
+        encodedSymbols.put("%3D", "=");
+        encodedSymbols.put("%3E", ">");
+        encodedSymbols.put("%3F", "?");
+        encodedSymbols.put("%40", "@");
+        encodedSymbols.put("%5B", "[");
+        encodedSymbols.put("%5D", "]");
     }
 
     private String[] formatPath(String path) {
         return removeQuery(path).replace("=", " = ").replace("&", "\n").split("");
     }
 
-    private String replaceCode(int index, String currentChar, String[] path) {
+    private String replaceCode(int index, String current, String[] path) {
         String first = path[index + 1];
         String second = path[index + 2];
-        String code = currentChar + first + second;
+        String code = current + first + second;
 
-        return decoderMapping.get(code);
+        return encodedSymbols.get(code);
     }
 
     private String removeQuery(String path) {

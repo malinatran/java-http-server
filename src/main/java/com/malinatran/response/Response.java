@@ -1,13 +1,12 @@
 package com.malinatran.response;
 
 import com.malinatran.constants.Status;
+import com.malinatran.constants.Header;
 import com.malinatran.request.RequestLogger;
 import java.util.Map;
 import java.util.HashMap;
 
 public class Response {
-
-    private static final String LOCATION = "Location";
 
     private String protocol;
     private String status;
@@ -21,7 +20,7 @@ public class Response {
 
     public void redirectTo(String url) {
         setStatus(Status.FOUND);
-        setHeader(LOCATION, url);
+        setHeader(Header.LOCATION, url);
     }
 
     public void setLogsToBody(RequestLogger requestLogger) {
@@ -31,21 +30,21 @@ public class Response {
 
     public void setText(String text) {
         setStatus(Status.OK);
-        setHeader("Content-Type", "text/plain");
+        setHeader(Header.CONTENT_TYPE, "text/plain");
         setBodyContent(text);
     }
 
     public void setPartialText(String text, Map<String, Integer> range) {
         setStatus(Status.PARTIAL_CONTENT);
-        setHeader("Content-Type", "text/plain");
-        setHeader("Content-Range", range.get("Start") + "-" + range.get("End"));
+        setHeader(Header.CONTENT_TYPE, "text/plain");
+        setHeader(Header.CONTENT_RANGE, range.get("Start") + "-" + range.get("End"));
         setBodyContent(text);
     }
 
     public void setImage(String fileType, byte[] image) {
         setStatus(Status.OK);
-        setHeader("Content-Type", "image/" + fileType);
-        setHeader("Content-Length", String.valueOf(image.length));
+        setHeader(Header.CONTENT_TYPE, "image/" + fileType);
+        setHeader(Header.CONTENT_LENGTH, String.valueOf(image.length));
         setBodyContent(image);
     }
 

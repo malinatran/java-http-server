@@ -1,8 +1,6 @@
 package com.malinatran.resource;
 
-import com.malinatran.resource.DirectoryReader;
 import org.junit.Test;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 

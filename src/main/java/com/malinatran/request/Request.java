@@ -1,5 +1,7 @@
 package com.malinatran.request;
 
+import com.malinatran.constants.Header;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,7 +56,7 @@ public class Request {
     public Map<String, Integer> getRangeValues() {
         ranges = new HashMap<String, Integer>();
 
-        if (getHeaderValue("Range") != null) {
+        if (getHeaderValue(Header.RANGE) != null) {
             String[] rangeValues = parseRangeHeader();
             setRanges(rangeValues);
         }
@@ -63,7 +65,7 @@ public class Request {
     }
 
     private String[] parseRangeHeader() {
-        String header = getHeaderValue("Range");
+        String header = getHeaderValue(Header.RANGE);
         int startDelimiter = header.indexOf("=");
         int endDelimiter = header.indexOf("-");
         String rangeStart = header.substring(startDelimiter + 1, endDelimiter);

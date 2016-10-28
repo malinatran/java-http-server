@@ -1,15 +1,17 @@
 package com.malinatran.request;
 
+import com.malinatran.constants.Header;
 import com.malinatran.constants.Method;
 
 import org.junit.Test;
-
 import java.util.HashMap;
 import java.util.Map;
-
 import static org.junit.Assert.*;
 
 public class RequestTest {
+
+    String START = "Start";
+    String END = "End";
 
     @Test
     public void setHeaderStoresValuesIntoHashMap() {
@@ -17,8 +19,8 @@ public class RequestTest {
 
         request.setHeader("Host: google.com");
 
-        assertEquals("google.com", request.getHeaderValue("Host"));
-        assertTrue(request.hasHeader("Host"));
+        assertEquals("google.com", request.getHeaderValue(Header.HOST));
+        assertTrue(request.hasHeader(Header.HOST));
     }
 
     @Test
@@ -45,7 +47,7 @@ public class RequestTest {
     public void getHeaderValueReturnsNullIfHeaderDoesNotExist() {
         Request request = new Request();
 
-        String result = request.getHeaderValue("Range");
+        String result = request.getHeaderValue(Header.RANGE);
 
         assertNull(result);
     }
@@ -55,13 +57,13 @@ public class RequestTest {
         Request request = new Request();
         request.setHeader("Range: bytes=0-99");
         Map<String, Integer> expected = new HashMap<String, Integer>();
-        expected.put("Start", 0);
-        expected.put("End", 99);
+        expected.put(START, 0);
+        expected.put(END, 99);
 
         Map<String, Integer> actual = request.getRangeValues();
 
-        assertEquals(expected.get("Start"), actual.get("Start"));
-        assertEquals(expected.get("End"), actual.get("End"));
+        assertEquals(expected.get(START), actual.get(START));
+        assertEquals(expected.get(END), actual.get(END));
     }
 
     @Test
@@ -69,12 +71,12 @@ public class RequestTest {
         Request request = new Request();
         request.setHeader("Range: bytes=4-");
         Map<String, Integer> expected = new HashMap<String, Integer>();
-        expected.put("Start", 4);
+        expected.put(START, 4);
 
         Map<String, Integer> actual = request.getRangeValues();
 
-        assertEquals(expected.get("Start"), actual.get("Start"));
-        assertNull(actual.get("End"));
+        assertEquals(expected.get(START), actual.get(START));
+        assertNull(actual.get(END));
     }
 
     @Test
@@ -82,11 +84,11 @@ public class RequestTest {
         Request request = new Request();
         request.setHeader("Range: bytes=-10");
         Map<String, Integer> expected = new HashMap<String, Integer>();
-        expected.put("End", 10);
+        expected.put(END, 10);
 
         Map<String, Integer> actual = request.getRangeValues();
 
-        assertEquals(expected.get("End"), actual.get("End"));
-        assertNull(actual.get("Start"));
+        assertEquals(expected.get(END), actual.get(END));
+        assertNull(actual.get(START));
     }
 }

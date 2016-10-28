@@ -29,14 +29,6 @@ public class DirectoryReader {
         return isFileWithoutExtension(fileName) || isFileWIthTxtExtension(fileName);
     }
 
-    private Boolean isFileWithoutExtension(String fileName) {
-        return (fileName.indexOf(".") == -1);
-    }
-
-    private Boolean isFileWIthTxtExtension(String fileName) {
-        return (fileName.endsWith(".txt"));
-    }
-
     public Boolean isImageFile(String fileName) {
         for (String extension : FILE_EXTENSIONS) {
             if (fileName.endsWith(extension)) {
@@ -45,6 +37,14 @@ public class DirectoryReader {
         }
 
         return false;
+    }
+
+    private Boolean isFileWithoutExtension(String fileName) {
+        return (fileName.indexOf(".") == -1);
+    }
+
+    private Boolean isFileWIthTxtExtension(String fileName) {
+        return (fileName.endsWith(".txt"));
     }
 
     private String getAnchorTagLinks(String[] files) {
