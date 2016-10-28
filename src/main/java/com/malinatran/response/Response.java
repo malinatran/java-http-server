@@ -1,12 +1,12 @@
 package com.malinatran.response;
 
 import com.malinatran.constants.Status;
-import com.malinatran.router.Logger;
-import java.util.*;
+import com.malinatran.constants.Header;
+import com.malinatran.request.RequestLogger;
+import java.util.Map;
+import java.util.HashMap;
 
 public class Response {
-
-    private static final String LOCATION = "Location";
 
     private String protocol;
     private String status;
@@ -20,24 +20,31 @@ public class Response {
 
     public void redirectTo(String url) {
         setStatus(Status.FOUND);
-        setHeader(LOCATION, url);
+        setHeader(Header.LOCATION, url);
     }
 
-    public void setLogsToBody(Logger logger) {
+    public void setLogsToBody(RequestLogger requestLogger) {
         setStatus(Status.OK);
-        setBodyContent(logger.getLoggedRequests());
+        setBodyContent(requestLogger.getLoggedRequests());
     }
 
     public void setText(String text) {
-       setStatus(Status.OK);
-        setHeader("Content-Type", "text/plain");
+        setStatus(Status.OK);
+        setHeader(Header.CONTENT_TYPE, "text/plain");
+        setBodyContent(text);
+    }
+
+    public void setPartialText(String text, Map<String, Integer> range) {
+        setStatus(Status.PARTIAL_CONTENT);
+        setHeader(Header.CONTENT_TYPE, "text/plain");
+        setHeader(Header.CONTENT_RANGE, range.get("Start") + "-" + range.get("End"));
         setBodyContent(text);
     }
 
     public void setImage(String fileType, byte[] image) {
         setStatus(Status.OK);
-        setHeader("Content-Type", "image/" + fileType);
-        setHeader("Content-Length", String.valueOf(image.length));
+        setHeader(Header.CONTENT_TYPE, "image/" + fileType);
+        setHeader(Header.CONTENT_LENGTH, String.valueOf(image.length));
         setBodyContent(image);
     }
 
@@ -81,7 +88,7 @@ public class Response {
     }
 
     public String getStatusLine() {
-        return Formatter.addNewLine(protocol + " " + status);
+        return ResponseFormatter.addNewLine(protocol + " " + status);
     }
 
     private String getHeaders() {
@@ -89,6 +96,6 @@ public class Response {
     }
 
     private String getHeaderLines() {
-        return Formatter.formatHeaderLines(headers);
+        return ResponseFormatter.formatHeaderLines(headers);
     }
 }

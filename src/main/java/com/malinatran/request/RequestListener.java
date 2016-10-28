@@ -1,13 +1,11 @@
 package com.malinatran.request;
 
+import com.malinatran.constants.Header;
 import com.malinatran.reader.Reader;
 
 import java.io.IOException;
 
-@SuppressWarnings("ALL")
 public class RequestListener {
-
-    public static final String CONTENT_LENGTH = "Content-Length";
 
     public Request getNextRequest(Reader in, String fullPath) {
         try {
@@ -39,8 +37,8 @@ public class RequestListener {
     }
 
     private void setRequestBody(Request request, Reader in) throws IOException {
-        if (request.hasHeader(CONTENT_LENGTH)) {
-            int contentLength = Integer.parseInt(request.getHeaderValue(CONTENT_LENGTH));
+        if (request.hasHeader(Header.CONTENT_LENGTH)) {
+            int contentLength = Integer.parseInt(request.getHeaderValue(Header.CONTENT_LENGTH));
             char[] body = new char[contentLength];
             in.read(body, 0, contentLength);
             request.setBody(body.toString());

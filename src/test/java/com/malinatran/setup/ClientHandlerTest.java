@@ -1,11 +1,11 @@
-package com.malinatran;
+package com.malinatran.setup;
 
 import com.malinatran.reader.Reader;
 import com.malinatran.mocks.ResponseLogger;
 import com.malinatran.mocks.MockRequestReader;
 import com.malinatran.mocks.MockResponseWriter;
 import com.malinatran.mocks.MockRouter;
-import com.malinatran.router.Logger;
+import com.malinatran.request.RequestLogger;
 import com.malinatran.router.Router;
 import com.malinatran.writer.Writer;
 
@@ -20,11 +20,11 @@ public class ClientHandlerTest {
     public void runWritesResponse() throws IOException {
         ResponseLogger messageLogger = new ResponseLogger();
         Router mockRouter = new MockRouter();
-        Logger logger = new Logger();
+        RequestLogger requestLogger = new RequestLogger();
         Writer writer = new MockResponseWriter(messageLogger);
         Reader reader = new MockRequestReader(new String[]
                 {"GET / HTTP/1.1", "User-Agent: MalinaBrowser", "Host: localhost:6000", ""});
-        ClientHandler clientHandler = new ClientHandler(writer, reader, logger, mockRouter, "/path/to/somewhere/");
+        ClientHandler clientHandler = new ClientHandler(writer, reader, requestLogger, mockRouter, "/path/to/somewhere/");
 
         clientHandler.run();
 

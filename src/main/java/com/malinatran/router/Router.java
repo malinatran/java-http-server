@@ -3,6 +3,7 @@ package com.malinatran.router;
 import com.malinatran.constants.Status;
 import com.malinatran.request.Request;
 import com.malinatran.response.Response;
+import com.malinatran.request.RequestLogger;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -23,27 +24,27 @@ public class Router {
         routes.put(method + " " + path, callback);
     }
 
-    public Response getResponse(Request request, Logger logger) throws IOException {
+    public Response getResponse(Request request, RequestLogger requestLogger) throws IOException {
         Response response = new Response(request.getProtocolAndVersion());
         ParameterDecoder decoder = new ParameterDecoder();
         String decoded = decoder.decodeText(request.getPath());
 
-        logger.addRequestLine(request);
+        requestLogger.addRequestLine(request);
         response.setBodyContent(decoded);
-        RouterCallback callback = setCallback(request, response, logger);
+        RouterCallback callback = setCallback(request, response, requestLogger);
         runCallback(request, response, callback);
 
         return response;
     }
 
-    private RouterCallback setCallback (Request request, Response response, Logger logger) {
+    private RouterCallback setCallback (Request request, Response response, RequestLogger requestLogger) {
         String route = getRoute(request);
         String method = request.getMethod();
         RouterValidator validator = new RouterValidator();
         RouterCallback callback = null;
 
         if (validator.isValidRouteAndCredentials(request)) {
-            response.setLogsToBody(logger);
+            response.setLogsToBody(requestLogger);
             callback = null;
         } else if (hasRoute(route)) {
             callback = routes.get(route);

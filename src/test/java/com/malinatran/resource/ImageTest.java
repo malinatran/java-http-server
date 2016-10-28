@@ -1,5 +1,6 @@
-package com.malinatran.router;
+package com.malinatran.resource;
 
+import com.malinatran.resource.Image;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

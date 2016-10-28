@@ -1,7 +1,7 @@
-package com.malinatran;
+package com.malinatran.setup;
 
 import com.malinatran.reader.Reader;
-import com.malinatran.router.Logger;
+import com.malinatran.request.RequestLogger;
 import com.malinatran.writer.Writer;
 import com.malinatran.request.Request;
 import com.malinatran.request.RequestListener;
@@ -15,13 +15,13 @@ public class ClientHandler implements Runnable {
     private final Writer out;
     private final Reader in;
     private final Router router;
-    private final Logger logger;
+    private final RequestLogger requestLogger;
     private final String directoryPath;
 
-    ClientHandler (Writer out, Reader in, Logger logger, Router router, String directoryPath) throws IOException {
+    public ClientHandler (Writer out, Reader in, RequestLogger requestLogger, Router router, String directoryPath) throws IOException {
         this.out = out;
         this.in = in;
-        this.logger = logger;
+        this.requestLogger = requestLogger;
         this.router = router;
         this.directoryPath = directoryPath;
     }
@@ -38,7 +38,7 @@ public class ClientHandler implements Runnable {
     private void getRequestAndResponse() throws IOException {
         RequestListener requestListener = new RequestListener();
         Request request = requestListener.getNextRequest(in, directoryPath);
-        Response response = router.getResponse(request, logger);
+        Response response = router.getResponse(request, requestLogger);
         out.write(response);
     }
 

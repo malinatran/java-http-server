@@ -1,8 +1,6 @@
-package com.malinatran.router;
+package com.malinatran.resource;
 
-import java.io.IOException;
 import org.junit.Test;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -16,13 +14,6 @@ public class DirectoryReaderTest {
         String link = directoryReader.getLinks(DEFAULT_PATH);
 
         assertTrue(link.contains("<a style=\"display: block\" href=\"/image.png\">image.png</a>"));
-    }
-
-    @Test
-    public void readTextFileReturnsEntireFileContents() throws IOException {
-        String content = directoryReader.readTextFile(DEFAULT_PATH, "text-file.txt");
-
-        assertEquals("file1 contents", content);
     }
 
     @Test

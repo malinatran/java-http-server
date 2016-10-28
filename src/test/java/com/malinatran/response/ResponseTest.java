@@ -1,8 +1,13 @@
 package com.malinatran.response;
 
+import com.malinatran.constants.Header;
 import com.malinatran.constants.Status;
-import com.malinatran.router.Logger;
+import com.malinatran.request.RequestLogger;
 import org.junit.Test;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.junit.Assert.*;
 
 public class ResponseTest {
@@ -14,14 +19,14 @@ public class ResponseTest {
         response.redirectTo("malinatran.com");
 
         assertEquals(Status.FOUND, response.getStatus());
-        assertTrue(response.hasHeader("Location"));
+        assertTrue(response.hasHeader(Header.LOCATION));
     }
 
     @Test
     public void setLogsToBodyReturns200AndGetsAllLoggedRequests() {
-        Logger logger = new Logger();
+        RequestLogger requestLogger = new RequestLogger();
 
-        response.setLogsToBody(logger);
+        response.setLogsToBody(requestLogger);
 
         assertEquals(Status.OK, response.getStatus());
         assertNotNull(response.getBodyContent());
@@ -33,7 +38,19 @@ public class ResponseTest {
 
         response.setText(text);
 
-        assertTrue(response.hasHeader("Content-Type"));
+        assertEquals(Status.OK, response.getStatus());
+        assertTrue(response.hasHeader(Header.CONTENT_TYPE));
+    }
+
+    @Test
+     public void setPartialTextReturns206AndSetsContentRangeAsHeader() {
+        String text = "Just a text";
+        Map<String, Integer> map = new HashMap<String, Integer>();
+
+        response.setPartialText(text, map);
+
+        assertEquals(Status.PARTIAL_CONTENT, response.getStatus());
+        assertTrue(response.hasHeader(Header.CONTENT_RANGE));
     }
 
     @Test
@@ -43,22 +60,22 @@ public class ResponseTest {
 
         response.setImage(fileType, image);
 
-        assertTrue(response.hasHeader("Content-Type"));
-        assertTrue(response.hasHeader("Content-Length"));
+        assertTrue(response.hasHeader(Header.CONTENT_TYPE));
+        assertTrue(response.hasHeader(Header.CONTENT_LENGTH));
     }
 
     @Test
     public void hasHeaderReturnsTrueIfHeaderExists() {
-       response.setHeader("Content-Type", "text/plain");
+       response.setHeader(Header.CONTENT_TYPE, "text/plain");
 
-        Boolean result = response.hasHeader("Content-Type");
+        Boolean result = response.hasHeader(Header.CONTENT_TYPE);
 
         assertTrue(result);
     }
 
     @Test
     public void hasHeaderReturnsFalseIfHeaderDoesNotExist() {
-        Boolean result = response.hasHeader("Content-Length");
+        Boolean result = response.hasHeader(Header.CONTENT_LENGTH);
 
         assertFalse(result);
     }
@@ -110,7 +127,7 @@ public class ResponseTest {
 
     @Test
     public void getResponseHeadersAndBodyReturnsByteArray() {
-        response.setHeader("Content-Type", "image/png");
+        response.setHeader(Header.CONTENT_TYPE, "image/png");
         response.setBodyContent("Hello world");
 
         byte[] result = response.getResponseHeadersAndBody();

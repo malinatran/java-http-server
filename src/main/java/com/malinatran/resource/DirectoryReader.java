@@ -1,10 +1,10 @@
-package com.malinatran.router;
+package com.malinatran.resource;
 
-import java.io.*;
+import java.io.File;
 
 public class DirectoryReader {
 
-    private static final String[] IMAGE_EXTENSIONS = { ".gif", ".jpeg", ".png" };
+    private static final String[] FILE_EXTENSIONS = { ".gif", ".jpeg", ".png" };
 
     public String getLinks(String directoryPath) {
         File directory = new File(directoryPath);
@@ -25,32 +25,26 @@ public class DirectoryReader {
         }
     }
 
-    public String readTextFile(String directoryPath, String fileName) throws IOException {
-        String content = "";
-        String line;
-
-        FileReader fileReader = new FileReader(directoryPath + fileName);
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
-
-        while ((line = bufferedReader.readLine()) != null) {
-            content += line;
-        }
-
-        return content;
-    }
-
     public Boolean isTextFile(String fileName) {
-        return (fileName.indexOf(".") == -1) || (fileName.endsWith(".txt"));
+        return isFileWithoutExtension(fileName) || isFileWIthTxtExtension(fileName);
     }
 
     public Boolean isImageFile(String fileName) {
-        for (String extension : IMAGE_EXTENSIONS) {
+        for (String extension : FILE_EXTENSIONS) {
             if (fileName.endsWith(extension)) {
                 return true;
             }
         }
 
         return false;
+    }
+
+    private Boolean isFileWithoutExtension(String fileName) {
+        return (fileName.indexOf(".") == -1);
+    }
+
+    private Boolean isFileWIthTxtExtension(String fileName) {
+        return (fileName.endsWith(".txt"));
     }
 
     private String getAnchorTagLinks(String[] files) {

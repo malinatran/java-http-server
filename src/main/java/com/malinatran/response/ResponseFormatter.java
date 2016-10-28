@@ -2,7 +2,7 @@ package com.malinatran.response;
 
 import java.util.Map;
 
-public class Formatter {
+public class ResponseFormatter {
 
     public static String formatHeaderLines(Map<String, String> headers) {
         String headerLines = "";

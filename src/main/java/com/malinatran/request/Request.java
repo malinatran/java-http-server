@@ -1,5 +1,7 @@
 package com.malinatran.request;
 
+import com.malinatran.constants.Header;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,13 +13,14 @@ public class Request {
     private String protocolAndVersion;
     private String body;
     private String directoryPath;
+    private Map<String, Integer> ranges;
 
     public Request() {
         headers = new HashMap<String, String>();
     }
 
     public void setDirectoryPath(String directoryPath) {
-       this.directoryPath = directoryPath;
+        this.directoryPath = directoryPath;
     }
 
     public String getDirectoryPath() {
@@ -32,7 +35,7 @@ public class Request {
     }
 
     public void setBody(String body) {
-       this.body = body;
+        this.body = body;
     }
 
     public String getHeaderValue(String headerName) {
@@ -48,6 +51,43 @@ public class Request {
         method = parts[0];
         path = parts[1];
         protocolAndVersion = parts[2];
+    }
+
+    public Map<String, Integer> getRangeValues() {
+        ranges = new HashMap<String, Integer>();
+
+        if (getHeaderValue(Header.RANGE) != null) {
+            String[] rangeValues = parseRangeHeader();
+            setRanges(rangeValues);
+        }
+
+        return ranges;
+    }
+
+    private String[] parseRangeHeader() {
+        String header = getHeaderValue(Header.RANGE);
+        int startDelimiter = header.indexOf("=");
+        int endDelimiter = header.indexOf("-");
+        String rangeStart = header.substring(startDelimiter + 1, endDelimiter);
+        String rangeEnd = header.substring(endDelimiter + 1, header.length());
+        String[] rangeValues = new String[2];
+        rangeValues[0] = rangeStart;
+        rangeValues[1] = rangeEnd;
+
+        return rangeValues;
+    }
+
+    private void setRanges(String[] rangeValues) {
+        String rangeStart = rangeValues[0];
+        String rangeEnd = rangeValues[1];
+
+        if (rangeStart.length() > 0) {
+            ranges.put("Start", Integer.parseInt(rangeStart));
+        }
+
+        if (rangeEnd.length() > 0) {
+            ranges.put("End", Integer.parseInt(rangeEnd));
+        }
     }
 
     public String getMethod() {
