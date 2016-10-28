@@ -1,7 +1,7 @@
 package com.malinatran.response;
 
 import com.malinatran.constants.Status;
-import com.malinatran.router.Logger;
+import com.malinatran.request.RequestLogger;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -23,9 +23,9 @@ public class ResponseTest {
 
     @Test
     public void setLogsToBodyReturns200AndGetsAllLoggedRequests() {
-        Logger logger = new Logger();
+        RequestLogger requestLogger = new RequestLogger();
 
-        response.setLogsToBody(logger);
+        response.setLogsToBody(requestLogger);
 
         assertEquals(Status.OK, response.getStatus());
         assertNotNull(response.getBodyContent());

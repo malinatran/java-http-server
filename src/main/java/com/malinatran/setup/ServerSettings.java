@@ -1,4 +1,4 @@
-package com.malinatran;
+package com.malinatran.setup;
 
 import java.util.Map;
 

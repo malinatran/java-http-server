@@ -1,32 +1,14 @@
-package com.malinatran.router;
+package com.malinatran.resource;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Map;
 
-public class DirectoryReader {
+public class TextFileReader {
 
-    private static final String[] IMAGE_EXTENSIONS = { ".gif", ".jpeg", ".png" };
     private final String START = "Start";
     private final String END = "End";
-
-    public String getLinks(String directoryPath) {
-        File directory = new File(directoryPath);
-        String[] files = directory.list();
-
-        return (files != null ? getAnchorTagLinks(files) : "");
-    }
-
-    public Boolean existsInDirectory(String directoryPath, String fileName) {
-        File directory = new File(directoryPath);
-        String[] files;
-
-        if (directory.isDirectory()) {
-            files = directory.list();
-            return hasFileName(files, fileName);
-        } else {
-           return false;
-        }
-    }
 
     public String readPartialTextFile(String directoryPath, String fileName, Map<String, Integer> range) throws IOException {
         int count = getCharacterCount(directoryPath, fileName);
@@ -89,7 +71,7 @@ public class DirectoryReader {
     }
 
     private Boolean hasStartRangeOnly(Map<String, Integer> range) {
-       return hasRange(range, START) && !hasRange(range, END);
+        return hasRange(range, START) && !hasRange(range, END);
     }
 
     private Boolean hasEndRangeOnly(Map<String, Integer> range) {
@@ -98,39 +80,5 @@ public class DirectoryReader {
 
     private Boolean hasRange(Map<String, Integer> range, String key) {
         return range.containsKey(key);
-    }
-
-    public Boolean isTextFile(String fileName) {
-        return (fileName.indexOf(".") == -1) || (fileName.endsWith(".txt"));
-    }
-
-    public Boolean isImageFile(String fileName) {
-        for (String extension : IMAGE_EXTENSIONS) {
-            if (fileName.endsWith(extension)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private String getAnchorTagLinks(String[] files) {
-        String links = "";
-
-        for (String file : files) {
-            links += "<a style=\"display: block\" href=\"/" + file + "\">" + file + "</a>\n";
-        }
-
-        return links;
-    }
-
-    private Boolean hasFileName(String[] files, String fileName) {
-        for (String file : files) {
-            if (file.equals(fileName)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }

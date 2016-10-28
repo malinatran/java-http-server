@@ -4,7 +4,6 @@ import com.malinatran.reader.Reader;
 
 import java.io.IOException;
 
-@SuppressWarnings("ALL")
 public class RequestListener {
 
     public static final String CONTENT_LENGTH = "Content-Length";

@@ -1,4 +1,4 @@
-package com.malinatran.router;
+package com.malinatran.resource;
 
 import java.io.IOException;
 import java.nio.file.Files;

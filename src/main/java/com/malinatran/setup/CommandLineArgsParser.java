@@ -1,4 +1,4 @@
-package com.malinatran;
+package com.malinatran.setup;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +17,7 @@ public class CommandLineArgsParser {
             if (isInteger(current)) {
                 configuration.put("Port", current);
             } else if (isNotAFlag(current)) {
-                configuration.put("Directory", addLineSeparators(current));
+                configuration.put("Directory", addFileSeparators(current));
             }
         }
     }
@@ -34,15 +34,27 @@ public class CommandLineArgsParser {
         return (!element.contains("-d") && !element.contains("-p"));
     }
 
-    private String addLineSeparators(String element) {
-        if (!element.startsWith("/") && !element.endsWith("/")) {
+    private String addFileSeparators(String element) {
+        if (doesNotHaveFileSeparators(element)) {
             return "/" + element + "/";
-        } else if (!element.startsWith("/")) {
+        } else if (!startsWithFileSeparator(element)) {
             return "/" + element;
-        } else if (!element.endsWith("/")) {
+        } else if (!endsWithFileSeparator(element)) {
             return element + "/";
         } else {
             return element;
         }
+    }
+
+    private Boolean doesNotHaveFileSeparators(String element) {
+       return (!startsWithFileSeparator(element) && !endsWithFileSeparator(element));
+    }
+
+    private Boolean startsWithFileSeparator(String element) {
+       return (element.startsWith("/"));
+    }
+
+    private Boolean endsWithFileSeparator(String element) {
+        return (element.endsWith("/"));
     }
 }

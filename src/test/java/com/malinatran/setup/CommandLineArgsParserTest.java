@@ -1,5 +1,6 @@
-package com.malinatran;
+package com.malinatran.setup;
 
+import com.malinatran.setup.CommandLineArgsParser;
 import org.junit.Test;
 import java.util.HashMap;
 import java.util.Map;

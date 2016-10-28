@@ -1,14 +1,12 @@
-package com.malinatran.router;
-
-import com.malinatran.request.Request;
+package com.malinatran.request;
 
 import java.util.ArrayList;
 
-public class Logger {
+public class RequestLogger {
 
     private ArrayList<String> loggedRequestLines;
 
-    public Logger() {
+    public RequestLogger() {
         loggedRequestLines = new ArrayList<String>();
     }
 

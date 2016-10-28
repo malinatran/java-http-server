@@ -1,8 +1,9 @@
 package com.malinatran.response;
 
 import com.malinatran.constants.Status;
-import com.malinatran.router.Logger;
-import java.util.*;
+import com.malinatran.request.RequestLogger;
+import java.util.Map;
+import java.util.HashMap;
 
 public class Response {
 
@@ -23,9 +24,9 @@ public class Response {
         setHeader(LOCATION, url);
     }
 
-    public void setLogsToBody(Logger logger) {
+    public void setLogsToBody(RequestLogger requestLogger) {
         setStatus(Status.OK);
-        setBodyContent(logger.getLoggedRequests());
+        setBodyContent(requestLogger.getLoggedRequests());
     }
 
     public void setText(String text) {
@@ -88,7 +89,7 @@ public class Response {
     }
 
     public String getStatusLine() {
-        return Formatter.addNewLine(protocol + " " + status);
+        return ResponseFormatter.addNewLine(protocol + " " + status);
     }
 
     private String getHeaders() {
@@ -96,6 +97,6 @@ public class Response {
     }
 
     private String getHeaderLines() {
-        return Formatter.formatHeaderLines(headers);
+        return ResponseFormatter.formatHeaderLines(headers);
     }
 }
