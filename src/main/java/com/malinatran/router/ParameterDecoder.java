@@ -7,70 +7,80 @@ import java.util.Map;
 
 public class ParameterDecoder {
 
-    private Map<String, String> encodedSymbols;
+    private Map<String, String> encodedCharacters;
+
+    public Map<String, String> getEncodedCharacters() {
+        return encodedCharacters;
+    }
 
     public String decodeText(String path) {
-        setupEncodedSymbols();
+        encodedCharacters = new HashMap<String, String>();
+        addEncodedCharacters();
+        String decodedText = "";
+
+        if (hasParametersQuery(path)) {
+            decodedText += readAndDecodeCharacter(path);
+        }
+
+        return decodedText;
+    }
+
+    private String readAndDecodeCharacter(String path) {
         String[] formattedPath = formatPath(path);
         List<Integer> voidIndex = new ArrayList<Integer>();
-        String decodedText = "";
+        String text = "";
 
         for (int i = 0; i < formattedPath.length; i++) {
             String current = formattedPath[i];
 
             if (current.equals("%") && i == -3) {
-                decodedText += replaceCode(i, current, formattedPath);
+                text += getCharacter(i, current, formattedPath);
                 break;
             } else if (current.equals("%")) {
-                decodedText += replaceCode(i, current, formattedPath);
+                text += getCharacter(i, current, formattedPath);
                 voidIndex.add(i + 1);
                 voidIndex.add(i + 2);
             } else if (!voidIndex.contains(i)) {
-                decodedText += current;
+                text += current;
             }
         }
 
-        return decodedText + "\n";
+        return text + "\n";
     }
 
-    public Map<String, String> getEncodedSymbols() {
-        return encodedSymbols;
+    private void addEncodedCharacters() {
+        encodedCharacters.put("%20", " ");
+        encodedCharacters.put("%22", "\"");
+        encodedCharacters.put("%23", "#");
+        encodedCharacters.put("%24", "$");
+        encodedCharacters.put("%26", "&");
+        encodedCharacters.put("%2B", "+");
+        encodedCharacters.put("%2C", ",");
+        encodedCharacters.put("%3A", ":");
+        encodedCharacters.put("%3B", ";");
+        encodedCharacters.put("%3C", "<");
+        encodedCharacters.put("%3D", "=");
+        encodedCharacters.put("%3E", ">");
+        encodedCharacters.put("%3F", "?");
+        encodedCharacters.put("%40", "@");
+        encodedCharacters.put("%5B", "[");
+        encodedCharacters.put("%5D", "]");
     }
 
-    private void setupEncodedSymbols() {
-        encodedSymbols = new HashMap<String, String>();
-        addEncodedSymbols();
-    }
-
-    private void addEncodedSymbols() {
-        encodedSymbols.put("%20", " ");
-        encodedSymbols.put("%22", "\"");
-        encodedSymbols.put("%23", "#");
-        encodedSymbols.put("%24", "$");
-        encodedSymbols.put("%26", "&");
-        encodedSymbols.put("%2B", "+");
-        encodedSymbols.put("%2C", ",");
-        encodedSymbols.put("%3A", ":");
-        encodedSymbols.put("%3B", ";");
-        encodedSymbols.put("%3C", "<");
-        encodedSymbols.put("%3D", "=");
-        encodedSymbols.put("%3E", ">");
-        encodedSymbols.put("%3F", "?");
-        encodedSymbols.put("%40", "@");
-        encodedSymbols.put("%5B", "[");
-        encodedSymbols.put("%5D", "]");
+    private Boolean hasParametersQuery(String path) {
+        return (path.startsWith("/parameters?"));
     }
 
     private String[] formatPath(String path) {
         return removeQuery(path).replace("=", " = ").replace("&", "\n").split("");
     }
 
-    private String replaceCode(int index, String current, String[] path) {
+    private String getCharacter(int index, String current, String[] path) {
         String first = path[index + 1];
         String second = path[index + 2];
         String code = current + first + second;
 
-        return encodedSymbols.get(code);
+        return encodedCharacters.get(code);
     }
 
     private String removeQuery(String path) {
