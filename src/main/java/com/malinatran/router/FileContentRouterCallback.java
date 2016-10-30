@@ -17,46 +17,46 @@ public class FileContentRouterCallback implements RouterCallback {
 
     public void run(Request request, Response response) throws IOException {
         String path = request.getPath();
-        String fullPath = request.getDirectoryPath();
+        String directoryPath = request.getDirectoryPath();
         Map<String, Integer> ranges = request.getRangeValues();
         String fileName = path.replace("/", "").trim();
-        Boolean exists = directoryReader.existsInDirectory(fullPath, fileName);
+        Boolean exists = directoryReader.existsInDirectory(directoryPath, fileName);
 
         if (exists) {
-            processExistingFile(fullPath, fileName, ranges, response);
+            processExistingFile(directoryPath, fileName, ranges, response);
         } else {
             response.setStatus(Status.NOT_FOUND);
         }
     }
 
-    private void processExistingFile(String fullPath, String fileName, Map<String, Integer> ranges, Response response) throws IOException {
+    private void processExistingFile(String directoryPath, String fileName, Map<String, Integer> ranges, Response response) throws IOException {
         Boolean isTextFile = directoryReader.isTextFile(fileName);
         Boolean isImageFile = directoryReader.isImageFile(fileName);
 
         if (isTextFile) {
-            processTextFile(fullPath, fileName, ranges, response);
+            processTextFile(directoryPath, fileName, ranges, response);
         } else if (isImageFile) {
-            processImageFile(fullPath, fileName, response);
+            processImageFile(directoryPath, fileName, response);
         } else {
             response.setStatus(Status.UNSUPPORTED_MEDIA_TYPE);
         }
     }
 
-    private void processTextFile(String fullPath, String fileName, Map<String, Integer> ranges, Response response) throws IOException {
+    private void processTextFile(String directoryPath, String fileName, Map<String, Integer> ranges, Response response) throws IOException {
         if (ranges.isEmpty()) {
-            String content = textFile.readTextFile(fullPath, fileName);
+            String content = textFile.readTextFile(directoryPath, fileName);
             response.setText(content);
         } else {
-            String content = textFile.readPartialTextFile(fullPath, fileName, ranges);
+            String content = textFile.readPartialTextFile(directoryPath, fileName, ranges);
             response.setPartialText(content, ranges);
         }
     }
 
-    private void processImageFile(String fullPath, String fileName, Response response) throws IOException {
+    private void processImageFile(String directoryPath, String fileName, Response response) throws IOException {
         Image image = new Image();
         String fileType = image.getImageType(fileName);
-        byte[] imageAsBytes = image.extractBytes(fullPath, fileName);
+        byte[] imageBytes = image.extractBytes(directoryPath, fileName);
 
-        response.setImage(fileType, imageAsBytes);
+        response.setImage(fileType, imageBytes);
     }
 }

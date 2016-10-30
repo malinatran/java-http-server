@@ -6,26 +6,24 @@ public class ServerSettings {
 
     private int port;
     private String path;
+    private String PORT_FLAG = "-p";
+    private String DIRECTORY_FLAG = "-d";
     private int DEFAULT_PORT = 5000;
     private String DEFAULT_PATH = "/Development/cob_spec/public/";
-    private String directoryPath = System.getProperty("user.home");
-    private Map<String, String> portAndDirectoryPath;
+    private String home = System.getProperty("user.home");
+    private Map<String, String> configuration;
 
     public ServerSettings(Map<String, String> configuration) {
-        this.portAndDirectoryPath = configuration;
+        this.configuration = configuration;
         this.port = getPort();
         this.path = getDirectory();
     }
 
     public int getPort() {
-       return (portAndDirectoryPath.containsKey("Port") ? Integer.parseInt(portAndDirectoryPath.get("Port")) : DEFAULT_PORT);
+       return (configuration.containsKey(PORT_FLAG) ? Integer.parseInt(configuration.get(PORT_FLAG)) : DEFAULT_PORT);
     }
 
-    private String getDirectory() {
-       return (portAndDirectoryPath.containsKey("Directory") ? portAndDirectoryPath.get("Directory") : DEFAULT_PATH);
-    }
-
-    public String getPath() {
-        return directoryPath + path;
+    public String getDirectory() {
+       return home + ((configuration.containsKey(DIRECTORY_FLAG) ? configuration.get(DIRECTORY_FLAG) : DEFAULT_PATH));
     }
 }

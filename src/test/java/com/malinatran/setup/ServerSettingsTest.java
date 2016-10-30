@@ -11,8 +11,8 @@ public class ServerSettingsTest {
     @Test
     public void constructorSetsPortAndDirectoryWithNewValues() {
         Map<String, String> map = new HashMap<String, String>();
-        map.put("Port", "5050");
-        map.put("Directory", "/hi/there/");
+        map.put("-p", "5050");
+        map.put("-d", "/hi/there/");
 
         ServerSettings config = new ServerSettings(map);
 
@@ -22,7 +22,7 @@ public class ServerSettingsTest {
     @Test
     public void constructorUsesDefaultPortIfPortNotProvided() {
         Map<String, String> map = new HashMap<String, String>();
-        map.put("Directory", "/no/port/");
+        map.put("-d", "/no/port/");
 
         ServerSettings config = new ServerSettings(map);
 
