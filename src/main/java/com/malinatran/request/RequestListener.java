@@ -7,11 +7,11 @@ import java.io.IOException;
 
 public class RequestListener {
 
-    public Request getNextRequest(Reader in, String fullPath) {
+    public Request getNextRequest(Reader in, String directoryPath) {
         try {
             Request request = new Request();
             request.setRequestLine(in.readLine());
-            request.setDirectoryPath(fullPath);
+            request.setDirectoryPath(directoryPath);
             setRequestHeaders(request, in);
             setRequestBody(request, in);
             return request;

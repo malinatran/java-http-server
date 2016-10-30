@@ -27,21 +27,21 @@ public class ParameterDecoder {
 
     private String readAndDecodeCharacter(String path) {
         String[] formattedPath = formatPath(path);
-        List<Integer> voidIndex = new ArrayList<Integer>();
+        List<Integer> voidChar = new ArrayList<Integer>();
         String text = "";
 
         for (int i = 0; i < formattedPath.length; i++) {
-            String current = formattedPath[i];
+            String currentChar = formattedPath[i];
 
-            if (current.equals("%") && i == -3) {
-                text += getCharacter(i, current, formattedPath);
+            if (currentChar.equals("%") && i == -3) {
+                text += getCharacter(i, currentChar, formattedPath);
                 break;
-            } else if (current.equals("%")) {
-                text += getCharacter(i, current, formattedPath);
-                voidIndex.add(i + 1);
-                voidIndex.add(i + 2);
-            } else if (!voidIndex.contains(i)) {
-                text += current;
+            } else if (currentChar.equals("%")) {
+                text += getCharacter(i, currentChar, formattedPath);
+                voidChar.add(i + 1);
+                voidChar.add(i + 2);
+            } else if (!voidChar.contains(i)) {
+                text += currentChar;
             }
         }
 
@@ -75,10 +75,10 @@ public class ParameterDecoder {
         return removeQuery(path).replace("=", " = ").replace("&", "\n").split("");
     }
 
-    private String getCharacter(int index, String current, String[] path) {
-        String first = path[index + 1];
-        String second = path[index + 2];
-        String code = current + first + second;
+    private String getCharacter(int index, String currentChar, String[] path) {
+        String secondChar = path[index + 1];
+        String thirdChar = path[index + 2];
+        String code = currentChar + secondChar + thirdChar;
 
         return encodedCharacters.get(code);
     }
@@ -87,8 +87,8 @@ public class ParameterDecoder {
         String pathWithoutQuery = "";
 
         if (path.startsWith("/") && path.contains("?")) {
-            int endIndex = path.indexOf("?");
-            String substring = path.substring(0, endIndex + 1);
+            int endChar = path.indexOf("?");
+            String substring = path.substring(0, endChar + 1);
             pathWithoutQuery = path.replace(substring, "");
         }
 

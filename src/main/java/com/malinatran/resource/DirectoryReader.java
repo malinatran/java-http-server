@@ -8,9 +8,14 @@ public class DirectoryReader {
 
     public String getLinks(String directoryPath) {
         File directory = new File(directoryPath);
-        String[] files = directory.list();
+        String message = "";
 
-        return (files != null ? getAnchorTagLinks(files) : "");
+        if (directory.isDirectory()) {
+            String[] files = directory.list();
+            message = (files != null ? getAnchorTagLinks(files) : "");
+        }
+
+        return message;
     }
 
     public Boolean existsInDirectory(String directoryPath, String fileName) {

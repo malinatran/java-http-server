@@ -12,34 +12,70 @@ import com.malinatran.router.Routes;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Main {
 
-    private static CommandLineArgsParser parser;
-    private static ServerSettings settings;
     private static ServerSocket serverSocket;
     private static Socket clientSocket;
-    private static ClientHandler clientHandler;
-    private static Thread thread;
     private static Router router;
     private static RequestLogger requestLogger;
+    private static int port;
+    private static String directory;
 
     public static void main(String[] args) throws IOException {
-        parser = new CommandLineArgsParser(args);
-        settings = new ServerSettings(parser.getConfiguration());
-        serverSocket = new ServerSocket(settings.getPort());
+        configureServer(args);
+        setupRouterAndLogger();
+        setupServerSocket();
+
+        while (true) {
+            startThread();
+        }
+    }
+
+    private static void configureServer(String[] args) throws IOException {
+        CommandLineArgsParser parser = new CommandLineArgsParser(args);
+        ServerSettings settings = new ServerSettings(parser.getConfiguration());
+        port = settings.getPort();
+        directory = settings.getDirectory();
+        printArgs(port, directory);
+        Path path = Paths.get(directory);
+
+        if (Files.notExists(path)) {
+            System.out.println("Directory is not found! Try again?");
+            System.exit(0);
+        }
+    }
+
+    private static void setupServerSocket() {
+        try {
+            serverSocket = new ServerSocket(port);
+        } catch (Exception e) {
+            System.out.println("Hrm... looks like this port is busy. Try again?");
+            System.exit(0);
+        }
+    }
+
+    private static void setupRouterAndLogger() {
         router = new Router();
         requestLogger = new RequestLogger();
         new Routes(router);
+    }
 
-        while (true) {
-            clientSocket = serverSocket.accept();
-            ResponseWriter out = new ResponseWriter(clientSocket);
-            RequestReader in = new RequestReader(clientSocket);
-            clientHandler = new ClientHandler(out, in, requestLogger, router, settings.getPath());
-            thread = new Thread(clientHandler);
-            thread.start();
-        }
+    private static void printArgs(int port, String directory) {
+        System.out.println("Port: " + String.valueOf(port));
+        System.out.println("Directory: " + directory + "\n");
+    }
+
+    private static void startThread() throws IOException {
+        clientSocket = serverSocket.accept();
+        ResponseWriter out = new ResponseWriter(clientSocket);
+        RequestReader in = new RequestReader(clientSocket);
+        ClientHandler clientHandler = new ClientHandler(out, in, requestLogger, router, directory);
+        Thread thread = new Thread(clientHandler);
+        thread.start();
     }
 
     protected void finalize() throws IOException {
