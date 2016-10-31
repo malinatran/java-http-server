@@ -7,11 +7,6 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 import static org.junit.Assert.*;
 
 public class FileContentRouterCallbackTest {
@@ -74,8 +69,8 @@ public class FileContentRouterCallbackTest {
     public void runWithGetRequestToExistingResourceAndInvalidTextFileReturns415() throws IOException {
         RouterCallback callback = new FileContentRouterCallback();
         Request request = new Request();
-        File file = new File("/Users/mteatran/Development/cob_spec/public/exist.pdf");
-        file.createNewFile();
+        File file = new File(System.getProperty("user.home") + "/Development/cob_spec/public/exist.pdf");
+        Boolean wut = file.createNewFile();
         request.setRequestLine("GET /exist.pdf HTTP/1.1");
         request.setDirectoryPath(DEFAULT_PATH);
         Response response = new Response("HTTP/1.1");

@@ -13,7 +13,7 @@
 - `mvn package`
 
 #### Run
-Through the command line, run `java target/java-http-server-1.0-SNAPSHOT.jar -p [PORT] -d [DIRECTORY]`. Port and directory are optional; if not provided, default values for both will be set.
+Through the command line, run `java -jar target/java-http-server-1.0-SNAPSHOT.jar -p [PORT] -d [DIRECTORY]`. Port and directory are optional; if not provided, default values for both will be set.
 
 Through IntelliJ, select `Main` in dropdown menu and click on the `run` green arrow located in upper right hand corner.
 
