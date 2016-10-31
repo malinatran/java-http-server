@@ -12,9 +12,6 @@ import com.malinatran.router.Routes;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class Main {
 
@@ -29,10 +26,9 @@ public class Main {
 
 	public static void main(String[] args) throws IOException {
 		configureServer(args);
-		printArgs(port, directory);
 		setupSocket();
         setupLoggerAndRouter();
-		throwDirectoryError(directory);
+		printArgs(port, directory);
 
 		while (true) {
 			startClientHandlerThread();
@@ -48,14 +44,14 @@ public class Main {
 
 	private static void printArgs(int port, String directory) {
 		System.out.println("Port: " + String.valueOf(port));
-		System.out.println("Directory: " + directory + "\n");
+		System.out.println("Directory: " + directory);
 	}
 
 	private static void setupSocket() {
 		try {
 			serverSocket = new ServerSocket(port);
 		} catch (Exception e) {
-			System.out.println("Hrm... looks like this port is busy. Try again?");
+			System.out.println("Hrm... looks like port " + port + " is busy. Try again?");
 			System.exit(0);
 		}
 	}
@@ -64,15 +60,6 @@ public class Main {
 		requestLogger = new RequestLogger();
         router = new Router();
 		new Routes(router);
-	}
-
-	private static void throwDirectoryError(String directory) {
-		Path path = Paths.get(directory);
-
-		if (Files.notExists(path)) {
-			System.out.println("Directory is not found! Try again?");
-			System.exit(0);
-		}
 	}
 
 	private static void startClientHandlerThread() throws IOException {
