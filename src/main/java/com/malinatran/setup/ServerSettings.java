@@ -6,10 +6,12 @@ public class ServerSettings {
 
     private int port;
     private String path;
-    private String PORT_FLAG = "-p";
-    private String DIRECTORY_FLAG = "-d";
-    private int DEFAULT_PORT = 5000;
-    private String DEFAULT_PATH = "/Development/cob_spec/public/";
+    public static final String PORT = "port";
+    public static final String DIRECTORY = "directory";
+    public static final String PORT_FLAG = "-p";
+    public static final String DIRECTORY_FLAG = "-d";
+    private static int DEFAULT_PORT = 5000;
+    public static final String DEFAULT_PATH = "/Development/cob_spec/public/";
     private String home = System.getProperty("user.home");
     private Map<String, String> configuration;
 
@@ -34,7 +36,7 @@ public class ServerSettings {
         try {
             return Integer.parseInt(tempPort);
         } catch (Exception e) {
-            printAndTerminate("port", tempPort);
+            printAndTerminate(PORT, tempPort);
         }
 
         return validPort;
@@ -51,18 +53,18 @@ public class ServerSettings {
         return validDirectory;
     }
 
-    private String getDirectoryOrErrorMessage(String validDirectory, String tempDirectory) {
+    public String getDirectoryOrErrorMessage(String validDirectory, String tempDirectory) {
         if (InputValidator.isValidDirectory(tempDirectory)) {
             return tempDirectory;
         } else  {
-            printAndTerminate("directory", tempDirectory);
+            printAndTerminate(DIRECTORY, tempDirectory);
         }
 
         return validDirectory;
     }
 
-    private void printAndTerminate(String key, String value) {
-        System.out.println("Looks like the " + key + " " + value + " is invalid. Try again?");
+    protected void printAndTerminate(String key, String value) {
+        System.out.println("Looks like the " + key + " " + value + " is invalid.");
         System.exit(0);
     }
 }
