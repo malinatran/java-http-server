@@ -4,6 +4,7 @@ import com.malinatran.reader.RequestReader;
 import com.malinatran.request.RequestLogger;
 import com.malinatran.setup.ClientHandler;
 import com.malinatran.setup.CommandLineArgsParser;
+import com.malinatran.setup.ErrorHandler;
 import com.malinatran.setup.ServerSettings;
 import com.malinatran.writer.ResponseWriter;
 import com.malinatran.router.Router;
@@ -51,7 +52,7 @@ public class Main {
 		try {
 			serverSocket = new ServerSocket(port);
 		} catch (Exception e) {
-			System.out.println("Hrm... looks like port " + port + " is busy. Try again?");
+            ErrorHandler.print(ErrorHandler.PORT, port, ErrorHandler.BUSY);
 			System.exit(0);
 		}
 	}
