@@ -3,6 +3,7 @@ package com.malinatran.request;
 import com.malinatran.constants.Header;
 import com.malinatran.constants.Method;
 
+import org.junit.Before;
 import org.junit.Test;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,13 +11,19 @@ import static org.junit.Assert.*;
 
 public class RequestTest {
 
-    String START = "Start";
-    String END = "End";
+    private String START = "Start";
+    private String END = "End";
+    private Request request;
+    private Map<String, Integer> expected;
+
+    @Before
+    public void setUp() {
+        request = new Request();
+        expected = new HashMap<String, Integer>();
+    }
 
     @Test
     public void setHeaderStoresValuesIntoHashMap() {
-        Request request = new Request();
-
         request.setHeader("Host: google.com");
 
         assertEquals("google.com", request.getHeaderValue(Header.HOST));
@@ -25,8 +32,6 @@ public class RequestTest {
 
     @Test
     public void setRequestLineSetsMethodPathAndProtocolAsStrings() {
-        Request request = new Request();
-
         request.setRequestLine("GET /path/to/file HTTP/1.1");
 
         assertEquals(Method.GET, request.getMethod());
@@ -36,8 +41,6 @@ public class RequestTest {
 
     @Test
     public void setBodySetsValueAsString() {
-        Request request = new Request();
-
         request.setBody("my=data");
 
         assertEquals("my=data", request.getBody());
@@ -45,8 +48,6 @@ public class RequestTest {
 
     @Test
     public void getHeaderValueReturnsNullIfHeaderDoesNotExist() {
-        Request request = new Request();
-
         String result = request.getHeaderValue(Header.RANGE);
 
         assertNull(result);
@@ -54,9 +55,7 @@ public class RequestTest {
 
     @Test
     public void getRangeValuesWithStartAndEndRangeReturnsHashMapWithBothValues() {
-        Request request = new Request();
         request.setHeader("Range: bytes=0-99");
-        Map<String, Integer> expected = new HashMap<String, Integer>();
         expected.put(START, 0);
         expected.put(END, 99);
 
@@ -68,9 +67,7 @@ public class RequestTest {
 
     @Test
     public void getRangeValuesWithStartRangeAndNoEndRangeReturnsHashMapWithStartValue() {
-        Request request = new Request();
         request.setHeader("Range: bytes=4-");
-        Map<String, Integer> expected = new HashMap<String, Integer>();
         expected.put(START, 4);
 
         Map<String, Integer> actual = request.getRangeValues();
@@ -81,9 +78,7 @@ public class RequestTest {
 
     @Test
     public void getRangeValuesWithEndRangeAndNoStartRangeReturnsHashMapWithEndValue() {
-        Request request = new Request();
         request.setHeader("Range: bytes=-10");
-        Map<String, Integer> expected = new HashMap<String, Integer>();
         expected.put(END, 10);
 
         Map<String, Integer> actual = request.getRangeValues();

@@ -1,12 +1,11 @@
 package com.malinatran.request;
 
-import com.malinatran.reader.Reader;
 import com.malinatran.mocks.MockRequestReader;
-
-import java.io.IOException;
+import com.malinatran.reader.Reader;
 
 import org.junit.Test;
-import static org.junit.Assert.*;
+import java.io.IOException;
+import static org.junit.Assert.assertEquals;
 
 public class RequestListenerTest {
 

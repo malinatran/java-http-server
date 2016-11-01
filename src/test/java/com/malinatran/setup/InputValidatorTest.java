@@ -1,16 +1,23 @@
 package com.malinatran.setup;
 
+import org.junit.Before;
 import org.junit.Test;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import static org.junit.Assert.*;
 
 public class InputValidatorTest {
 
-    InputValidator validator = new InputValidator();
+    private String HOME_DIRECTORY = ServerSettings.HOME;
+    private InputValidator validator;
+    private Boolean result;
+    private String actual;
+
+    @Before
+    public void setUp() {
+        validator = new InputValidator();
+    }
 
     @Test
     public void isFlagReturnsTrueIfArgIsFlag() {
@@ -23,7 +30,7 @@ public class InputValidatorTest {
 
     @Test
     public void isFlagReturnsFalseIfArgIsNotFlag() {
-        Boolean result = validator.isFlag("-o");
+        result = validator.isFlag("-o");
 
         assertFalse(result);
     }
@@ -31,28 +38,28 @@ public class InputValidatorTest {
     @Test
     public void addFileSeparatorsAddsSeparatorsIfNone() throws IOException {
         String fileName = "Documents/dingbat";
-        String directory = System.getProperty("user.home") + "/" + fileName + "/";
+        String directory = HOME_DIRECTORY + "/" + fileName + "/";
         File file = new File(directory);
         file.mkdir();
         String expected = "/Documents/dingbat/";
 
-        String result = validator.addFileSeparators("-d", fileName);
+        actual = validator.addFileSeparators("-d", fileName);
 
-        assertEquals(expected, result);
+        assertEquals(expected, actual);
         Files.deleteIfExists(file.toPath());
     }
 
     @Test
     public void addFileSeparatorsAddsSeparatorToBeginningIfDoesNotHaveOne() throws IOException {
         String fileName = "Documents/test-directory/";
-        String directory = System.getProperty("user.home") + "/" + fileName;
+        String directory = HOME_DIRECTORY + "/" + fileName;
         File file = new File(directory);
         file.mkdir();
         String expected = "/Documents/test-directory/";
 
-        String result = validator.addFileSeparators("-d", fileName);
+        actual = validator.addFileSeparators("-d", fileName);
 
-        assertEquals(expected, result);
+        assertEquals(expected, actual);
         Files.deleteIfExists(file.toPath());
     }
 
@@ -60,17 +67,17 @@ public class InputValidatorTest {
     public void addFileSeparatorsDoesNotAddSeparatorsIfInteger() {
         String expected = "9090";
 
-        String result = validator.addFileSeparators("-p", expected);
+        actual = validator.addFileSeparators("-p", expected);
 
-        assertEquals(expected, result);
+        assertEquals(expected, actual);
     }
 
     @Test
     public void isValidDirectoryReturnsTrueIfExistingDirectory() {
-        String directory = System.getProperty("user.home") + "/some-directory";
+        String directory = HOME_DIRECTORY + "/some-directory";
         File file = new File(directory);
         file.mkdir();
-        Boolean result = validator.isValidDirectory(directory);
+        result = validator.isValidDirectory(directory);
 
         assertTrue(result);
         file.delete();
@@ -78,8 +85,8 @@ public class InputValidatorTest {
 
     @Test
     public void isValidDirectoryReturnsFalseIfNonexistentDirectory() {
-        String directory = System.getProperty("user.home") + "/not-a-test-directory";
-        Boolean result = validator.isValidDirectory(directory);
+        String directory = HOME_DIRECTORY + "/not-a-test-directory";
+        result = validator.isValidDirectory(directory);
 
         assertFalse(result);
     }
@@ -87,7 +94,7 @@ public class InputValidatorTest {
     @Test
     public void isIntegerReturnsTrueIfInteger() {
         String integer = "10";
-        Boolean result = validator.isInteger(integer);
+        result = validator.isInteger(integer);
 
         assertTrue(result);
     }
@@ -95,7 +102,7 @@ public class InputValidatorTest {
     @Test
     public void isIntegerReturnsFalseIfNotInteger() {
         String notInteger = "words";
-        Boolean result = validator.isInteger(notInteger);
+        result = validator.isInteger(notInteger);
 
         assertFalse(result);
     }

@@ -3,20 +3,28 @@ package com.malinatran.router;
 import com.malinatran.constants.Status;
 import com.malinatran.request.Request;
 import com.malinatran.response.Response;
+
+import org.junit.Before;
 import org.junit.Test;
-
 import java.io.IOException;
-
 import static org.junit.Assert.*;
 
 public class NotFoundOrAllowedRouterCallbackTest {
 
+    private RouterCallback callback;
+    private Request request;
+    private Response response;
+
+    @Before
+    public void setUp() {
+        callback = new NotFoundOrAllowedRouterCallback();
+        request = new Request();
+        response = new Response("HTTP/1.1");
+    }
+
     @Test
     public void runWithHeadReturns404() throws IOException {
-        RouterCallback callback = new NotFoundOrAllowedRouterCallback();
-        Request request = new Request();
         request.setRequestLine("HEAD /file1 HTTP/1.1");
-        Response response = new Response("HTTP/1.1");
 
         callback.run(request, response);
 
@@ -25,10 +33,7 @@ public class NotFoundOrAllowedRouterCallbackTest {
 
     @Test
     public void runWithPutReturns405() throws IOException {
-        RouterCallback callback = new NotFoundOrAllowedRouterCallback();
-        Request request = new Request();
         request.setRequestLine("PUT /file1 HTTP/1.1");
-        Response response = new Response("HTTP/1.1");
 
         callback.run(request, response);
 

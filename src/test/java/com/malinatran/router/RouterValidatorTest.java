@@ -1,29 +1,38 @@
 package com.malinatran.router;
 
 import com.malinatran.request.Request;
+
+import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class RouterValidatorTest {
 
+    private Request request;
+    private RouterValidator validator;
+    private Boolean result;
+
+    @Before
+    public void setUp() {
+        request = new Request();
+        validator = new RouterValidator();
+    }
+
     @Test
     public void isValidRouteAndCredentialsReturnsTrueWithCorrectRouteAndCredentials() {
-        Request request = new Request();
         request.setRequestLine("GET /logs HTTP/1.1");
         request.setHeader("Authorization: Basic YWRtaW46aHVudGVyMg==");
-        RouterValidator validator = new RouterValidator();
 
-        Boolean isValidCredentials = validator.isValidRouteAndCredentials(request);
+        result = validator.isValidRouteAndCredentials(request);
 
-        assertTrue(isValidCredentials);
+        assertTrue(result);
     }
 
     @Test
     public void isValidCredentialsReturnsFalseWithIncorrectCredentials() {
-        RouterValidator validator = new RouterValidator();
+        result = validator.isValidCredentials("Basic Hello");
 
-        Boolean isValidCredentials = validator.isValidCredentials("Basic Hello");
-
-        assertFalse(isValidCredentials);
+        assertFalse(result);
     }
 }
