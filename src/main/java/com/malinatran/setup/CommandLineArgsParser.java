@@ -6,7 +6,6 @@ import java.util.Map;
 public class CommandLineArgsParser {
 
     private Map<String, String> configuration;
-    private final String invalidEntryErrorMessage = "Hey there, that's invalid! Valid args should be formatted like so:\n `-p PORT`\n `-d DIRECTORY` \n `-p PORT -d DIRECTORY`";
 
     public Map<String, String> getConfiguration() {
         return configuration;
@@ -20,7 +19,7 @@ public class CommandLineArgsParser {
         } else if (size == 2) {
             setConfigurationIfFlagsExist(args);
         } else {
-            throwInvalidEntryError();
+            throwInvalidArgsError(args);
         }
     }
 
@@ -28,7 +27,7 @@ public class CommandLineArgsParser {
         if (InputValidator.isFlag(args[0])) {
             setConfiguration(args);
         } else {
-            throwInvalidEntryError();
+            throwInvalidArgsError(args);
         }
     }
 
@@ -48,9 +47,8 @@ public class CommandLineArgsParser {
         }
     }
 
-    private void throwInvalidEntryError() {
-        System.out.println(invalidEntryErrorMessage);
+    private void throwInvalidArgsError(String[] args) {
+        ErrorHandler.print(args);
         System.exit(0);
     }
-
 }

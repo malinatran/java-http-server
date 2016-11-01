@@ -7,11 +7,11 @@ import java.nio.file.Paths;
 public class InputValidator {
 
     public static Boolean isFlag(String arg) {
-        return (arg.equals("-p") || arg.equals("-d"));
+        return (arg.equals(ServerSettings.PORT_FLAG) || arg.equals(ServerSettings.DIRECTORY_FLAG));
     }
 
     public static String addFileSeparators(String key, String arg) {
-        if (!isInteger(arg) && key.equals("-d")) {
+        if (!isInteger(arg) && key.equals(ServerSettings.DIRECTORY_FLAG)) {
             if (doesNotHaveFileSeparators(arg)) {
                 return "/" + arg + "/";
             } else if (startsWithFileSeparatorOnly(arg)) {
