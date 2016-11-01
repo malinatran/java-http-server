@@ -1,5 +1,6 @@
 package com.malinatran.setup;
 
+import com.malinatran.mocks.MockServerSettings;
 import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
@@ -22,18 +23,18 @@ public class ServerSettingsTest {
         map.put("-p", String.valueOf(port));
         map.put("-d", directory);
 
-        ServerSettings config = new ServerSettings(map);
+        ServerSettings settings = new ServerSettings(map);
 
-        assertEquals(port, config.getPort());
-        assertEquals(DEFAULT_DIRECTORY, config.getDirectory());
+        assertEquals(port, settings.getPort());
+        assertEquals(DEFAULT_DIRECTORY, settings.getDirectory());
     }
 
     @Test
     public void getPortReturnsDefaultPortIfThereIsNoCustomPort() {
         Map<String, String> map = new HashMap<String, String>();
-        ServerSettings config = new ServerSettings(map);
+        ServerSettings settings = new ServerSettings(map);
 
-        int result = config.getPort();
+        int result = settings.getPort();
 
         assertEquals(5000, result);
     }
@@ -43,19 +44,30 @@ public class ServerSettingsTest {
         Map<String, String> map = new HashMap<String, String>();
         int port = 5050;
         map.put("-p", String.valueOf(port));
-        ServerSettings config = new ServerSettings(map);
+        ServerSettings settings = new ServerSettings(map);
 
-        int result = config.getPort();
+        int result = settings.getPort();
 
         assertEquals(port, result);
     }
 
     @Test
+    public void getPortPrintsErrorMessageAndTerminates() {
+        Map<String, String> map = new HashMap<String, String>();
+        String port = "invalidPort";
+        map.put("-p", port);
+        MockServerSettings settings = new MockServerSettings(map);
+
+        settings.getPort();
+        assertTrue(settings.didExit());
+    }
+
+    @Test
     public void getDirectoryReturnsDefaultDirectoryIfThereIsNoCustomDirectory() {
         Map<String, String> map = new HashMap<String, String>();
-        ServerSettings config = new ServerSettings(map);
+        ServerSettings settings = new ServerSettings(map);
 
-        String result = config.getDirectory();
+        String result = settings.getDirectory();
 
         assertEquals(DEFAULT_DIRECTORY, result);
     }
@@ -67,11 +79,22 @@ public class ServerSettingsTest {
         map.put("-d", directory);
         File file = new File(USER_HOME + directory);
         file.mkdir();
-        ServerSettings config = new ServerSettings(map);
+        ServerSettings settings = new ServerSettings(map);
 
-        String result = config.getDirectory();
+        String result = settings.getDirectory();
 
         assertEquals(USER_HOME + directory, result);
         Files.deleteIfExists(file.toPath());
+    }
+
+    @Test
+    public void getDirectoryPrintsErrorMessageAndTerminates() {
+        Map<String, String> map = new HashMap<String, String>();
+        String directory = "/Documents/nonexistent-directory";
+        map.put("-d", directory);
+        MockServerSettings settings = new MockServerSettings(map);
+
+        settings.getDirectory();
+        assertTrue(settings.didExit());
     }
 }
