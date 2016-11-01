@@ -34,7 +34,7 @@ public class InputValidatorTest {
         file.mkdir();
         String expected = "/test-directory/";
 
-        String result = validator.addFileSeparators(fileName);
+        String result = validator.addFileSeparators("-d", fileName);
 
         assertEquals(expected, result);
         file.delete();
@@ -48,7 +48,7 @@ public class InputValidatorTest {
         file.mkdir();
         String expected = "/test-directory/";
 
-        String result = validator.addFileSeparators(fileName);
+        String result = validator.addFileSeparators("-d", fileName);
 
         assertEquals(expected, result);
         file.delete();
@@ -58,7 +58,7 @@ public class InputValidatorTest {
     public void addFileSeparatorsDoesNotAddSeparatorsIfInteger() {
         String expected = "9090";
 
-        String result = validator.addFileSeparators(expected);
+        String result = validator.addFileSeparators("-p", expected);
 
         assertEquals(expected, result);
     }

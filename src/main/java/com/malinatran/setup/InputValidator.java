@@ -10,8 +10,8 @@ public class InputValidator {
         return (arg.equals("-p") || arg.equals("-d"));
     }
 
-    public static String addFileSeparators(String arg) {
-        if (!isInteger(arg)) {
+    public static String addFileSeparators(String key, String arg) {
+        if (!isInteger(arg) && key.equals("-d")) {
             if (doesNotHaveFileSeparators(arg)) {
                 return "/" + arg + "/";
             } else if (startsWithFileSeparatorOnly(arg)) {

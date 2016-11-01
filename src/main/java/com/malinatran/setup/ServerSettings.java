@@ -24,13 +24,13 @@ public class ServerSettings {
         String tempPort = configuration.get(PORT_FLAG);
 
         if (configuration.containsKey(PORT_FLAG)) {
-            validPort = getPortOrError(validPort, tempPort);
+            validPort = getPortOrErrorMessage(validPort, tempPort);
         }
 
         return validPort;
     }
 
-    private int getPortOrError(int validPort, String tempPort) {
+    private int getPortOrErrorMessage(int validPort, String tempPort) {
         try {
             return Integer.parseInt(tempPort);
         } catch (Exception e) {
@@ -45,13 +45,13 @@ public class ServerSettings {
         String tempDirectory = home + configuration.get(DIRECTORY_FLAG);
 
         if (configuration.containsKey(DIRECTORY_FLAG)) {
-            validDirectory = getDirectoryOrError(validDirectory, tempDirectory);
+            validDirectory = getDirectoryOrErrorMessage(validDirectory, tempDirectory);
         }
 
         return validDirectory;
     }
 
-    private String getDirectoryOrError(String validDirectory, String tempDirectory) {
+    private String getDirectoryOrErrorMessage(String validDirectory, String tempDirectory) {
         if (InputValidator.isValidDirectory(tempDirectory)) {
             return tempDirectory;
         } else  {
@@ -62,7 +62,7 @@ public class ServerSettings {
     }
 
     private void printAndTerminate(String key, String value) {
-        System.out.println("Looks like the " + key + " " + value + " is not found. Try again?");
+        System.out.println("Looks like the " + key + " " + value + " is invalid. Try again?");
         System.exit(0);
     }
 }
