@@ -3,23 +3,32 @@ package com.malinatran.router;
 import com.malinatran.constants.Status;
 import com.malinatran.request.Request;
 import com.malinatran.response.Response;
-import org.junit.Test;
+import com.malinatran.setup.ServerSettings;
 
+import org.junit.Before;
+import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
 import static org.junit.Assert.*;
 
 public class FileContentRouterCallbackTest {
 
-    String DEFAULT_PATH = System.getProperty("user.home") + "/Development/cob_spec/public/";
+    private String DEFAULT_PATH = ServerSettings.HOME + ServerSettings.DEFAULT_PATH;
+    private RouterCallback callback;
+    private Request request;
+    private Response response;
+
+    @Before
+    public void setUp() {
+        callback = new FileContentRouterCallback();
+        request = new Request();
+        response = new Response("HTTP 1/.1");
+    }
 
     @Test
     public void runWithGetRequestToExistingResourceAndValidTextFileReturns200() throws IOException {
-        RouterCallback callback = new FileContentRouterCallback();
-        Request request = new Request();
         request.setRequestLine("GET /patch-content.txt HTTP/1.1");
         request.setDirectoryPath(DEFAULT_PATH);
-        Response response = new Response("HTTP/1.1");
 
         callback.run(request, response);
 
@@ -28,11 +37,8 @@ public class FileContentRouterCallbackTest {
 
     @Test
     public void runWithGetRequestToValidImageFileReturns404() throws IOException {
-        RouterCallback callback = new FileContentRouterCallback();
-        Request request = new Request();
         request.setRequestLine("GET /image.gif HTTP/1.1");
         request.setDirectoryPath(DEFAULT_PATH);
-        Response response = new Response("HTTP/1.1");
 
         callback.run(request, response);
 
@@ -41,11 +47,8 @@ public class FileContentRouterCallbackTest {
 
     @Test
     public void runWithGetRequestToNonexistentResourceAndValidTextFileReturns404() throws IOException {
-        RouterCallback callback = new FileContentRouterCallback();
-        Request request = new Request();
         request.setRequestLine("GET /lala.txt HTTP/1.1");
         request.setDirectoryPath(DEFAULT_PATH);
-        Response response = new Response("HTTP/1.1");
 
         callback.run(request, response);
 
@@ -54,11 +57,8 @@ public class FileContentRouterCallbackTest {
 
     @Test
     public void runWithGetRequestToNonexistentResourceAndInvalidTextFileReturns404() throws IOException {
-        RouterCallback callback = new FileContentRouterCallback();
-        Request request = new Request();
         request.setRequestLine("GET /image.pdf HTTP/1.1");
         request.setDirectoryPath(DEFAULT_PATH);
-        Response response = new Response("HTTP/1.1");
 
         callback.run(request, response);
 
@@ -67,13 +67,10 @@ public class FileContentRouterCallbackTest {
 
     @Test
     public void runWithGetRequestToExistingResourceAndInvalidTextFileReturns415() throws IOException {
-        RouterCallback callback = new FileContentRouterCallback();
-        Request request = new Request();
         File file = new File(System.getProperty("user.home") + "/Development/cob_spec/public/exist.pdf");
-        Boolean wut = file.createNewFile();
+        file.createNewFile();
         request.setRequestLine("GET /exist.pdf HTTP/1.1");
         request.setDirectoryPath(DEFAULT_PATH);
-        Response response = new Response("HTTP/1.1");
 
         callback.run(request, response);
 
@@ -85,12 +82,9 @@ public class FileContentRouterCallbackTest {
 
     @Test
     public void RunWithGetRequestForPartialContentReturns206() throws IOException {
-        RouterCallback callback = new FileContentRouterCallback();
-        Request request = new Request();
         request.setHeader("Range: bytes=0-4");
         request.setRequestLine("GET /text-file.txt HTTP/1.1");
         request.setDirectoryPath(DEFAULT_PATH);
-        Response response = new Response("HTTP/1.1");
 
         callback.run(request, response);
 

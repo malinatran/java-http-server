@@ -3,16 +3,21 @@ package com.malinatran.response;
 import com.malinatran.constants.Header;
 import com.malinatran.constants.Status;
 import com.malinatran.request.RequestLogger;
-import org.junit.Test;
 
+import org.junit.Before;
+import org.junit.Test;
 import java.util.HashMap;
 import java.util.Map;
-
 import static org.junit.Assert.*;
 
 public class ResponseTest {
 
-    Response response = new Response("HTTP/1.1");
+    private Response response;
+
+    @Before
+    public void setup() {
+        response = new Response("HTTP/1.1");
+    }
 
     @Test
     public void redirectToReturns302WithLocationHeader() {

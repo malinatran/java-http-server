@@ -1,23 +1,38 @@
 package com.malinatran.resource;
 
-import com.malinatran.resource.Image;
+import com.malinatran.setup.ServerSettings;
+import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class ImageTest {
 
-    Image image = new Image();
+    private String DEFAULT_DIRECTORY = ServerSettings.HOME + ServerSettings.DEFAULT_PATH;
+    private Image image;
+    private String result;
+
+    @Before
+    public void setUp() {
+        image = new Image();
+    }
+
+    @Test
+    public void extractBytesReturnsByteArray() {
+        byte[] result = image.extractBytes(DEFAULT_DIRECTORY, "/image.gif");
+
+        assertEquals(81892, result.length);
+    }
 
     @Test
     public void getImageTypeReturnsImageFileExtension() {
-        String result = image.getImageType("test.png");
+        result = image.getImageType("test.png");
 
         assertEquals("png", result);
     }
 
     @Test
     public void getImageTypeReturnsFileNameIfNoExtension() {
-        String result = image.getImageType("lala");
+        result = image.getImageType("lala");
 
         assertEquals("lala", result);
     }

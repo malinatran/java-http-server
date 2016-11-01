@@ -2,13 +2,13 @@ package com.malinatran;
 
 import com.malinatran.reader.RequestReader;
 import com.malinatran.request.RequestLogger;
+import com.malinatran.router.Router;
+import com.malinatran.router.Routes;
 import com.malinatran.setup.ClientHandler;
 import com.malinatran.setup.CommandLineArgsParser;
 import com.malinatran.setup.ErrorHandler;
 import com.malinatran.setup.ServerSettings;
 import com.malinatran.writer.ResponseWriter;
-import com.malinatran.router.Router;
-import com.malinatran.router.Routes;
 
 import java.io.IOException;
 import java.net.ServerSocket;

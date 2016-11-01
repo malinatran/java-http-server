@@ -1,27 +1,35 @@
 package com.malinatran.setup;
 
 import com.malinatran.mocks.MockServerSettings;
+
+import org.junit.Before;
 import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class ServerSettingsTest {
 
-    String TARGET_DIRECTORY = "/Development/cob_spec/public/";
-    String USER_HOME = System.getProperty("user.home");
-    String DEFAULT_DIRECTORY = USER_HOME + TARGET_DIRECTORY;
+    private String HOME_DIRECTORY = ServerSettings.HOME;
+    private String TARGET_DIRECTORY = ServerSettings.DEFAULT_PATH;
+    private String DEFAULT_DIRECTORY = HOME_DIRECTORY + TARGET_DIRECTORY;
+    private Map<String, String> map;
+    private int port = 5050;
+
+    @Before
+    public void setUp() {
+        map = new HashMap<String, String>();
+    }
 
     @Test
     public void constructorSetsPortAndDirectoryWithNewValues() {
-        Map<String, String> map = new HashMap<String, String>();
-        int port = 5050;
-        String directory = TARGET_DIRECTORY;
         map.put("-p", String.valueOf(port));
-        map.put("-d", directory);
+        map.put("-d", TARGET_DIRECTORY);
 
         ServerSettings settings = new ServerSettings(map);
 
@@ -31,7 +39,6 @@ public class ServerSettingsTest {
 
     @Test
     public void getPortReturnsDefaultPortIfThereIsNoCustomPort() {
-        Map<String, String> map = new HashMap<String, String>();
         ServerSettings settings = new ServerSettings(map);
 
         int result = settings.getPort();
@@ -41,8 +48,6 @@ public class ServerSettingsTest {
 
     @Test
     public void getPortReturnsCustomPort() {
-        Map<String, String> map = new HashMap<String, String>();
-        int port = 5050;
         map.put("-p", String.valueOf(port));
         ServerSettings settings = new ServerSettings(map);
 
@@ -53,7 +58,6 @@ public class ServerSettingsTest {
 
     @Test
     public void getPortPrintsErrorMessageAndTerminates() {
-        Map<String, String> map = new HashMap<String, String>();
         String port = "invalidPort";
         map.put("-p", port);
         MockServerSettings settings = new MockServerSettings(map);
@@ -64,7 +68,6 @@ public class ServerSettingsTest {
 
     @Test
     public void getDirectoryReturnsDefaultDirectoryIfThereIsNoCustomDirectory() {
-        Map<String, String> map = new HashMap<String, String>();
         ServerSettings settings = new ServerSettings(map);
 
         String result = settings.getDirectory();
@@ -74,22 +77,20 @@ public class ServerSettingsTest {
 
     @Test
     public void getDirectoryReturnsCustomDirectory() throws IOException {
-        Map<String, String> map = new HashMap<String, String>();
         String directory = "/Documents/directory/";
         map.put("-d", directory);
-        File file = new File(USER_HOME + directory);
+        File file = new File(HOME_DIRECTORY + directory);
         file.mkdir();
         ServerSettings settings = new ServerSettings(map);
 
         String result = settings.getDirectory();
 
-        assertEquals(USER_HOME + directory, result);
+        assertEquals(HOME_DIRECTORY + directory, result);
         Files.deleteIfExists(file.toPath());
     }
 
     @Test
     public void getDirectoryPrintsErrorMessageAndTerminates() {
-        Map<String, String> map = new HashMap<String, String>();
         String directory = "/Documents/nonexistent-directory";
         map.put("-d", directory);
         MockServerSettings settings = new MockServerSettings(map);

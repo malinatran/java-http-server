@@ -8,7 +8,7 @@ public class ServerSettings {
     public static final String DIRECTORY_FLAG = "-d";
     public static final int DEFAULT_PORT = 5000;
     public static final String DEFAULT_PATH = "/Development/cob_spec/public/";
-    private static final String home = System.getProperty("user.home");
+    public static final String HOME = System.getProperty("user.home");
     private Map<String, String> configuration;
     private final int port;
     private final String path;
@@ -41,8 +41,8 @@ public class ServerSettings {
     }
 
     public String getDirectory() {
-        String validDirectory = home + DEFAULT_PATH;
-        String tempDirectory = home + configuration.get(DIRECTORY_FLAG);
+        String validDirectory = HOME + DEFAULT_PATH;
+        String tempDirectory = HOME + configuration.get(DIRECTORY_FLAG);
 
         if (configuration.containsKey(DIRECTORY_FLAG)) {
             validDirectory = getDirectoryOrErrorMessage(validDirectory, tempDirectory);
