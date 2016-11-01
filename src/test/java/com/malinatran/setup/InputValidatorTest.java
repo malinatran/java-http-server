@@ -3,7 +3,9 @@ package com.malinatran.setup;
 import org.junit.Test;
 
 import java.io.File;
-
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import static org.junit.Assert.*;
 
 public class InputValidatorTest {
@@ -27,31 +29,31 @@ public class InputValidatorTest {
     }
 
     @Test
-    public void addFileSeparatorsAddsSeparatorsIfNone() {
-        String fileName = "test-directory";
+    public void addFileSeparatorsAddsSeparatorsIfNone() throws IOException {
+        String fileName = "Documents/dingbat";
         String directory = System.getProperty("user.home") + "/" + fileName + "/";
         File file = new File(directory);
         file.mkdir();
-        String expected = "/test-directory/";
+        String expected = "/Documents/dingbat/";
 
         String result = validator.addFileSeparators("-d", fileName);
 
         assertEquals(expected, result);
-        file.delete();
+        Files.deleteIfExists(file.toPath());
     }
 
     @Test
-    public void addFileSeparatorsAddsSeparatorToBeginningIfDoesNotHaveOne() {
-        String fileName = "test-directory/";
+    public void addFileSeparatorsAddsSeparatorToBeginningIfDoesNotHaveOne() throws IOException {
+        String fileName = "Documents/test-directory/";
         String directory = System.getProperty("user.home") + "/" + fileName;
         File file = new File(directory);
         file.mkdir();
-        String expected = "/test-directory/";
+        String expected = "/Documents/test-directory/";
 
         String result = validator.addFileSeparators("-d", fileName);
 
         assertEquals(expected, result);
-        file.delete();
+        Files.deleteIfExists(file.toPath());
     }
 
     @Test
@@ -65,7 +67,7 @@ public class InputValidatorTest {
 
     @Test
     public void isValidDirectoryReturnsTrueIfExistingDirectory() {
-        String directory = System.getProperty("user.home") + "/test-directory";
+        String directory = System.getProperty("user.home") + "/some-directory";
         File file = new File(directory);
         file.mkdir();
         Boolean result = validator.isValidDirectory(directory);
