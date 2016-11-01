@@ -3,6 +3,7 @@ package com.malinatran.setup;
 import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 import static org.junit.Assert.*;
@@ -62,7 +63,7 @@ public class ServerSettingsTest {
     @Test
     public void getDirectoryReturnsCustomDirectory() throws IOException {
         Map<String, String> map = new HashMap<String, String>();
-        String directory = "/Documents/test-directory/";
+        String directory = "/Documents/directory/";
         map.put("-d", directory);
         File file = new File(USER_HOME + directory);
         file.mkdir();
@@ -71,6 +72,6 @@ public class ServerSettingsTest {
         String result = config.getDirectory();
 
         assertEquals(USER_HOME + directory, result);
-        file.delete();
+        Files.deleteIfExists(file.toPath());
     }
 }

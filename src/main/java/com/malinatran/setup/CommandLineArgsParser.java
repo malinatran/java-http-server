@@ -15,7 +15,7 @@ public class CommandLineArgsParser {
     public CommandLineArgsParser(String[] args) {
         int size = args.length;
 
-        if (size == 4) {
+        if (size == 4 || size == 0) {
             setConfiguration(args);
         } else if (size == 2) {
             setConfigurationIfFlagsExist(args);
