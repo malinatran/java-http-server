@@ -42,7 +42,7 @@ public class CommandLineArgsParser {
             if (InputValidator.isFlag(currentArg)) {
                 currentKey = currentArg;
             } else if (!currentKey.isEmpty()) {
-                configuration.put(currentKey, InputValidator.addFileSeparators(currentArg));
+                configuration.put(currentKey, InputValidator.addFileSeparators(currentKey, currentArg));
                 currentKey = "";
             }
         }
