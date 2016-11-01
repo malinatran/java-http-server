@@ -9,7 +9,9 @@ import static org.junit.Assert.*;
 
 public class CommandLineArgsParserTest {
 
-    Map<String, String> expected;
+    private Map<String, String> expected;
+    private String port;
+    private String[] args;
 
     @Before
     public void setUp() {
@@ -18,9 +20,10 @@ public class CommandLineArgsParserTest {
 
     @Test
     public void constructorWithFlagsAndArgsReturnsHashMap() {
-        String[] args = {"-p", "9000", "-d", "/somewhere/over/the/rainbow/"};
-        expected.put("-p", "9000");
-        expected.put("-d", "/somewhere/over/the/rainbow/");
+        port = "9000";
+        args = new String[]{ServerSettings.PORT_FLAG, port, ServerSettings.DIRECTORY_FLAG, "/somewhere/over/the/rainbow/"};
+        expected.put(ServerSettings.PORT_FLAG, port);
+        expected.put(ServerSettings.DIRECTORY_FLAG, "/somewhere/over/the/rainbow/");
 
         CommandLineArgsParser result = new CommandLineArgsParser(args);
 
@@ -28,8 +31,9 @@ public class CommandLineArgsParserTest {
     }
     @Test
     public void constructorWithTwoValidArgsReturnsHashMap() {
-        String[] args = {"-p", "5050"};
-        expected.put("-p", "5050");
+        port = "5050";
+        args = new String[]{ServerSettings.PORT_FLAG, port};
+        expected.put(ServerSettings.PORT_FLAG, port);
 
         CommandLineArgsParser result = new CommandLineArgsParser(args);
 
