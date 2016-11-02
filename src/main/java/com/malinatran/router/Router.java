@@ -1,7 +1,9 @@
 package com.malinatran.router;
 
+import com.malinatran.constants.Method;
 import com.malinatran.constants.Status;
 import com.malinatran.request.Request;
+import com.malinatran.resource.Directory;
 import com.malinatran.response.Response;
 import com.malinatran.request.RequestLogger;
 
@@ -24,27 +26,42 @@ public class Router {
         routes.put(method + " " + path, callback);
     }
 
-    public Response getResponse(Request request, RequestLogger requestLogger) throws IOException {
+    public Response getResponse(Request request, RequestLogger logger) throws IOException {
         Response response = new Response(request.getProtocolAndVersion());
+        String method = request.getMethod();
+
         ParameterDecoder decoder = new ParameterDecoder();
         String decoded = decoder.decodeText(request.getPath());
-
-        requestLogger.addRequestLine(request);
         response.setBodyContent(decoded);
-        RouterCallback callback = setCallback(request, response, requestLogger);
+
+        logger.addRequestLine(request);
+
+        if (method.equals(Method.PATCH)) {
+            String eTag = request.getHeaderValue("If-Match");
+            char[] data = request.getBody();
+            logger.addData(eTag, data);
+        }
+
+        RouterCallback callback = setCallback(request, response, logger);
         runCallback(request, response, callback);
 
         return response;
     }
 
-    private RouterCallback setCallback (Request request, Response response, RequestLogger requestLogger) {
-        String route = getRoute(request);
+    private RouterCallback setCallback (Request request, Response response, RequestLogger logger) {
+        String route = request.getRoute();
+        String path = request.getCleanPath();
         String method = request.getMethod();
+        String directoryPath = request.getDirectoryPath();
+
         RouterValidator validator = new RouterValidator();
         RouterCallback callback = null;
 
         if (validator.isValidRouteAndCredentials(request)) {
-            response.setLogsToBody(requestLogger);
+            response.setLogsToBody(logger);
+            callback = null;
+        } else if (isRequestToExistingResource(method, logger, directoryPath, path)) {
+            response.setText(String.valueOf(logger.getData()));
             callback = null;
         } else if (hasRoute(route)) {
             callback = routes.get(route);
@@ -57,13 +74,14 @@ public class Router {
         return callback;
     }
 
+    private Boolean isRequestToExistingResource(String method, RequestLogger logger, String directoryPath, String path) {
+        Directory directory = new Directory();
+        return (method.equals(Method.GET) && logger.hasData() && directory.existsInDirectory(directoryPath, path));
+    }
+
     private void runCallback(Request request, Response response, RouterCallback callback) throws IOException {
         if (callback != null) {
             callback.run(request, response);
         }
-    }
-
-    private String getRoute(Request request) {
-        return request.getMethod() + " " + request.getPath();
     }
 }

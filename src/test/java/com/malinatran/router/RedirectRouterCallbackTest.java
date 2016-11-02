@@ -30,6 +30,7 @@ public class RedirectRouterCallbackTest {
         callback.run(request, response);
 
         assertEquals(Status.FOUND, response.getStatus());
+        assertTrue(response.hasHeader("Location"));
     }
 
     @Test

@@ -40,10 +40,11 @@ public class RequestTest {
     }
 
     @Test
-    public void setBodySetsValueAsString() {
-        request.setBody("my=data");
+    public void setBodySetsValueAsCharArray() {
+        char[] data = new char[5];
+        request.setBody(data);
 
-        assertEquals("my=data", request.getBody());
+        assertEquals(data, request.getBody());
     }
 
     @Test

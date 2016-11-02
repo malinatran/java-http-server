@@ -40,7 +40,7 @@ public class RouterTest {
     @Test
     public void getResponseForGetReturns200() throws IOException {
         request.setRequestLine("GET / HTTP/1.1");
-        request.setBody("my=data");
+        request.setBody(new char[10]);
 
         response = mockRouter.getResponse(request, logger);
 
