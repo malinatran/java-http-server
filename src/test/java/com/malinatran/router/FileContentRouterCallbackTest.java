@@ -22,7 +22,7 @@ public class FileContentRouterCallbackTest {
     public void setUp() {
         callback = new FileContentRouterCallback();
         request = new Request();
-        response = new Response("HTTP 1/.1");
+        response = new Response("HTTP/1.1");
     }
 
     @Test
@@ -67,7 +67,7 @@ public class FileContentRouterCallbackTest {
 
     @Test
     public void runWithGetRequestToExistingResourceAndInvalidTextFileReturns415() throws IOException {
-        File file = new File(System.getProperty("user.home") + "/Development/cob_spec/public/exist.pdf");
+        File file = new File(DEFAULT_PATH + "exist.pdf");
         file.createNewFile();
         request.setRequestLine("GET /exist.pdf HTTP/1.1");
         request.setDirectoryPath(DEFAULT_PATH);

@@ -18,9 +18,9 @@ public class ImageTest {
 
     @Test
     public void extractBytesReturnsByteArray() {
-        byte[] result = image.extractBytes(DEFAULT_DIRECTORY, "/image.gif");
+        byte[] result = image.extractBytes(DEFAULT_DIRECTORY + "/image.gif");
 
-        assertEquals(81892, result.length);
+        assertEquals(7169, result.length);
     }
 
     @Test

@@ -21,6 +21,7 @@ public class Routes {
         router.addRoute(GET, "/logs", new LogsRouterCallback());
         router.addRoute(GET, "/coffee", new EasterEggRouterCallback());
         router.addRoute(GET, "/tea", new EasterEggRouterCallback());
+        router.addRoute(PATCH, "*", new PartialUpdateRouterCallback());
     }
 }
 

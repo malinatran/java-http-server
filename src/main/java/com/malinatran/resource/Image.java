@@ -6,11 +6,11 @@ import java.nio.file.Paths;
 
 public class Image {
 
-    public byte[] extractBytes(String directoryPath, String fileName) {
+    public byte[] extractBytes(String fileName) {
         byte[] imageBytes = new byte[0];
 
         try {
-            imageBytes = Files.readAllBytes(Paths.get(directoryPath + fileName));
+            imageBytes = Files.readAllBytes(Paths.get(fileName));
         } catch (IOException e) {
             e.printStackTrace();
         }

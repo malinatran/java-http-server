@@ -7,14 +7,14 @@ import java.util.Map;
 
 public class TextFile {
 
-    private final String START = "Start";
-    private final String END = "End";
+    public static final String START = "Start";
+    public static final String END = "End";
 
-    public String readTextFile(String directoryPath, String fileName) throws IOException {
+    public String readTextFile(String filePath) throws IOException {
         String content = "";
         String line;
 
-        FileReader fileReader = new FileReader(directoryPath + fileName);
+        FileReader fileReader = new FileReader(filePath);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
 
         while ((line = bufferedReader.readLine()) != null) {
@@ -24,10 +24,10 @@ public class TextFile {
         return content;
     }
 
-    public String readPartialTextFile(String directoryPath, String fileName, Map<String, Integer> range) throws IOException {
-        int count = getCharacterCount(directoryPath, fileName);
-        int[] contentRange = setContentRange(range, count);
-        String content = readTextFile(directoryPath, fileName);
+    public String readPartialTextFile(String filePath, Map<String, Integer> ranges) throws IOException {
+        int count = getCharacterCount(filePath);
+        int[] contentRange = setContentRange(ranges, count);
+        String content = readTextFile(filePath);
 
         int start = contentRange[0];
         int end = Math.min(contentRange[1] + 1, count);
@@ -35,8 +35,8 @@ public class TextFile {
         return content.substring(start, end) + addEOFCharacter(end, count);
     }
 
-    private int getCharacterCount(String directoryPath, String fileName) throws IOException {
-        String content = readTextFile(directoryPath, fileName);
+    private int getCharacterCount(String filePath) throws IOException {
+        String content = readTextFile(filePath);
 
         return content.length();
     }

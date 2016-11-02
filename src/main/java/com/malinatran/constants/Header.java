@@ -9,4 +9,6 @@ public class Header {
     public static final String HOST = "Host";
     public static final String LOCATION = "Location";
     public static final String RANGE = "Range";
+    public static final String TEXT_PLAIN = "text/plain";
+    public static final String IMAGE = "image/";
 }
