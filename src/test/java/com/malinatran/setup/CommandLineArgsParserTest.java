@@ -1,6 +1,6 @@
 package com.malinatran.setup;
 
-import com.malinatran.setup.CommandLineArgsParser;
+import org.junit.Before;
 import org.junit.Test;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,33 +9,31 @@ import static org.junit.Assert.*;
 
 public class CommandLineArgsParserTest {
 
+    private Map<String, String> expected;
+    private String port;
+    private String[] args;
+
+    @Before
+    public void setUp() {
+        expected = new HashMap<String, String>();
+    }
+
     @Test
-    public void constructorWithFlagsReturnsHashMap() {
-        String[] args = {"-p", "9000", "-d", "/somewhere/over/the/rainbow/"};
-        Map<String, String> expected = new HashMap<String, String>();
-        expected.put("-p", "9000");
-        expected.put("-d", "/somewhere/over/the/rainbow/");
+    public void constructorWithFlagsAndArgsReturnsHashMap() {
+        port = "9000";
+        args = new String[]{ServerSettings.PORT_FLAG, port, ServerSettings.DIRECTORY_FLAG, "/somewhere/over/the/rainbow/"};
+        expected.put(ServerSettings.PORT_FLAG, port);
+        expected.put(ServerSettings.DIRECTORY_FLAG, "/somewhere/over/the/rainbow/");
 
         CommandLineArgsParser result = new CommandLineArgsParser(args);
 
         assertEquals(expected, result.getConfiguration());
     }
-
     @Test
-    public void constructorWithoutFlagsReturnsEmptyHashMap() {
-        String[] args = {"5000", "skies/are/blue"};
-        Map<String, String> expected = new HashMap<String, String>();
-
-        CommandLineArgsParser result = new CommandLineArgsParser(args);
-
-        assertEquals(expected, result.getConfiguration());
-    }
-
-    @Test
-    public void constructorWithNoEntryForDirectoryReturnsOnlyPort() {
-        String[] args = {"-p", "9050", "-d"};
-        Map<String, String> expected = new HashMap<String, String>();
-        expected.put("-p", "9050");
+    public void constructorWithTwoValidArgsReturnsHashMap() {
+        port = "5050";
+        args = new String[]{ServerSettings.PORT_FLAG, port};
+        expected.put(ServerSettings.PORT_FLAG, port);
 
         CommandLineArgsParser result = new CommandLineArgsParser(args);
 

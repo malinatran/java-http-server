@@ -6,16 +6,16 @@ import java.nio.file.Paths;
 
 public class Image {
 
-    public byte[] extractBytes(String fullPath, String fileName) {
-        byte[] byteArray = new byte[0];
+    public byte[] extractBytes(String directoryPath, String fileName) {
+        byte[] imageBytes = new byte[0];
 
         try {
-            byteArray = Files.readAllBytes(Paths.get(fullPath + fileName));
+            imageBytes = Files.readAllBytes(Paths.get(directoryPath + fileName));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return byteArray;
+        return imageBytes;
     }
 
     public String getImageType(String fileName) {

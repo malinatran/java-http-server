@@ -23,10 +23,6 @@ public class Request {
         this.directoryPath = directoryPath;
     }
 
-    public String getDirectoryPath() {
-        return directoryPath;
-    }
-
     public void setHeader(String header) {
         String[] keyAndValue = header.split(": ");
         String key = keyAndValue[0];
@@ -104,4 +100,8 @@ public class Request {
 
     public String getBody() {
         return body; }
+
+    public String getDirectoryPath() {
+        return directoryPath;
+    }
 }

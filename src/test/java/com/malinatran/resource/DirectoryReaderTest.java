@@ -1,73 +1,82 @@
 package com.malinatran.resource;
 
+import com.malinatran.setup.ServerSettings;
+
+import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class DirectoryReaderTest {
 
-    DirectoryReader directoryReader = new DirectoryReader();
-    String DEFAULT_PATH = System.getProperty("user.home") + "/Development/cob_spec/public/";
+    private DirectoryReader directoryReader;
+    private String DEFAULT_DIRECTORY = ServerSettings.HOME + ServerSettings.DEFAULT_PATH;
+    private Boolean result;
+
+    @Before
+    public void setUp() {
+       directoryReader = new DirectoryReader();
+    }
 
     @Test
     public void getLinksWithExistingDirectoryReturnsLinks() {
-        String link = directoryReader.getLinks(DEFAULT_PATH);
+        String link = directoryReader.getLinks(DEFAULT_DIRECTORY);
 
         assertTrue(link.contains("<a style=\"display: block\" href=\"/image.png\">image.png</a>"));
     }
 
     @Test
     public void existsInDirectoryReturnsTrueIfItExistsInDirectory() {
-        Boolean result = directoryReader.existsInDirectory(DEFAULT_PATH, "file1");
+        result = directoryReader.existsInDirectory(DEFAULT_DIRECTORY, "file1");
 
         assertTrue(result);
     }
 
     @Test
     public void existsInDirectoryReturnsFalseIfItDoesNotExistInDirectory() {
-        Boolean result = directoryReader.existsInDirectory(DEFAULT_PATH, "image.pdf");
+        result = directoryReader.existsInDirectory(DEFAULT_DIRECTORY, "image.pdf");
 
         assertFalse(result);
     }
 
     @Test
     public void existsInDirectoryReturnsFalseIfNotDirectory() {
-        Boolean result = directoryReader.existsInDirectory(DEFAULT_PATH + "text-file.txt", "file1");
+        result = directoryReader.existsInDirectory(DEFAULT_DIRECTORY + "text-file.txt", "file1");
 
         assertFalse(result);
     }
 
     @Test
     public void isTextFileReturnsTrueIfFileWithNoExtension() {
-        Boolean result = directoryReader.isTextFile("testing");
+        result = directoryReader.isTextFile("testing");
 
         assertTrue(result);
     }
 
     @Test
     public void isTextFileReturnsTrueIfFileWithTxtExtension() {
-        Boolean result = directoryReader.isTextFile("lala.txt");
+        result = directoryReader.isTextFile("lala.txt");
 
         assertTrue(result);
     }
 
     @Test
     public void isTextFileReturnsFalseIfNotTextFile() {
-        Boolean result = directoryReader.isTextFile("lala.pdf");
+        result = directoryReader.isTextFile("lala.pdf");
 
         assertFalse(result);
     }
 
     @Test
     public void isImageFileReturnsTrueIfFileWithValidExtension() {
-        Boolean result = directoryReader.isImageFile("la.gif");
+        result = directoryReader.isImageFile("la.gif");
 
         assertTrue(result);
     }
 
     @Test
     public void isImageFileReturnsFalseIfFileWithInvalidExtension() {
-        Boolean result = directoryReader.isImageFile("testing.txt");
+        result = directoryReader.isImageFile("testing.txt");
 
         assertFalse(result);
     }
