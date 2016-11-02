@@ -1,5 +1,6 @@
 package com.malinatran.setup;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,14 +11,17 @@ public class CommandLineArgsParser {
     public CommandLineArgsParser(String[] args) {
         int size = args.length;
         this.configuration = new HashMap<String, String>();
+        String currentKey = "";
 
         for (int i = 0; i < size; i++) {
-            String current = args[i];
+            String currentCharacter = args[i];
 
-            if (isInteger(current)) {
-                configuration.put("Port", current);
-            } else if (isNotAFlag(current)) {
-                configuration.put("Directory", addFileSeparators(current));
+            if (currentCharacter == "-p" || currentCharacter == "-d") {
+                currentKey = currentCharacter;
+            } else {
+                if (!currentKey.isEmpty()) {
+                    configuration.put(currentKey, currentCharacter);
+                }
             }
         }
     }
@@ -26,12 +30,22 @@ public class CommandLineArgsParser {
         return configuration;
     }
 
+    public Boolean isValid() {
+        return isInteger(configuration.get("-p")) && isNotAFlag(configuration.values());
+    }
+
     private Boolean isInteger(String element) {
         return element.matches("^-?\\d+$");
     }
 
-    private Boolean isNotAFlag(String element) {
-        return (!element.contains("-d") && !element.contains("-p"));
+    private Boolean isNotAFlag(Collection<String> elements) {
+        for (String element : elements) {
+            if (element.startsWith("-p") || element.startsWith("-d")) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private String addFileSeparators(String element) {

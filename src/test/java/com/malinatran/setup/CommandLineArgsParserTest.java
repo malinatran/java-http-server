@@ -10,11 +10,11 @@ import static org.junit.Assert.*;
 public class CommandLineArgsParserTest {
 
     @Test
-    public void constructorWithFourArgsReturnsHashMap() {
+    public void constructorWithFlagsReturnsHashMap() {
         String[] args = {"-p", "9000", "-d", "/somewhere/over/the/rainbow/"};
         Map<String, String> expected = new HashMap<String, String>();
-        expected.put("Port", "9000");
-        expected.put("Directory", "/somewhere/over/the/rainbow/");
+        expected.put("-p", "9000");
+        expected.put("-d", "/somewhere/over/the/rainbow/");
 
         CommandLineArgsParser result = new CommandLineArgsParser(args);
 
@@ -22,11 +22,9 @@ public class CommandLineArgsParserTest {
     }
 
     @Test
-    public void constructorWithoutReturnsHashMap() {
+    public void constructorWithoutFlagsReturnsEmptyHashMap() {
         String[] args = {"5000", "skies/are/blue"};
         Map<String, String> expected = new HashMap<String, String>();
-        expected.put("Port", "5000");
-        expected.put("Directory", "/skies/are/blue/");
 
         CommandLineArgsParser result = new CommandLineArgsParser(args);
 
@@ -34,10 +32,10 @@ public class CommandLineArgsParserTest {
     }
 
     @Test
-    public void constructorWithVariableNumberOfArgsReturnsHashMap() {
-        String[] args = {"-p", "/directory", "-d"};
+    public void constructorWithNoEntryForDirectoryReturnsOnlyPort() {
+        String[] args = {"-p", "9050", "-d"};
         Map<String, String> expected = new HashMap<String, String>();
-        expected.put("Directory", "/directory/");
+        expected.put("-p", "9050");
 
         CommandLineArgsParser result = new CommandLineArgsParser(args);
 
