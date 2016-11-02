@@ -23,11 +23,6 @@ public class Response {
         this.headers = new HashMap<String, String>();
     }
 
-    public void redirectTo(String url) {
-        setStatus(Status.FOUND);
-        setHeader(Header.LOCATION, url);
-    }
-
     public void setLogsToBody(RequestLogger requestLogger) {
         setStatus(Status.OK);
         setBodyContent(requestLogger.getLoggedRequests());

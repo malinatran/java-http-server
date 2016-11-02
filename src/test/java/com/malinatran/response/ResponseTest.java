@@ -20,14 +20,6 @@ public class ResponseTest {
     }
 
     @Test
-    public void redirectToReturns302WithLocationHeader() {
-        response.redirectTo("malinatran.com");
-
-        assertEquals(Status.FOUND, response.getStatus());
-        assertTrue(response.hasHeader(Header.LOCATION));
-    }
-
-    @Test
     public void setLogsToBodyReturns200AndGetsAllLoggedRequests() {
         RequestLogger requestLogger = new RequestLogger();
 

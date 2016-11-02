@@ -5,9 +5,11 @@ import java.util.ArrayList;
 public class RequestLogger {
 
     private ArrayList<String> loggedRequestLines;
+    private char[] data;
 
     public RequestLogger() {
         loggedRequestLines = new ArrayList<String>();
+        data = new char[0];
     }
 
     public void addRequestLine(Request request) {
@@ -23,5 +25,19 @@ public class RequestLogger {
         }
 
         return requestLines;
+    }
+
+    public void addData(String eTag, char[] data) {
+        if (!eTag.isEmpty()) {
+            this.data = data;
+        }
+    }
+
+    public char[] getData() {
+        return data;
+    }
+
+    public Boolean hasData() {
+        return (getData().length > 0);
     }
 }

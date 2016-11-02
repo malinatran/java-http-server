@@ -8,7 +8,7 @@ import com.malinatran.response.Response;
 public class CreateOrUpdateRouterCallback implements RouterCallback {
 
     public void run(Request request, Response response) {
-        String body = request.getBody();
+        char[] body = request.getBody();
         String directoryPath = request.getDirectoryPath();
         String fileName = request.getPath().replace("/", "");
         Directory reader = new Directory();

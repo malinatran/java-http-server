@@ -14,9 +14,7 @@ public class LogsRouterCallback implements RouterCallback {
         String credentials = request.getHeaderValue(AUTHORIZATION);
         RouterValidator validator = new RouterValidator();
 
-        if (validator.isValidCredentials(credentials)) {
-            response.setStatus(Status.OK);
-        } else if (credentials == null || !validator.isValidCredentials(credentials)) {
+        if (credentials == null || !validator.isValidCredentials(credentials)) {
             response.setStatus(Status.UNAUTHORIZED);
             response.setHeader(WWW_AUTHENTICATE, MESSAGE);
         }

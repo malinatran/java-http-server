@@ -1,6 +1,7 @@
 package com.malinatran.router;
 
 import com.malinatran.constants.FileType;
+import com.malinatran.constants.Method;
 import com.malinatran.constants.Status;
 import com.malinatran.request.Request;
 import com.malinatran.resource.Directory;
@@ -16,13 +17,19 @@ public class FileContentRouterCallback implements RouterCallback {
     Image image = new Image();
 
     public void run(Request request, Response response) throws IOException {
-        String fileName = request.getPath().replace("/", "").trim();
+        String method = request.getMethod();
+        String fileName = request.getCleanPath();
         String directoryPath = request.getDirectoryPath();
+        String filePath = request.getFilePath();
         Map<String, Integer> ranges = request.getRangeValues();
         Boolean exists = directory.existsInDirectory(directoryPath, fileName);
 
         if (exists) {
-            readFile(directoryPath + fileName, ranges, response);
+            if (method.equals(Method.PATCH)) {
+                response.setStatus(Status.NO_CONTENT);
+            } else {
+                readFile(filePath, ranges, response);
+            }
         } else {
             response.setStatus(Status.NOT_FOUND);
         }

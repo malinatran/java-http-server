@@ -28,7 +28,7 @@ public class CreateOrUpdateRouterCallbackTest {
     public void runWithBodyReturns200() throws IOException {
         request.setRequestLine("POST / HTTP/1.1");
         request.setDirectoryPath(DEFAULT_DIRECTORY);
-        request.setBody("Testing");
+        request.setBody(new char[4]);
 
         callback.run(request, response);
 
@@ -49,7 +49,7 @@ public class CreateOrUpdateRouterCallbackTest {
     public void runWithExistingResourceReturns405() throws IOException {
         request.setRequestLine("POST /text-file.txt HTTP/1.1");
         request.setDirectoryPath(DEFAULT_DIRECTORY);
-        request.setBody("Testing");
+        request.setBody(new char[5]);
 
         callback.run(request, response);
 

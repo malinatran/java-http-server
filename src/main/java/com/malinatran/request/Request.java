@@ -11,7 +11,7 @@ public class Request {
     private String method;
     private String path;
     private String protocolAndVersion;
-    private String body;
+    private char[] body;
     private String directoryPath;
     private Map<String, Integer> ranges;
 
@@ -30,7 +30,7 @@ public class Request {
         headers.put(key, value);
     }
 
-    public void setBody(String body) {
+    public void setBody(char[] body) {
         this.body = body;
     }
 
@@ -94,14 +94,27 @@ public class Request {
         return path;
     }
 
+    public String getCleanPath() {
+        return getPath().replace("/", "").trim();
+    }
+
+    public String getRoute() {
+        return method + " " + path;
+    }
+
     public String getProtocolAndVersion() {
         return protocolAndVersion;
     }
 
-    public String getBody() {
+    public char[] getBody() {
         return body; }
 
     public String getDirectoryPath() {
         return directoryPath;
+    }
+
+    public String getFilePath() {
+        return getDirectoryPath() + getCleanPath();
+
     }
 }

@@ -41,7 +41,9 @@ public class RequestListener {
             int contentLength = Integer.parseInt(request.getHeaderValue(Header.CONTENT_LENGTH));
             char[] body = new char[contentLength];
             in.read(body, 0, contentLength);
-            request.setBody(body.toString());
+//            request.setBody(body.toString());
+            request.setBody(body);
+
         }
     }
 }
