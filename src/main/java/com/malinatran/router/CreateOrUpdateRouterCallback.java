@@ -2,7 +2,7 @@ package com.malinatran.router;
 
 import com.malinatran.constants.Status;
 import com.malinatran.request.Request;
-import com.malinatran.resource.DirectoryReader;
+import com.malinatran.resource.Directory;
 import com.malinatran.response.Response;
 
 public class CreateOrUpdateRouterCallback implements RouterCallback {
@@ -11,7 +11,7 @@ public class CreateOrUpdateRouterCallback implements RouterCallback {
         String body = request.getBody();
         String directoryPath = request.getDirectoryPath();
         String fileName = request.getPath().replace("/", "");
-        DirectoryReader reader = new DirectoryReader();
+        Directory reader = new Directory();
 
         if (reader.existsInDirectory(directoryPath, fileName)) {
             response.setStatus(Status.METHOD_NOT_ALLOWED);

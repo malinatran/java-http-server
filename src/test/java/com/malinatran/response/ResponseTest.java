@@ -48,11 +48,11 @@ public class ResponseTest {
     }
 
     @Test
-     public void setPartialTextReturns206AndSetsContentRangeAsHeader() {
+     public void setTextReturns206AndSetsContentRangeAsHeader() {
         String text = "Just a text";
         Map<String, Integer> map = new HashMap<String, Integer>();
 
-        response.setPartialText(text, map);
+        response.setText(text, map);
 
         assertEquals(Status.PARTIAL_CONTENT, response.getStatus());
         assertTrue(response.hasHeader(Header.CONTENT_RANGE));

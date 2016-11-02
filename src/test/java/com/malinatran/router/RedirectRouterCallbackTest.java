@@ -19,7 +19,7 @@ public class RedirectRouterCallbackTest {
     public void setUp() {
         callback = new RedirectRouterCallback();
         request = new Request();
-        response = new Response("HTTP 1/.1");
+        response = new Response("HTTP/1.1");
     }
 
     @Test

@@ -2,6 +2,8 @@ package com.malinatran.request;
 
 import com.malinatran.constants.Header;
 import com.malinatran.constants.Method;
+import static com.malinatran.resource.TextFile.START;
+import static com.malinatran.resource.TextFile.END;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -11,8 +13,6 @@ import static org.junit.Assert.*;
 
 public class RequestTest {
 
-    private String START = "Start";
-    private String END = "End";
     private Request request;
     private Map<String, Integer> expected;
 

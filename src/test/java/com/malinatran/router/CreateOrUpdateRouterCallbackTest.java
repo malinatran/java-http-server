@@ -21,7 +21,7 @@ public class CreateOrUpdateRouterCallbackTest {
     public void setUp() {
         callback = new CreateOrUpdateRouterCallback();
         request = new Request();
-        response = new Response("HTTP 1/.1");
+        response = new Response("HTTP/1.1");
     }
 
     @Test
