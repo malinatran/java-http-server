@@ -13,29 +13,37 @@ import java.util.Map;
 
 public class FileContentRouterCallback implements RouterCallback {
 
-    Directory directory = new Directory();
-    Image image = new Image();
+    private Directory directory = new Directory();
+    private Image image = new Image();
+    private Response response;
+    private Request request;
 
     public void run(Request request, Response response) throws IOException {
-        String method = request.getMethod();
-        String fileName = request.getCleanPath();
-        String directoryPath = request.getDirectoryPath();
+        this.request = request;
+        this.response = response;
         String filePath = request.getFilePath();
-        Map<String, Integer> ranges = request.getRangeValues();
-        Boolean exists = directory.existsInDirectory(directoryPath, fileName);
+        boolean exists = directory.existsInDirectory(filePath);
 
         if (exists) {
-            if (method.equals(Method.PATCH)) {
-                response.setStatus(Status.NO_CONTENT);
-            } else {
-                readFile(filePath, ranges, response);
-            }
+            setResponse();
         } else {
             response.setStatus(Status.NOT_FOUND);
         }
     }
 
-    private void readFile(String filePath, Map<String, Integer> ranges, Response response) throws IOException {
+    private void setResponse() throws IOException {
+        String method = request.getMethod();
+
+        if (method.equals(Method.PATCH)) {
+            response.setStatus(Status.NO_CONTENT);
+        } else {
+            readFile();
+        }
+    }
+
+    private void readFile() throws IOException {
+        String filePath = request.getFilePath();
+        Map<String, Integer> ranges = request.getRangeValues();
         FileType type = directory.getFileType(filePath, ranges);
 
         switch (type) {

@@ -48,7 +48,7 @@ public class Response {
         setBodyContent(image);
     }
 
-    public Boolean hasHeader(String key) {
+    public boolean hasHeader(String key) {
         return headers.containsKey(key);
     }
 

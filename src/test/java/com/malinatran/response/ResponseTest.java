@@ -65,14 +65,14 @@ public class ResponseTest {
     public void hasHeaderReturnsTrueIfHeaderExists() {
        response.setHeader(Header.CONTENT_TYPE, "text/plain");
 
-        Boolean result = response.hasHeader(Header.CONTENT_TYPE);
+        boolean result = response.hasHeader(Header.CONTENT_TYPE);
 
         assertTrue(result);
     }
 
     @Test
     public void hasHeaderReturnsFalseIfHeaderDoesNotExist() {
-        Boolean result = response.hasHeader(Header.CONTENT_LENGTH);
+        boolean result = response.hasHeader(Header.CONTENT_LENGTH);
 
         assertFalse(result);
     }

@@ -5,7 +5,6 @@ import com.malinatran.setup.ServerSettings;
 
 import org.junit.Before;
 import org.junit.Test;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +16,7 @@ public class DirectoryTest {
     private Directory directory;
     private String DEFAULT_DIRECTORY = ServerSettings.HOME + ServerSettings.DEFAULT_PATH;
     private Map<String, Integer> map;
-    private Boolean result;
+    private boolean result;
     private FileType type;
 
     @Before
@@ -35,21 +34,21 @@ public class DirectoryTest {
 
     @Test
     public void existsInDirectoryReturnsTrueIfItExistsInDirectory() {
-        result = directory.existsInDirectory(DEFAULT_DIRECTORY, "file1");
+        result = directory.existsInDirectory(DEFAULT_DIRECTORY + "file1");
 
         assertTrue(result);
     }
 
     @Test
     public void existsInDirectoryReturnsFalseIfItDoesNotExistInDirectory() {
-        result = directory.existsInDirectory(DEFAULT_DIRECTORY, "image.pdf");
+        result = directory.existsInDirectory(DEFAULT_DIRECTORY + "image.pdf");
 
         assertFalse(result);
     }
 
     @Test
     public void existsInDirectoryReturnsFalseIfNotDirectory() {
-        result = directory.existsInDirectory(DEFAULT_DIRECTORY + "text-file.txt", "file1");
+        result = directory.existsInDirectory(DEFAULT_DIRECTORY);
 
         assertFalse(result);
     }
@@ -63,8 +62,8 @@ public class DirectoryTest {
 
     @Test
     public void getFileTypeReturnsPartialText() {
-        map.put("Start", 4);
-        map.put("End", 6);
+        map.put(TextFile.START, 4);
+        map.put(TextFile.END, 6);
         type = directory.getFileType("lala.txt", map);
 
         assertEquals(FileType.PARTIAL_TEXT, type);
@@ -87,7 +86,7 @@ public class DirectoryTest {
 
     @Test
     public void getBytesReturnsBytesFromImageFile() throws IOException {
-        byte[] result = directory.getBytes(DEFAULT_DIRECTORY + "/image.gif");
+        byte[] result = directory.getBytes(DEFAULT_DIRECTORY + "image.gif");
 
         assertEquals(7169, result.length);
     }

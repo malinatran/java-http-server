@@ -8,9 +8,9 @@ import java.util.Map;
 
 public class Directory {
 
-    private static final String[] FILE_EXTENSIONS = { ".gif", ".jpeg", ".png" };
-    private static Image image = new Image();
-    private static TextFile textFile = new TextFile();
+    private final String[] FILE_EXTENSIONS = { ".gif", ".jpeg", ".png" };
+    private Image image = new Image();
+    private TextFile textFile = new TextFile();
 
     public String getLinks(String directoryPath) {
         File directory = new File(directoryPath);
@@ -23,13 +23,13 @@ public class Directory {
         return message;
     }
 
-    public Boolean existsInDirectory(String directoryPath, String fileName) {
-        File directory = new File(directoryPath);
+    public boolean existsInDirectory(String directoryPath) {
+        File directory = new File(getDirectoryPath(directoryPath));
         String[] files;
 
         if (directory.isDirectory()) {
             files = directory.list();
-            return hasFileName(files, fileName);
+            return hasFileName(files, getFileName(directoryPath));
         } else {
             return false;
         }
@@ -58,11 +58,11 @@ public class Directory {
         return image.extractBytes(filePath);
     }
 
-    private Boolean isTextFile(String fileName) {
+    private boolean isTextFile(String fileName) {
         return isFileWithoutExtension(fileName) || isFileWithTxtExtension(fileName);
     }
 
-    private Boolean isImageFile(String fileName) {
+    private boolean isImageFile(String fileName) {
         for (String extension : FILE_EXTENSIONS) {
             if (fileName.endsWith(extension)) {
                 return true;
@@ -72,11 +72,11 @@ public class Directory {
         return false;
     }
 
-    private Boolean isFileWithoutExtension(String fileName) {
+    private boolean isFileWithoutExtension(String fileName) {
         return (fileName.indexOf(".") == -1);
     }
 
-    private Boolean isFileWithTxtExtension(String fileName) {
+    private boolean isFileWithTxtExtension(String fileName) {
         return (fileName.endsWith(".txt"));
     }
 
@@ -90,7 +90,7 @@ public class Directory {
         return links;
     }
 
-    private Boolean hasFileName(String[] files, String fileName) {
+    private boolean hasFileName(String[] files, String fileName) {
         for (String file : files) {
             if (file.equals(fileName)) {
                 return true;
@@ -98,5 +98,18 @@ public class Directory {
         }
 
         return false;
+    }
+
+    private String getFileName(String path) {
+        int delimiter = path.lastIndexOf("/") + 1;
+        int length = path.length();
+
+        return path.substring(delimiter, length);
+    }
+
+    private String getDirectoryPath(String path) {
+        String fileName = getFileName(path);
+
+        return path.replace(fileName, "");
     }
 }

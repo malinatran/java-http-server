@@ -6,7 +6,7 @@ import java.nio.file.Paths;
 
 public class InputValidator {
 
-    public static Boolean isFlag(String arg) {
+    public static boolean isFlag(String arg) {
         return (arg.equals(ServerSettings.PORT_FLAG) || arg.equals(ServerSettings.DIRECTORY_FLAG));
     }
 
@@ -26,25 +26,25 @@ public class InputValidator {
         return arg;
     }
 
-    public static Boolean isValidDirectory(String directory) {
+    public static boolean isValidDirectory(String directory) {
         Path path = Paths.get(directory);
 
         return Files.exists(path);
     }
 
-    public static Boolean isInteger(String arg) {
+    public static boolean isInteger(String arg) {
         return arg.matches("^-?\\d+$");
     }
 
-    private static Boolean doesNotHaveFileSeparators(String arg) {
+    private static boolean doesNotHaveFileSeparators(String arg) {
         return (!arg.startsWith("/") && !arg.endsWith("/"));
     }
 
-    private static Boolean startsWithFileSeparatorOnly(String arg) {
+    private static boolean startsWithFileSeparatorOnly(String arg) {
         return (arg.startsWith("/") && !arg.endsWith("/"));
     }
 
-    private static Boolean endsWithFileSeparatorOnly(String arg) {
+    private static boolean endsWithFileSeparatorOnly(String arg) {
         return (arg.endsWith("/") && !arg.startsWith("/"));
     }
 }

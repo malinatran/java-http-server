@@ -66,19 +66,19 @@ public class TextFile {
         return range.get(key);
     }
 
-    private Boolean hasStartAndEndRange(Map<String, Integer> range) {
+    private boolean hasStartAndEndRange(Map<String, Integer> range) {
         return hasRange(range, START) && hasRange(range, END);
     }
 
-    private Boolean hasStartRangeOnly(Map<String, Integer> range) {
+    private boolean hasStartRangeOnly(Map<String, Integer> range) {
         return hasRange(range, START) && !hasRange(range, END);
     }
 
-    private Boolean hasEndRangeOnly(Map<String, Integer> range) {
+    private boolean hasEndRangeOnly(Map<String, Integer> range) {
         return !hasRange(range, START) && hasRange(range, END);
     }
 
-    private Boolean hasRange(Map<String, Integer> range, String key) {
+    private boolean hasRange(Map<String, Integer> range, String key) {
         return range.containsKey(key);
     }
 }
