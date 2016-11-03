@@ -9,14 +9,16 @@ import java.io.IOException;
 
 public class IndexRouterCallback implements RouterCallback {
 
+    private Directory directory;
+
     public void run(Request request, Response response) throws IOException {
         String path = request.getPath();
-        String fullPath = request.getDirectoryPath();
-        Directory directory = new Directory();
+        String directoryPath = request.getDirectoryPath();
+        directory = new Directory();
 
         if (path.equals("/")) {
             response.setStatus(Status.OK);
-            response.setBodyContent(directory.getLinks(fullPath));
+            response.setBodyContent(directory.getLinks(directoryPath));
         }
     }
 }

@@ -11,7 +11,7 @@ public class InputValidatorTest {
 
     private String HOME_DIRECTORY = ServerSettings.HOME;
     private InputValidator validator;
-    private Boolean result;
+    private boolean result;
     private String actual;
 
     @Before
@@ -21,8 +21,8 @@ public class InputValidatorTest {
 
     @Test
     public void isFlagReturnsTrueIfArgIsFlag() {
-        Boolean firstResult = validator.isFlag("-p");
-        Boolean secondResult = validator.isFlag("-d");
+        boolean firstResult = validator.isFlag("-p");
+        boolean secondResult = validator.isFlag("-d");
 
         assertTrue(firstResult);
         assertTrue(secondResult);

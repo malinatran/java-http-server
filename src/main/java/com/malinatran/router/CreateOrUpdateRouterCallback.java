@@ -7,13 +7,14 @@ import com.malinatran.response.Response;
 
 public class CreateOrUpdateRouterCallback implements RouterCallback {
 
+    private Directory directory;
+
     public void run(Request request, Response response) {
         char[] body = request.getBody();
-        String directoryPath = request.getDirectoryPath();
-        String fileName = request.getPath().replace("/", "");
-        Directory reader = new Directory();
+        String filePath = request.getFilePath();
+        directory = new Directory();
 
-        if (reader.existsInDirectory(directoryPath, fileName)) {
+        if (directory.existsInDirectory(filePath)) {
             response.setStatus(Status.METHOD_NOT_ALLOWED);
         } else if (body != null) {
             response.setStatus(Status.OK);

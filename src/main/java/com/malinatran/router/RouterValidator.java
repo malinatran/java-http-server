@@ -8,7 +8,7 @@ public class RouterValidator {
     private static final String CREDENTIALS = "Basic YWRtaW46aHVudGVyMg==";
     private static final String AUTHORIZATION = "Authorization";
 
-    public Boolean isValidRouteAndCredentials(Request request) {
+    public boolean isValidRouteAndCredentials(Request request) {
         String method = request.getMethod();
         String path = request.getPath();
         String credentials = request.getHeaderValue(AUTHORIZATION);
@@ -18,7 +18,7 @@ public class RouterValidator {
                 isValidCredentials(credentials));
     }
 
-    public Boolean isValidCredentials(String credentials) {
+    public boolean isValidCredentials(String credentials) {
         return ((credentials != null) && credentials.equals(CREDENTIALS));
     }
 }

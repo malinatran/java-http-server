@@ -67,7 +67,7 @@ public class ParameterDecoder {
         encodedCharacters.put("%5D", "]");
     }
 
-    private Boolean hasParametersQuery(String path) {
+    private boolean hasParametersQuery(String path) {
         return (path.startsWith("/parameters?"));
     }
 

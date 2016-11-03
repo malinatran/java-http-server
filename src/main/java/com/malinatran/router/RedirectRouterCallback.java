@@ -8,7 +8,7 @@ import com.malinatran.response.Response;
 public class RedirectRouterCallback implements RouterCallback {
 
     public void run(Request request, Response response) {
-        String host = request.getHeaderValue("Host");
+        String host = request.getHeaderValue(Header.HOST);
         String url = "http://" + host + "/";
         response.setStatus(Status.FOUND);
         response.setHeader(Header.LOCATION, url);

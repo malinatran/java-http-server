@@ -33,11 +33,15 @@ public class RequestLogger {
         }
     }
 
-    public char[] getData() {
-        return data;
+    public String getData() {
+       return String.valueOf(getDataInCharArray());
     }
 
-    public Boolean hasData() {
-        return (getData().length > 0);
+    public boolean hasData() {
+        return (getDataInCharArray().length > 0);
+    }
+
+    private char[] getDataInCharArray() {
+        return data;
     }
 }
