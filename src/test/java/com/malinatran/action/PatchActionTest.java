@@ -32,7 +32,7 @@ public class PatchActionTest {
     @Test
     public void setPatchedContentReturnsOriginalContent() throws IOException, NoSuchAlgorithmException {
         request.setRequestLine("GET /text-file.txt HTTP/1.1");
-        logger.addData("ABCDEFGHIJK", new char[10]);
+        logger.addETagAndPatchedContent("ABCDEFGHIJK", new char[10]);
 
         patchAction.setPatchedContent(request, response, logger);
 
@@ -44,7 +44,7 @@ public class PatchActionTest {
         request.setRequestLine("GET /text-file.txt HTTP/1.1");
         String hash = "a379624177abc4679cafafa8eae1d73e1478aaa6";
         String patched = "patched content";
-        logger.addData(hash, patched.toCharArray());
+        logger.addETagAndPatchedContent(hash, patched.toCharArray());
 
         patchAction.setPatchedContent(request, response, logger);
 

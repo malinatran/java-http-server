@@ -28,6 +28,7 @@ public class Router {
     private RequestLogger logger;
     private LoggedAction loggedAction;
     private PatchAction patchAction;
+    private Directory directory;
 
     public Router() {
         routes = new HashMap<String, RouterCallback>();
@@ -35,6 +36,7 @@ public class Router {
         decoder = new ParameterDecoder();
         loggedAction = new LoggedAction();
         patchAction = new PatchAction();
+        directory = new Directory();
     }
 
     public boolean hasRoute(String route) {
@@ -65,10 +67,10 @@ public class Router {
         String method = request.getMethod();
         logger.addRequestLine(request);
 
-        if (method.equals(Method.PATCH)) {
+        if (isMethod(method, Method.PATCH)) {
             String eTag = request.getHeaderValue(Header.IF_MATCH);
             char[] data = request.getBody();
-            logger.addData(eTag, data);
+            logger.addETagAndPatchedContent(eTag, data);
         }
     }
 
@@ -102,22 +104,14 @@ public class Router {
     private boolean isRequestForPatchedContent() {
         String method = request.getMethod();
         String filePath = request.getFilePath();
-        boolean isTextFile = request.isTextFile(filePath);
 
-        return (isGetMethod(method) && hasPatchedContent(logger) && exists(filePath) && isTextFile);
+        return (isMethod(method, Method.GET) &&
+                logger.hasPatchedContent() &&
+                request.isTextFile(filePath) &&
+                directory.existsInDirectory(filePath));
     }
 
-    private boolean isGetMethod(String method) {
-        return method.equals(Method.GET);
-    }
-
-    private boolean hasPatchedContent(RequestLogger logger) {
-        return logger.hasPatchedContent();
-    }
-
-    private boolean exists(String filePath) {
-        Directory directory = new Directory();
-
-        return directory.existsInDirectory(filePath);
+    private boolean isMethod(String text, String methodType) {
+        return text.equals(methodType);
     }
 }
