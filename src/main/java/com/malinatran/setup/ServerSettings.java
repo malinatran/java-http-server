@@ -10,8 +10,8 @@ public class ServerSettings {
     public static final String DEFAULT_PATH = "/Development/cob_spec/public/";
     public static final String HOME = System.getProperty("user.home");
     private Map<String, String> configuration;
-    private final int port;
-    private final String path;
+    private int port;
+    private String path;
 
     public ServerSettings(Map<String, String> configuration) {
         this.configuration = configuration;

@@ -96,6 +96,7 @@ public class ServerSettingsTest {
         MockServerSettings settings = new MockServerSettings(map);
 
         settings.getDirectory();
+
         assertTrue(settings.didExit());
     }
 }

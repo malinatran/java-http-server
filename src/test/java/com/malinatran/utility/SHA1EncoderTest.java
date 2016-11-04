@@ -1,6 +1,5 @@
 package com.malinatran.utility;
 
-import com.malinatran.utility.SHA1Encoder;
 import org.junit.Test;
 
 import java.io.UnsupportedEncodingException;

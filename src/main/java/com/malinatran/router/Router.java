@@ -20,7 +20,6 @@ import java.util.Map;
 public class Router {
 
     private RouterValidator validator;
-    private ParameterDecoder decoder;
     private Map<String, RouterCallback> routes;
     private RouterCallback callback;
     private Request request;
@@ -33,14 +32,9 @@ public class Router {
     public Router() {
         routes = new HashMap<String, RouterCallback>();
         validator = new RouterValidator();
-        decoder = new ParameterDecoder();
         loggedAction = new LoggedAction();
         patchAction = new PatchAction();
         directory = new Directory();
-    }
-
-    public boolean hasRoute(String route) {
-        return routes.containsKey(route);
     }
 
     public void addRoute(String method, String path, RouterCallback callback) {
@@ -58,8 +52,12 @@ public class Router {
         return response;
     }
 
+    public boolean hasRoute(String route) {
+        return routes.containsKey(route);
+    }
+
     private void decodeParameter() {
-        String decoded = decoder.decodeText(request.getPath());
+        String decoded = ParameterDecoder.decodeText(request.getPath());
         response.setBodyContent(decoded);
     }
 
