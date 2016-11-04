@@ -1,20 +1,18 @@
 package com.malinatran.router;
 
-import com.malinatran.constants.FileType;
-import com.malinatran.constants.Method;
-import com.malinatran.constants.Status;
+import com.malinatran.constant.Method;
+import com.malinatran.constant.Status;
 import com.malinatran.request.Request;
 import com.malinatran.resource.Directory;
-import com.malinatran.resource.Image;
+import com.malinatran.response.ResourceHandler;
 import com.malinatran.response.Response;
 
 import java.io.IOException;
-import java.util.Map;
 
 public class FileContentRouterCallback implements RouterCallback {
 
     private Directory directory = new Directory();
-    private Image image = new Image();
+    private ResourceHandler resourceHandler = new ResourceHandler();
     private Response response;
     private Request request;
 
@@ -37,31 +35,7 @@ public class FileContentRouterCallback implements RouterCallback {
         if (method.equals(Method.PATCH)) {
             response.setStatus(Status.NO_CONTENT);
         } else {
-            readFile();
-        }
-    }
-
-    private void readFile() throws IOException {
-        String filePath = request.getFilePath();
-        Map<String, Integer> ranges = request.getRangeValues();
-        FileType type = directory.getFileType(filePath, ranges);
-
-        switch (type) {
-            case TEXT:
-                String content = directory.getFileContent(filePath);
-                response.setText(content);
-                break;
-            case PARTIAL_TEXT:
-                content = directory.getFileContent(filePath, ranges);
-                response.setText(content, ranges);
-                break;
-            case IMAGE:
-                byte[] imageBytes = directory.getBytes(filePath);
-                String imageType = image.getImageType(filePath);
-                response.setImage(imageType, imageBytes);
-                break;
-            default:
-                response.setStatus(Status.UNSUPPORTED_MEDIA_TYPE);
+            resourceHandler.read(request, response);
         }
     }
 }

@@ -1,13 +1,12 @@
 package com.malinatran.response;
 
-import com.malinatran.constants.Header;
-import com.malinatran.constants.Status;
+import com.malinatran.constant.Header;
+import com.malinatran.constant.Status;
 import com.malinatran.request.RequestLogger;
 
 import org.junit.Before;
 import org.junit.Test;
-import java.util.HashMap;
-import java.util.Map;
+
 import static org.junit.Assert.*;
 
 public class ResponseTest {
@@ -27,38 +26,6 @@ public class ResponseTest {
 
         assertEquals(Status.OK, response.getStatus());
         assertNotNull(response.getBodyContent());
-    }
-
-    @Test
-     public void setTextReturns200AndSetsContentTypeAsHeader() {
-        String text = "Just a text file";
-
-        response.setText(text);
-
-        assertEquals(Status.OK, response.getStatus());
-        assertTrue(response.hasHeader(Header.CONTENT_TYPE));
-    }
-
-    @Test
-     public void setTextReturns206AndSetsContentRangeAsHeader() {
-        String text = "Just a text";
-        Map<String, Integer> map = new HashMap<String, Integer>();
-
-        response.setText(text, map);
-
-        assertEquals(Status.PARTIAL_CONTENT, response.getStatus());
-        assertTrue(response.hasHeader(Header.CONTENT_RANGE));
-    }
-
-    @Test
-    public void setImageReturns200AndSetsContentLengthAndTypeAsHeaders() {
-        String fileType = "jpg";
-        byte[] image = new byte[20];
-
-        response.setImage(fileType, image);
-
-        assertTrue(response.hasHeader(Header.CONTENT_TYPE));
-        assertTrue(response.hasHeader(Header.CONTENT_LENGTH));
     }
 
     @Test

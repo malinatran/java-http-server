@@ -1,15 +1,10 @@
 package com.malinatran.response;
 
-import com.malinatran.constants.Status;
-import com.malinatran.constants.Header;
+import com.malinatran.constant.Status;
 import com.malinatran.request.RequestLogger;
-import com.malinatran.resource.TextFile;
 
 import java.util.Map;
 import java.util.HashMap;
-
-import static com.malinatran.resource.TextFile.END;
-import static com.malinatran.resource.TextFile.START;
 
 public class Response {
 
@@ -26,26 +21,6 @@ public class Response {
     public void setLogsToBody(RequestLogger requestLogger) {
         setStatus(Status.OK);
         setBodyContent(requestLogger.getLoggedRequests());
-    }
-
-    public void setText(String text) {
-        setStatus(Status.OK);
-        setHeader(Header.CONTENT_TYPE, Header.TEXT_PLAIN);
-        setBodyContent(text);
-    }
-
-    public void setText(String text, Map<String, Integer> range) {
-        setStatus(Status.PARTIAL_CONTENT);
-        setHeader(Header.CONTENT_TYPE, Header.TEXT_PLAIN);
-        setHeader(Header.CONTENT_RANGE, range.get(START) + "-" + range.get(END));
-        setBodyContent(text);
-    }
-
-    public void setImage(String fileType, byte[] image) {
-        setStatus(Status.OK);
-        setHeader(Header.CONTENT_TYPE, Header.IMAGE + fileType);
-        setHeader(Header.CONTENT_LENGTH, String.valueOf(image.length));
-        setBodyContent(image);
     }
 
     public boolean hasHeader(String key) {

@@ -1,4 +1,4 @@
-package com.malinatran.constants;
+package com.malinatran.constant;
 
 public enum FileType {
 

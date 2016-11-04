@@ -69,4 +69,12 @@ public class TextFileTest {
 
         assertEquals("contents\n", result);
     }
+
+    @Test
+    public void readPartialTextReturnsFullTextIfNoRangeIsSpecified() throws IOException {
+        result = textFile.readPartialTextFile(DEFAULT_PATH + "text-file.txt", rangeBytes);
+
+
+        assertEquals("file1 contents", result);
+    }
 }

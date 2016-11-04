@@ -9,6 +9,8 @@ public class TextFile {
 
     public static final String START = "Start";
     public static final String END = "End";
+    private Map<String, Integer> ranges;
+    private int count;
 
     public String readTextFile(String filePath) throws IOException {
         String content = "";
@@ -25,14 +27,20 @@ public class TextFile {
     }
 
     public String readPartialTextFile(String filePath, Map<String, Integer> ranges) throws IOException {
-        int count = getCharacterCount(filePath);
-        int[] contentRange = setContentRange(ranges, count);
-        String content = readTextFile(filePath);
+        this.ranges = ranges;
+        this.count = getCharacterCount(filePath);
 
-        int start = contentRange[0];
-        int end = Math.min(contentRange[1] + 1, count);
+        if (ranges.isEmpty()) {
+            return readTextFile(filePath);
+        } else {
+            int[] contentRange = setContentRange();
+            String content = readTextFile(filePath);
 
-        return content.substring(start, end) + addEOFCharacter(end, count);
+            int start = contentRange[0];
+            int end = Math.min(contentRange[1] + 1, count);
+
+            return content.substring(start, end) + addEOFCharacter(end);
+        }
     }
 
     private int getCharacterCount(String filePath) throws IOException {
@@ -41,44 +49,44 @@ public class TextFile {
         return content.length();
     }
 
-    private String addEOFCharacter(int end, int count) {
+    private String addEOFCharacter(int end) {
         return (end == count ?  "\n" : "");
     }
 
-    private int[] setContentRange(Map<String, Integer> range, int totalCount) {
+    private int[] setContentRange() {
         int[] contentRange = new int[2];
 
-        if (hasStartAndEndRange(range)) {
-            contentRange[0] = getValue(range, START);
-            contentRange[1] = getValue(range, END);
-        } else if (hasStartRangeOnly(range)) {
-            contentRange[0] = getValue(range, START);
-            contentRange[1] = totalCount;
-        } else if (hasEndRangeOnly(range)) {
-            contentRange[0] = totalCount - (getValue(range, END) - 1);
-            contentRange[1] = totalCount;
+        if (hasStartAndEndRange()) {
+            contentRange[0] = getValue(START);
+            contentRange[1] = getValue(END);
+        } else if (hasStartRangeOnly()) {
+            contentRange[0] = getValue(START);
+            contentRange[1] = count;
+        } else if (hasEndRangeOnly()) {
+            contentRange[0] = count - (getValue(END) - 1);
+            contentRange[1] = count;
         }
 
         return contentRange;
     }
 
-    private int getValue(Map<String, Integer> range, String key) {
-        return range.get(key);
+    private int getValue(String key) {
+        return ranges.get(key);
     }
 
-    private boolean hasStartAndEndRange(Map<String, Integer> range) {
-        return hasRange(range, START) && hasRange(range, END);
+    private boolean hasStartAndEndRange() {
+        return hasRange(START) && hasRange(END);
     }
 
-    private boolean hasStartRangeOnly(Map<String, Integer> range) {
-        return hasRange(range, START) && !hasRange(range, END);
+    private boolean hasStartRangeOnly() {
+        return hasRange(START) && !hasRange(END);
     }
 
-    private boolean hasEndRangeOnly(Map<String, Integer> range) {
-        return !hasRange(range, START) && hasRange(range, END);
+    private boolean hasEndRangeOnly() {
+        return !hasRange(START) && hasRange(END);
     }
 
-    private boolean hasRange(Map<String, Integer> range, String key) {
-        return range.containsKey(key);
+    private boolean hasRange(String key) {
+        return ranges.containsKey(key);
     }
 }

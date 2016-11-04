@@ -2,6 +2,10 @@ package com.malinatran.request;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+
 import static org.junit.Assert.*;
 
 public class RequestLoggerTest {
@@ -36,4 +40,5 @@ public class RequestLoggerTest {
 
         assertEquals("PUT /these HTTP/1.1\r\nGET /logs HTTP/1.1\r\n", logger.getLoggedRequests());
     }
+
 }

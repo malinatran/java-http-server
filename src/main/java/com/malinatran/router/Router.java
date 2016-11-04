@@ -1,14 +1,20 @@
 package com.malinatran.router;
 
-import com.malinatran.constants.Header;
-import com.malinatran.constants.Method;
-import com.malinatran.constants.Status;
+import com.malinatran.constant.Header;
+import com.malinatran.constant.Method;
+import com.malinatran.constant.Status;
+import com.malinatran.utility.ParameterDecoder;
 import com.malinatran.request.Request;
 import com.malinatran.resource.Directory;
+import com.malinatran.resource.TextFile;
+import com.malinatran.response.ResourceHandler;
 import com.malinatran.response.Response;
 import com.malinatran.request.RequestLogger;
+import com.malinatran.utility.SHA1Encoder;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,11 +27,16 @@ public class Router {
     private Request request;
     private Response response;
     private RequestLogger logger;
+    private Directory directory;
+    private TextFile textFile;
+    private ResourceHandler resourceHandler;
 
     public Router() {
         routes = new HashMap<String, RouterCallback>();
         validator = new RouterValidator();
         decoder = new ParameterDecoder();
+        directory = new Directory();
+        textFile = new TextFile();
     }
 
     public boolean hasRoute(String route) {
@@ -36,13 +47,13 @@ public class Router {
         routes.put(method + " " + path, callback);
     }
 
-    public Response getResponse(Request request, RequestLogger logger) throws IOException {
+    public Response getResponse(Request request, RequestLogger logger) throws IOException, NoSuchAlgorithmException {
         this.request = request;
         this.response = new Response(request.getProtocolAndVersion());
         this.logger = logger;
         decodeParameter();
         logRequest();
-        setAndRunCallback();
+        runCallback(setCallback());
 
         return response;
     }
@@ -52,7 +63,7 @@ public class Router {
         response.setBodyContent(decoded);
     }
 
-    private void logRequest() {
+    private void logRequest() throws UnsupportedEncodingException, NoSuchAlgorithmException {
         String method = request.getMethod();
         logger.addRequestLine(request);
 
@@ -63,20 +74,15 @@ public class Router {
         }
     }
 
-    private void setAndRunCallback() throws IOException {
-        RouterCallback callback = setCallback();
-        runCallback(callback);
-    }
-
-    private RouterCallback setCallback () {
+    private RouterCallback setCallback() throws IOException, NoSuchAlgorithmException {
         String route = request.getRoute();
         String method = request.getMethod();
 
         if (validator.isValidRouteAndCredentials(request)) {
             response.setLogsToBody(logger);
             callback = null;
-        } else if (modifyExistingResource()) {
-            response.setText(logger.getData());
+        } else if (isModifiable()) {
+            modifyExistingResource();
             callback = null;
         } else if (hasRoute(route)) {
             callback = routes.get(route);
@@ -95,19 +101,44 @@ public class Router {
         }
     }
 
-    private boolean modifyExistingResource() {
+    private boolean isModifiable() {
         String method = request.getMethod();
         String filePath = request.getFilePath();
+        boolean isTextFile = request.isTextFile(filePath);
 
-        return (isGetMethod(method) && hasData(logger) && exists(filePath));
+        return (isGetMethod(method) && hasData(logger) && exists(filePath) && isTextFile);
+    }
+
+    private void modifyExistingResource() throws IOException, NoSuchAlgorithmException {
+        Map<String, Integer> ranges = request.getRangeValues();
+        String content = getOriginalOrPatchedContent();
+
+        if (!ranges.isEmpty()) {
+            resourceHandler.setText(content, ranges);
+        } else {
+            resourceHandler.setText(content);
+        }
+    }
+
+    private String getOriginalOrPatchedContent() throws IOException, NoSuchAlgorithmException {
+        String filePath = request.getFilePath();
+        Map<String, Integer> ranges = request.getRangeValues();
+        String originalContent = textFile.readPartialTextFile(filePath, ranges);
+        String encodedContent = SHA1Encoder.convert(originalContent);
+
+        if (encodedContent.equals(logger.getETag())) {
+            return logger.getPatchedContent();
+        } else {
+            return originalContent;
+        }
     }
 
     private boolean isGetMethod(String method) {
-       return method.equals(Method.GET);
+        return method.equals(Method.GET);
     }
 
     private boolean hasData(RequestLogger logger) {
-        return logger.hasData();
+        return logger.hasPatchedContent();
     }
 
     private boolean exists(String filePath) {

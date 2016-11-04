@@ -1,4 +1,4 @@
-package com.malinatran.router;
+package com.malinatran.utility;
 
 import java.util.ArrayList;
 import java.util.HashMap;

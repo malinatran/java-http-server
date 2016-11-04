@@ -1,6 +1,6 @@
 package com.malinatran.router;
 
-import static com.malinatran.constants.Method.*;
+import static com.malinatran.constant.Method.*;
 
 public class Routes {
 
