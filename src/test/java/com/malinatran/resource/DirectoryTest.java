@@ -53,30 +53,6 @@ public class DirectoryTest {
         assertFalse(result);
     }
 
-//    @Test
-//    public void getFileTypeReturnsText() {
-//        type = directory.getFileType("lala.txt", map);
-//
-//        assertEquals(FileType.TEXT, type);
-//    }
-//
-//    @Test
-//    public void getFileTypeReturnsPartialText() {
-//        map.put(TextFile.START, 4);
-//        map.put(TextFile.END, 6);
-//        type = directory.getFileType("lala.txt", map);
-//
-//        assertEquals(FileType.PARTIAL_TEXT, type);
-//
-//    }
-//
-//    @Test
-//    public void getFileTypeReturnsImage() {
-//        type = directory.getFileType("la.gif", map);
-//
-//        assertEquals(FileType.IMAGE, type);
-//    }
-
     @Test
     public void getTextReturnsTextFileContent() throws IOException {
         String result = directory.getFileContent(DEFAULT_DIRECTORY + "text-file.txt");

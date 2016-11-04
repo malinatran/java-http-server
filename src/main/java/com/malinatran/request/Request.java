@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class Request {
 
-    private final String[] FILE_EXTENSIONS = { ".gif", ".jpeg", ".png" };
+    private final String[] FILE_EXTENSIONS = { ".gif", ".jpeg", ".jpg", ".png" };
     private Map<String, String> headers;
     private String method;
     private String path;
