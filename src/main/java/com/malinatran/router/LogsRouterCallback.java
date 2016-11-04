@@ -7,11 +7,10 @@ import com.malinatran.response.Response;
 
 public class LogsRouterCallback implements RouterCallback {
 
-    private RouterValidator validator;
+    private RouterValidator validator = new RouterValidator();
 
     public void run(Request request, Response response) {
         String credentials = request.getHeaderValue(Header.AUTHORIZATION);
-        validator = new RouterValidator();
 
         if (credentials == null || !validator.isValidCredentials(credentials)) {
             response.setStatus(Status.UNAUTHORIZED);

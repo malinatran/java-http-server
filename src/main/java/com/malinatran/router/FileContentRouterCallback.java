@@ -1,10 +1,10 @@
 package com.malinatran.router;
 
+import com.malinatran.action.ResourceAction;
 import com.malinatran.constant.Method;
 import com.malinatran.constant.Status;
 import com.malinatran.request.Request;
 import com.malinatran.resource.Directory;
-import com.malinatran.response.ResourceHandler;
 import com.malinatran.response.Response;
 
 import java.io.IOException;
@@ -12,7 +12,7 @@ import java.io.IOException;
 public class FileContentRouterCallback implements RouterCallback {
 
     private Directory directory = new Directory();
-    private ResourceHandler resourceHandler = new ResourceHandler();
+    private ResourceAction resourceAction = new ResourceAction();
     private Response response;
     private Request request;
 
@@ -35,7 +35,7 @@ public class FileContentRouterCallback implements RouterCallback {
         if (method.equals(Method.PATCH)) {
             response.setStatus(Status.NO_CONTENT);
         } else {
-            resourceHandler.read(request, response);
+            resourceAction.setContent(request, response);
         }
     }
 }

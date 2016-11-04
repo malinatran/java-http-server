@@ -1,4 +1,4 @@
-package com.malinatran.response;
+package com.malinatran.action;
 
 import com.malinatran.constant.FileType;
 import com.malinatran.constant.Header;
@@ -6,32 +6,39 @@ import com.malinatran.constant.Status;
 import com.malinatran.request.Request;
 import com.malinatran.resource.Directory;
 import com.malinatran.resource.Image;
-
-import java.io.IOException;
-import java.util.Map;
+import com.malinatran.response.Response;
 
 import static com.malinatran.resource.TextFile.END;
 import static com.malinatran.resource.TextFile.START;
 
-public class ResourceHandler {
+import java.io.IOException;
+import java.util.Map;
+
+public class ResourceAction {
 
     private Directory directory = new Directory();
     private Image image = new Image();
     private Response response;
+    private Request request;
 
-    public void read(Request request, Response response) throws IOException {
+    public void setContent(Request request, Response response) throws IOException {
         this.response = response;
+        this.request = request;
+        getContentByFileType();
+    }
+
+    private void getContentByFileType() throws IOException {
         String filePath = request.getFilePath();
         Map<String, Integer> ranges = request.getRangeValues();
         FileType type = request.getFileType(filePath, ranges);
 
         switch (type) {
             case TEXT:
-                String content = directory.getFileContent(filePath);
+                String content = directory.getContent(filePath);
                 setText(content);
                 break;
             case PARTIAL_TEXT:
-                content = directory.getFileContent(filePath, ranges);
+                content = directory.getContent(filePath, ranges);
                 setText(content, ranges);
                 break;
             case IMAGE:
@@ -44,20 +51,20 @@ public class ResourceHandler {
         }
     }
 
-    public void setText(String text) {
+    private void setText(String text) {
         response.setStatus(Status.OK);
         response.setHeader(Header.CONTENT_TYPE, Header.TEXT_PLAIN);
         response.setBodyContent(text);
     }
 
-    public void setText(String text, Map<String, Integer> range) {
+    private void setText(String text, Map<String, Integer> range) {
         response.setStatus(Status.PARTIAL_CONTENT);
         response.setHeader(Header.CONTENT_TYPE, Header.TEXT_PLAIN);
         response.setHeader(Header.CONTENT_RANGE, range.get(START) + "-" + range.get(END));
         response.setBodyContent(text);
     }
 
-    public void setImage(String fileType, byte[] image) {
+    private void setImage(String fileType, byte[] image) {
         response.setStatus(Status.OK);
         response.setHeader(Header.CONTENT_TYPE, Header.IMAGE + fileType);
         response.setHeader(Header.CONTENT_LENGTH, String.valueOf(image.length));

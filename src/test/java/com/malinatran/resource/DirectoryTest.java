@@ -55,7 +55,7 @@ public class DirectoryTest {
 
     @Test
     public void getTextReturnsTextFileContent() throws IOException {
-        String result = directory.getFileContent(DEFAULT_DIRECTORY + "text-file.txt");
+        String result = directory.getContent(DEFAULT_DIRECTORY + "text-file.txt");
 
         assertEquals("file1 contents", result);
     }

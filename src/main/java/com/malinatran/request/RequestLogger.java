@@ -1,5 +1,7 @@
 package com.malinatran.request;
 
+import com.malinatran.request.Request;
+
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;

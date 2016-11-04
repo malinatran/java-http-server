@@ -3,9 +3,6 @@ package com.malinatran.request;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
-
 import static org.junit.Assert.*;
 
 public class RequestLoggerTest {
