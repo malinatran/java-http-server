@@ -1,6 +1,6 @@
 package com.malinatran.request;
 
-import com.malinatran.constants.Header;
+import com.malinatran.constant.Header;
 import com.malinatran.reader.Reader;
 
 import java.io.IOException;

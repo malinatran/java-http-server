@@ -1,7 +1,7 @@
 package com.malinatran.request;
 
-import com.malinatran.constants.Header;
-import com.malinatran.constants.Method;
+import com.malinatran.constant.Header;
+import com.malinatran.constant.Method;
 import static com.malinatran.resource.TextFile.START;
 import static com.malinatran.resource.TextFile.END;
 

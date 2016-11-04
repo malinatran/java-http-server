@@ -9,6 +9,7 @@ import com.malinatran.response.Response;
 import com.malinatran.router.Router;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 
 public class ClientHandler implements Runnable {
 
@@ -32,10 +33,12 @@ public class ClientHandler implements Runnable {
             closeStreams();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
         }
     }
 
-    private void getRequestAndResponse() throws IOException {
+    private void getRequestAndResponse() throws IOException, NoSuchAlgorithmException {
         RequestListener requestListener = new RequestListener();
         Request request = requestListener.getNextRequest(in, directoryPath);
         Response response = router.getResponse(request, requestLogger);
