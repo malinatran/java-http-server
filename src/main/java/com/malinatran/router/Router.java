@@ -2,7 +2,6 @@ package com.malinatran.router;
 
 import com.malinatran.action.LoggedAction;
 import com.malinatran.action.PatchAction;
-import com.malinatran.action.ResourceAction;
 import com.malinatran.constant.Header;
 import com.malinatran.constant.Method;
 import com.malinatran.constant.Status;
@@ -27,8 +26,6 @@ public class Router {
     private Request request;
     private Response response;
     private RequestLogger logger;
-    private Directory directory;
-    private ResourceAction resourceAction;
     private LoggedAction loggedAction;
     private PatchAction patchAction;
 
@@ -36,8 +33,6 @@ public class Router {
         routes = new HashMap<String, RouterCallback>();
         validator = new RouterValidator();
         decoder = new ParameterDecoder();
-        directory = new Directory();
-        resourceAction = new ResourceAction();
         loggedAction = new LoggedAction();
         patchAction = new PatchAction();
     }
@@ -84,7 +79,7 @@ public class Router {
         if (validator.isValidRouteAndCredentials(request)) {
             loggedAction.setLogs(response, logger);
             callback = null;
-        } else if (isModifiable()) {
+        } else if (isRequestForPatchedContent()) {
             patchAction.setPatchedContent(request, response, logger);
             callback = null;
         } else if (hasRoute(route)) {
@@ -104,19 +99,19 @@ public class Router {
         }
     }
 
-    private boolean isModifiable() {
+    private boolean isRequestForPatchedContent() {
         String method = request.getMethod();
         String filePath = request.getFilePath();
         boolean isTextFile = request.isTextFile(filePath);
 
-        return (isGetMethod(method) && hasData(logger) && exists(filePath) && isTextFile);
+        return (isGetMethod(method) && hasPatchedContent(logger) && exists(filePath) && isTextFile);
     }
 
     private boolean isGetMethod(String method) {
         return method.equals(Method.GET);
     }
 
-    private boolean hasData(RequestLogger logger) {
+    private boolean hasPatchedContent(RequestLogger logger) {
         return logger.hasPatchedContent();
     }
 
