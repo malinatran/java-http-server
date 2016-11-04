@@ -32,11 +32,11 @@ public class Directory {
         }
     }
 
-    public String getFileContent(String filePath) throws IOException {
+    public String getContent(String filePath) throws IOException {
         return textFile.readTextFile(filePath);
     }
 
-    public String getFileContent(String filePath, Map<String, Integer> ranges) throws IOException {
+    public String getContent(String filePath, Map<String, Integer> ranges) throws IOException {
         return textFile.readPartialTextFile(filePath, ranges);
     }
 

@@ -1,8 +1,5 @@
 package com.malinatran.response;
 
-import com.malinatran.constant.Status;
-import com.malinatran.request.RequestLogger;
-
 import java.util.Map;
 import java.util.HashMap;
 
@@ -16,11 +13,6 @@ public class Response {
     public Response(String protocol) {
         this.protocol = protocol;
         this.headers = new HashMap<String, String>();
-    }
-
-    public void setLogsToBody(RequestLogger requestLogger) {
-        setStatus(Status.OK);
-        setBodyContent(requestLogger.getLoggedRequests());
     }
 
     public boolean hasHeader(String key) {

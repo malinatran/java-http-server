@@ -1,16 +1,16 @@
 package com.malinatran.router;
 
+import com.malinatran.action.LoggedAction;
+import com.malinatran.action.PatchAction;
+import com.malinatran.action.ResourceAction;
 import com.malinatran.constant.Header;
 import com.malinatran.constant.Method;
 import com.malinatran.constant.Status;
 import com.malinatran.utility.ParameterDecoder;
 import com.malinatran.request.Request;
 import com.malinatran.resource.Directory;
-import com.malinatran.resource.TextFile;
-import com.malinatran.response.ResourceHandler;
 import com.malinatran.response.Response;
 import com.malinatran.request.RequestLogger;
-import com.malinatran.utility.SHA1Encoder;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -28,15 +28,18 @@ public class Router {
     private Response response;
     private RequestLogger logger;
     private Directory directory;
-    private TextFile textFile;
-    private ResourceHandler resourceHandler;
+    private ResourceAction resourceAction;
+    private LoggedAction loggedAction;
+    private PatchAction patchAction;
 
     public Router() {
         routes = new HashMap<String, RouterCallback>();
         validator = new RouterValidator();
         decoder = new ParameterDecoder();
         directory = new Directory();
-        textFile = new TextFile();
+        resourceAction = new ResourceAction();
+        loggedAction = new LoggedAction();
+        patchAction = new PatchAction();
     }
 
     public boolean hasRoute(String route) {
@@ -79,10 +82,10 @@ public class Router {
         String method = request.getMethod();
 
         if (validator.isValidRouteAndCredentials(request)) {
-            response.setLogsToBody(logger);
+            loggedAction.setLogs(response, logger);
             callback = null;
         } else if (isModifiable()) {
-            modifyExistingResource();
+            patchAction.setPatchedContent(request, response, logger);
             callback = null;
         } else if (hasRoute(route)) {
             callback = routes.get(route);
@@ -107,30 +110,6 @@ public class Router {
         boolean isTextFile = request.isTextFile(filePath);
 
         return (isGetMethod(method) && hasData(logger) && exists(filePath) && isTextFile);
-    }
-
-    private void modifyExistingResource() throws IOException, NoSuchAlgorithmException {
-        Map<String, Integer> ranges = request.getRangeValues();
-        String content = getOriginalOrPatchedContent();
-
-        if (!ranges.isEmpty()) {
-            resourceHandler.setText(content, ranges);
-        } else {
-            resourceHandler.setText(content);
-        }
-    }
-
-    private String getOriginalOrPatchedContent() throws IOException, NoSuchAlgorithmException {
-        String filePath = request.getFilePath();
-        Map<String, Integer> ranges = request.getRangeValues();
-        String originalContent = textFile.readPartialTextFile(filePath, ranges);
-        String encodedContent = SHA1Encoder.convert(originalContent);
-
-        if (encodedContent.equals(logger.getETag())) {
-            return logger.getPatchedContent();
-        } else {
-            return originalContent;
-        }
     }
 
     private boolean isGetMethod(String method) {

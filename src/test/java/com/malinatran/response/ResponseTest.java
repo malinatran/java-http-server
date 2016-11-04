@@ -2,7 +2,6 @@ package com.malinatran.response;
 
 import com.malinatran.constant.Header;
 import com.malinatran.constant.Status;
-import com.malinatran.request.RequestLogger;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -18,15 +17,6 @@ public class ResponseTest {
         response = new Response("HTTP/1.1");
     }
 
-    @Test
-    public void setLogsToBodyReturns200AndGetsAllLoggedRequests() {
-        RequestLogger requestLogger = new RequestLogger();
-
-        response.setLogsToBody(requestLogger);
-
-        assertEquals(Status.OK, response.getStatus());
-        assertNotNull(response.getBodyContent());
-    }
 
     @Test
     public void hasHeaderReturnsTrueIfHeaderExists() {
