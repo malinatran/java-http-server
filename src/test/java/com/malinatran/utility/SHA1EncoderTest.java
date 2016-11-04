@@ -1,4 +1,4 @@
-package com.malinatran.router;
+package com.malinatran.utility;
 
 import com.malinatran.utility.SHA1Encoder;
 import org.junit.Test;

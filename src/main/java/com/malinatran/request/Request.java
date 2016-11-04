@@ -17,11 +17,9 @@ public class Request {
     private char[] body;
     private String directoryPath;
     private Map<String, Integer> ranges;
-    private RangeParser rangeParser;
 
     public Request() {
         headers = new HashMap<String, String>();
-        rangeParser = new RangeParser();
     }
 
     public void setDirectoryPath(String directoryPath) {
@@ -59,7 +57,7 @@ public class Request {
         ranges = new HashMap<String, Integer>();
 
         if (getHeaderValue(Header.RANGE) != null) {
-            String[] rangeValues = rangeParser.getValues(header);
+            String[] rangeValues = RangeParser.getValues(header);
             setRanges(rangeValues);
         }
 

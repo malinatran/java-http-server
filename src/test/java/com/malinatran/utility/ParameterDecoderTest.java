@@ -1,6 +1,5 @@
-package com.malinatran.router;
+package com.malinatran.utility;
 
-import com.malinatran.utility.ParameterDecoder;
 import org.junit.Before;
 import org.junit.Test;
 import java.util.Map;

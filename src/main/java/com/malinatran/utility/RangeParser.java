@@ -2,7 +2,7 @@ package com.malinatran.utility;
 
 public class RangeParser {
 
-    public String[] getValues(String header) {
+    public static String[] getValues(String header) {
         int startDelimiter = header.indexOf("=");
         int endDelimiter = header.indexOf("-");
         String rangeStart = header.substring(startDelimiter + 1, endDelimiter);
