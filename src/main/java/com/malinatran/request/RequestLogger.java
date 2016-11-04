@@ -1,7 +1,5 @@
 package com.malinatran.request;
 
-import com.malinatran.request.Request;
-
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -33,7 +31,7 @@ public class RequestLogger {
         return requestLines;
     }
 
-    public void addData(String eTag, char[] data) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+    public void addETagAndPatchedContent(String eTag, char[] data) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         if (eTag != null) {
             this.eTag = eTag;
             this.patchedContent = data;
