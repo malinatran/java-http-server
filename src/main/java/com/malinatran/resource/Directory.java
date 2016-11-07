@@ -1,11 +1,14 @@
 package com.malinatran.resource;
 
+import com.malinatran.constant.FileType;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
 public class Directory {
 
+    private final String[] FILE_EXTENSIONS = { ".gif", ".jpeg", ".jpg", ".png" };
     private Image image = new Image();
     private TextFile textFile = new TextFile();
 
@@ -30,6 +33,39 @@ public class Directory {
         } else {
             return false;
         }
+    }
+
+    public FileType getFileType(String fileName, Map<String, Integer> ranges) {
+        if (isTextFile(fileName) && ranges.isEmpty()) {
+            return FileType.TEXT;
+        } else if (isTextFile(fileName) && !ranges.isEmpty()) {
+            return FileType.PARTIAL_TEXT;
+        } else if (isImageFile(fileName)) {
+            return FileType.IMAGE;
+        }
+        return FileType.UNSUPPORTED;
+    }
+
+    public boolean isTextFile(String fileName) {
+        return isFileWithoutExtension(fileName) || isFileWithTxtExtension(fileName);
+    }
+
+    private boolean isImageFile(String fileName) {
+        for (String extension : FILE_EXTENSIONS) {
+            if (fileName.endsWith(extension)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean isFileWithoutExtension(String fileName) {
+        return (fileName.indexOf(".") == -1);
+    }
+
+    private boolean isFileWithTxtExtension(String fileName) {
+        return (fileName.endsWith(".txt"));
     }
 
     public String getContent(String filePath) throws IOException {
