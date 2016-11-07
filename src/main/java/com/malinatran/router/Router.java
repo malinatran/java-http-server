@@ -1,7 +1,5 @@
 package com.malinatran.router;
 
-import com.malinatran.action.LoggedAction;
-import com.malinatran.action.PatchAction;
 import com.malinatran.constant.Header;
 import com.malinatran.constant.Method;
 import com.malinatran.constant.Status;
@@ -30,15 +28,13 @@ public class Router {
     private Request request;
     private Response response;
     private RequestLogger logger;
-    private LoggedAction loggedAction;
-    private PatchAction patchAction;
+    private LoggedRouterCallback loggedRouterCallback;
     private Directory directory;
 
     public Router() {
         routes = new HashMap<String, RouterCallback>();
         validator = new RouterValidator();
-        loggedAction = new LoggedAction();
-        patchAction = new PatchAction();
+        loggedRouterCallback = new LoggedRouterCallback();
         directory = new Directory();
     }
 
@@ -96,10 +92,10 @@ public class Router {
         String method = request.getMethod();
 
         if (validator.isValidRouteAndCredentials(request)) {
-            loggedAction.setLogs(response, logger);
+            loggedRouterCallback.run(response, logger);
             callback = null;
         } else if (isRequestForPatchedContent() || isRequestForBody()) {
-            patchAction.setBody(request, response, logger);
+            loggedRouterCallback.run(request, response, logger);
             callback = null;
         } else if (hasRoute(route)) {
             callback = routes.get(route);
@@ -131,7 +127,7 @@ public class Router {
 
         return (isMethod(method, Method.GET) &&
                 logger.hasBody() &&
-                request.isTextFile(filePath) &&
+                directory.isTextFile(filePath) &&
                 directory.existsInDirectory(filePath));
     }
 

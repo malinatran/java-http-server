@@ -1,6 +1,5 @@
 package com.malinatran.request;
 
-import com.malinatran.constant.FileType;
 import com.malinatran.constant.Header;
 import com.malinatran.utility.RangeParser;
 
@@ -9,7 +8,6 @@ import java.util.Map;
 
 public class Request {
 
-    private final String[] FILE_EXTENSIONS = { ".gif", ".jpeg", ".jpg", ".png" };
     private Map<String, String> headers;
     private String method;
     private String path;
@@ -108,38 +106,4 @@ public class Request {
         return getDirectoryPath() + getCleanPath();
 
     }
-
-    public FileType getFileType(String fileName, Map<String, Integer> ranges) {
-        if (isTextFile(fileName) && ranges.isEmpty()) {
-            return FileType.TEXT;
-        } else if (isTextFile(fileName) && !ranges.isEmpty()) {
-            return FileType.PARTIAL_TEXT;
-        } else if (isImageFile(fileName)) {
-            return FileType.IMAGE;
-        }
-        return FileType.UNSUPPORTED;
-    }
-
-    public boolean isTextFile(String fileName) {
-        return isFileWithoutExtension(fileName) || isFileWithTxtExtension(fileName);
-    }
-
-    private boolean isImageFile(String fileName) {
-        for (String extension : FILE_EXTENSIONS) {
-            if (fileName.endsWith(extension)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private boolean isFileWithoutExtension(String fileName) {
-        return (fileName.indexOf(".") == -1);
-    }
-
-    private boolean isFileWithTxtExtension(String fileName) {
-        return (fileName.endsWith(".txt"));
-    }
-
 }

@@ -1,28 +1,33 @@
-package com.malinatran.action;
+package com.malinatran.router;
 
 import com.malinatran.constant.Header;
 import com.malinatran.constant.Status;
 import com.malinatran.request.Request;
+import com.malinatran.resource.TextFile;
 import com.malinatran.response.Response;
 import com.malinatran.request.RequestLogger;
-import com.malinatran.resource.TextFile;
 import com.malinatran.utility.SHA1Encoder;
+import static com.malinatran.resource.TextFile.END;
+import static com.malinatran.resource.TextFile.START;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
-import static com.malinatran.resource.TextFile.END;
-import static com.malinatran.resource.TextFile.START;
+public class LoggedRouterCallback implements RouterCallback {
 
-public class PatchAction {
-
-    private TextFile textFile = new TextFile();
+ private TextFile textFile = new TextFile();
     private Request request;
     private Response response;
     private RequestLogger logger;
 
-    public void setBody(Request request, Response response, RequestLogger logger) throws IOException, NoSuchAlgorithmException {
+
+    public void run(Response response, RequestLogger logger) {
+        response.setStatus(Status.OK);
+        response.setBodyContent(logger.getLoggedRequests());
+    }
+
+    public void run(Request request, Response response, RequestLogger logger) throws IOException, NoSuchAlgorithmException {
         this.request = request;
         this.response = response;
         this.logger = logger;
@@ -42,6 +47,8 @@ public class PatchAction {
             setText(content);
         }
     }
+
+    public void run(Request request, Response response) throws IOException {}
 
     private String getContent(Map<String, Integer> ranges) throws IOException, NoSuchAlgorithmException {
         String filePath = request.getFilePath();
