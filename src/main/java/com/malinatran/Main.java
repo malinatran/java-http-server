@@ -16,6 +16,8 @@ import java.net.Socket;
 
 public class Main {
 
+	private static final String PORT = "Port: ";
+	private static final String DIRECTORY = "Directory: ";
 	private static CommandLineArgsParser parser;
 	private static ServerSettings settings;
 	private static ServerSocket serverSocket;
@@ -44,8 +46,8 @@ public class Main {
 	}
 
 	private static void printArgs(int port, String directory) {
-		System.out.println("Port: " + String.valueOf(port));
-		System.out.println("Directory: " + directory);
+		System.out.println(PORT + String.valueOf(port));
+		System.out.println(DIRECTORY + directory);
 	}
 
 	private static void setupSocket() {

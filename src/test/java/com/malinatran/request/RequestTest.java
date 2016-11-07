@@ -1,7 +1,9 @@
 package com.malinatran.request;
 
-import com.malinatran.constants.Header;
-import com.malinatran.constants.Method;
+import com.malinatran.constant.Header;
+import com.malinatran.constant.Method;
+import static com.malinatran.resource.TextFile.START;
+import static com.malinatran.resource.TextFile.END;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -11,8 +13,6 @@ import static org.junit.Assert.*;
 
 public class RequestTest {
 
-    private String START = "Start";
-    private String END = "End";
     private Request request;
     private Map<String, Integer> expected;
 
@@ -40,10 +40,11 @@ public class RequestTest {
     }
 
     @Test
-    public void setBodySetsValueAsString() {
-        request.setBody("my=data");
+    public void setBodySetsValueAsCharArray() {
+        char[] data = new char[5];
+        request.setBody(data);
 
-        assertEquals("my=data", request.getBody());
+        assertEquals(data, request.getBody());
     }
 
     @Test

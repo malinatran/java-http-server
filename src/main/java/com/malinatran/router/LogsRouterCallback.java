@@ -1,24 +1,20 @@
 package com.malinatran.router;
 
-import com.malinatran.constants.Status;
+import com.malinatran.constant.Header;
+import com.malinatran.constant.Status;
 import com.malinatran.request.Request;
 import com.malinatran.response.Response;
 
 public class LogsRouterCallback implements RouterCallback {
 
-    private static final String AUTHORIZATION = "Authorization";
-    private static final String WWW_AUTHENTICATE = "WWW-Authenticate";
-    private static final String MESSAGE = "Basic realm=MALINA_REALM";
+    private RouterValidator validator = new RouterValidator();
 
     public void run(Request request, Response response) {
-        String credentials = request.getHeaderValue(AUTHORIZATION);
-        RouterValidator validator = new RouterValidator();
+        String credentials = request.getHeaderValue(Header.AUTHORIZATION);
 
-        if (validator.isValidCredentials(credentials)) {
-            response.setStatus(Status.OK);
-        } else if (credentials == null || !validator.isValidCredentials(credentials)) {
+        if (credentials == null || !validator.isValidCredentials(credentials)) {
             response.setStatus(Status.UNAUTHORIZED);
-            response.setHeader(WWW_AUTHENTICATE, MESSAGE);
+            response.setHeader(Header.WWW_AUTHENTICATE, Header.MESSAGE);
         }
     }
 }

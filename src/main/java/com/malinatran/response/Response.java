@@ -1,9 +1,5 @@
 package com.malinatran.response;
 
-import com.malinatran.constants.Status;
-import com.malinatran.constants.Header;
-import com.malinatran.request.RequestLogger;
-
 import java.util.Map;
 import java.util.HashMap;
 
@@ -19,37 +15,7 @@ public class Response {
         this.headers = new HashMap<String, String>();
     }
 
-    public void redirectTo(String url) {
-        setStatus(Status.FOUND);
-        setHeader(Header.LOCATION, url);
-    }
-
-    public void setLogsToBody(RequestLogger requestLogger) {
-        setStatus(Status.OK);
-        setBodyContent(requestLogger.getLoggedRequests());
-    }
-
-    public void setText(String text) {
-        setStatus(Status.OK);
-        setHeader(Header.CONTENT_TYPE, "text/plain");
-        setBodyContent(text);
-    }
-
-    public void setPartialText(String text, Map<String, Integer> range) {
-        setStatus(Status.PARTIAL_CONTENT);
-        setHeader(Header.CONTENT_TYPE, "text/plain");
-        setHeader(Header.CONTENT_RANGE, range.get("Start") + "-" + range.get("End"));
-        setBodyContent(text);
-    }
-
-    public void setImage(String fileType, byte[] image) {
-        setStatus(Status.OK);
-        setHeader(Header.CONTENT_TYPE, "image/" + fileType);
-        setHeader(Header.CONTENT_LENGTH, String.valueOf(image.length));
-        setBodyContent(image);
-    }
-
-    public Boolean hasHeader(String key) {
+    public boolean hasHeader(String key) {
         return headers.containsKey(key);
     }
 

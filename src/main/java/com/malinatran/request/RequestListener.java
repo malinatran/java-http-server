@@ -1,6 +1,6 @@
 package com.malinatran.request;
 
-import com.malinatran.constants.Header;
+import com.malinatran.constant.Header;
 import com.malinatran.reader.Reader;
 
 import java.io.IOException;
@@ -41,7 +41,8 @@ public class RequestListener {
             int contentLength = Integer.parseInt(request.getHeaderValue(Header.CONTENT_LENGTH));
             char[] body = new char[contentLength];
             in.read(body, 0, contentLength);
-            request.setBody(body.toString());
+            request.setBody(body);
+
         }
     }
 }

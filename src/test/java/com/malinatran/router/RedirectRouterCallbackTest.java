@@ -1,6 +1,6 @@
 package com.malinatran.router;
 
-import com.malinatran.constants.Status;
+import com.malinatran.constant.Status;
 import com.malinatran.request.Request;
 import com.malinatran.response.Response;
 
@@ -19,7 +19,7 @@ public class RedirectRouterCallbackTest {
     public void setUp() {
         callback = new RedirectRouterCallback();
         request = new Request();
-        response = new Response("HTTP 1/.1");
+        response = new Response("HTTP/1.1");
     }
 
     @Test
@@ -30,6 +30,7 @@ public class RedirectRouterCallbackTest {
         callback.run(request, response);
 
         assertEquals(Status.FOUND, response.getStatus());
+        assertTrue(response.hasHeader("Location"));
     }
 
     @Test

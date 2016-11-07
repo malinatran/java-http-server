@@ -11,7 +11,7 @@ public class RouterValidatorTest {
 
     private Request request;
     private RouterValidator validator;
-    private Boolean result;
+    private boolean result;
 
     @Before
     public void setUp() {

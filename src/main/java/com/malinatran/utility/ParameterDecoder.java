@@ -1,4 +1,4 @@
-package com.malinatran.router;
+package com.malinatran.utility;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,13 +7,13 @@ import java.util.Map;
 
 public class ParameterDecoder {
 
-    private Map<String, String> encodedCharacters;
+    private static Map<String, String> encodedCharacters;
 
-    public Map<String, String> getEncodedCharacters() {
+    public static Map<String, String> getEncodedCharacters() {
         return encodedCharacters;
     }
 
-    public String decodeText(String path) {
+    public static String decodeText(String path) {
         encodedCharacters = new HashMap<String, String>();
         addEncodedCharacters();
         String decodedText = "";
@@ -25,7 +25,7 @@ public class ParameterDecoder {
         return decodedText;
     }
 
-    private String readAndDecodeCharacter(String path) {
+    private static String readAndDecodeCharacter(String path) {
         String[] formattedPath = formatPath(path);
         List<Integer> voidChar = new ArrayList<Integer>();
         String text = "";
@@ -48,7 +48,7 @@ public class ParameterDecoder {
         return text + "\n";
     }
 
-    private void addEncodedCharacters() {
+    private static void addEncodedCharacters() {
         encodedCharacters.put("%20", " ");
         encodedCharacters.put("%22", "\"");
         encodedCharacters.put("%23", "#");
@@ -67,15 +67,15 @@ public class ParameterDecoder {
         encodedCharacters.put("%5D", "]");
     }
 
-    private Boolean hasParametersQuery(String path) {
+    private static boolean hasParametersQuery(String path) {
         return (path.startsWith("/parameters?"));
     }
 
-    private String[] formatPath(String path) {
+    private static String[] formatPath(String path) {
         return removeQuery(path).replace("=", " = ").replace("&", "\n").split("");
     }
 
-    private String getCharacter(int index, String currentChar, String[] path) {
+    private static String getCharacter(int index, String currentChar, String[] path) {
         String secondChar = path[index + 1];
         String thirdChar = path[index + 2];
         String code = currentChar + secondChar + thirdChar;
@@ -83,7 +83,7 @@ public class ParameterDecoder {
         return encodedCharacters.get(code);
     }
 
-    private String removeQuery(String path) {
+    private static String removeQuery(String path) {
         String pathWithoutQuery = "";
 
         if (path.startsWith("/") && path.contains("?")) {

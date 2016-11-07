@@ -8,6 +8,8 @@ import com.malinatran.response.Response;
 import org.junit.Before;
 import org.junit.Test;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -38,9 +40,9 @@ public class RouterTest {
     }
 
     @Test
-    public void getResponseForGetReturns200() throws IOException {
+    public void getResponseForGetReturns200() throws IOException, NoSuchAlgorithmException {
         request.setRequestLine("GET / HTTP/1.1");
-        request.setBody("my=data");
+        request.setBody(new char[10]);
 
         response = mockRouter.getResponse(request, logger);
 
@@ -48,7 +50,7 @@ public class RouterTest {
     }
 
     @Test
-    public void getResponseForBogusReturns405() throws IOException {
+    public void getResponseForBogusReturns405() throws IOException, NoSuchAlgorithmException {
         request.setRequestLine("BOGUS /file1 HTTP/1.1");
 
         response = router.getResponse(request, logger);
@@ -57,7 +59,7 @@ public class RouterTest {
     }
 
     @Test
-    public void getResponseForGetWithRandomPathReturns200() throws IOException {
+    public void getResponseForGetWithRandomPathReturns200() throws IOException, NoSuchAlgorithmException {
         request.setRequestLine("GET /file1 HTTP/1.1");
 
         response = mockRouter.getResponse(request, logger);
@@ -66,7 +68,7 @@ public class RouterTest {
     }
 
     @Test
-    public void getResponseForPutWithRandomPathReturns405() throws IOException {
+    public void getResponseForPutWithRandomPathReturns405() throws IOException, NoSuchAlgorithmException {
         request.setRequestLine("PUT /file1 HTTP/1.1");
 
         response = router.getResponse(request, logger);
@@ -75,7 +77,7 @@ public class RouterTest {
     }
 
     @Test
-    public void getResponseForPostWithRandomPathReturns405() throws IOException {
+    public void getResponseForPostWithRandomPathReturns405() throws IOException, NoSuchAlgorithmException {
         request.setRequestLine("POST /hello HTTP/1.1");
 
         response = router.getResponse(request, logger);

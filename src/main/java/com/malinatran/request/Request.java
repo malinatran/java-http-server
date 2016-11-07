@@ -1,17 +1,20 @@
 package com.malinatran.request;
 
-import com.malinatran.constants.Header;
+import com.malinatran.constant.FileType;
+import com.malinatran.constant.Header;
+import com.malinatran.utility.RangeParser;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class Request {
 
+    private final String[] FILE_EXTENSIONS = { ".gif", ".jpeg", ".jpg", ".png" };
     private Map<String, String> headers;
     private String method;
     private String path;
     private String protocolAndVersion;
-    private String body;
+    private char[] body;
     private String directoryPath;
     private Map<String, Integer> ranges;
 
@@ -30,7 +33,7 @@ public class Request {
         headers.put(key, value);
     }
 
-    public void setBody(String body) {
+    public void setBody(char[] body) {
         this.body = body;
     }
 
@@ -50,27 +53,15 @@ public class Request {
     }
 
     public Map<String, Integer> getRangeValues() {
+        String header = getHeaderValue(Header.RANGE);
         ranges = new HashMap<String, Integer>();
 
         if (getHeaderValue(Header.RANGE) != null) {
-            String[] rangeValues = parseRangeHeader();
+            String[] rangeValues = RangeParser.getValues(header);
             setRanges(rangeValues);
         }
 
         return ranges;
-    }
-
-    private String[] parseRangeHeader() {
-        String header = getHeaderValue(Header.RANGE);
-        int startDelimiter = header.indexOf("=");
-        int endDelimiter = header.indexOf("-");
-        String rangeStart = header.substring(startDelimiter + 1, endDelimiter);
-        String rangeEnd = header.substring(endDelimiter + 1, header.length());
-        String[] rangeValues = new String[2];
-        rangeValues[0] = rangeStart;
-        rangeValues[1] = rangeEnd;
-
-        return rangeValues;
     }
 
     private void setRanges(String[] rangeValues) {
@@ -94,14 +85,61 @@ public class Request {
         return path;
     }
 
+    public String getCleanPath() {
+        return getPath().replace("/", "").trim();
+    }
+
+    public String getRoute() {
+        return method + " " + path;
+    }
+
     public String getProtocolAndVersion() {
         return protocolAndVersion;
     }
 
-    public String getBody() {
+    public char[] getBody() {
         return body; }
 
     public String getDirectoryPath() {
         return directoryPath;
     }
+
+    public String getFilePath() {
+        return getDirectoryPath() + getCleanPath();
+
+    }
+
+    public FileType getFileType(String fileName, Map<String, Integer> ranges) {
+        if (isTextFile(fileName) && ranges.isEmpty()) {
+            return FileType.TEXT;
+        } else if (isTextFile(fileName) && !ranges.isEmpty()) {
+            return FileType.PARTIAL_TEXT;
+        } else if (isImageFile(fileName)) {
+            return FileType.IMAGE;
+        }
+        return FileType.UNSUPPORTED;
+    }
+
+    public boolean isTextFile(String fileName) {
+        return isFileWithoutExtension(fileName) || isFileWithTxtExtension(fileName);
+    }
+
+    private boolean isImageFile(String fileName) {
+        for (String extension : FILE_EXTENSIONS) {
+            if (fileName.endsWith(extension)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean isFileWithoutExtension(String fileName) {
+        return (fileName.indexOf(".") == -1);
+    }
+
+    private boolean isFileWithTxtExtension(String fileName) {
+        return (fileName.endsWith(".txt"));
+    }
+
 }
