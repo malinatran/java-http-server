@@ -22,17 +22,23 @@ public class PatchAction {
     private Response response;
     private RequestLogger logger;
 
-    public void setPatchedContent(Request request, Response response, RequestLogger logger) throws IOException, NoSuchAlgorithmException {
+    public void setBody(Request request, Response response, RequestLogger logger) throws IOException, NoSuchAlgorithmException {
         this.request = request;
         this.response = response;
         this.logger = logger;
 
         Map<String, Integer> ranges = request.getRangeValues();
-        String content = getContent(ranges);
+        String path = request.getPath();
+        String content;
 
-        if (!ranges.isEmpty()) {
+        if (path.equals("/form")) {
+            content = new String(logger.getBody());
+            setText(content);
+        } else if (!ranges.isEmpty()) {
+            content = getContent(ranges);
             setText(content, ranges);
         } else {
+            content = getContent(ranges);
             setText(content);
         }
     }
@@ -43,7 +49,8 @@ public class PatchAction {
         String encodedContent = SHA1Encoder.convert(originalContent);
 
         if (encodedContent.equals(logger.getETag())) {
-            return logger.getPatchedContent();
+            String body = String.valueOf(logger.getBody());
+            return body;
         } else {
             return originalContent;
         }

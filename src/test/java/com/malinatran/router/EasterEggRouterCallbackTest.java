@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 
 public class EasterEggRouterCallbackTest {
 
-    RouterCallback callback;
+    private RouterCallback callback;
     private Request request;
     private Response response;
 

@@ -5,6 +5,10 @@ import static com.malinatran.constant.Method.*;
 public class Routes {
 
     public Routes(Router router) {
+        router.addRoute(GET, "/form", new FormRouterCallback());
+        router.addRoute(POST, "/form", new FormRouterCallback());
+        router.addRoute(PUT, "/form", new FormRouterCallback());
+        router.addRoute(DELETE, "/form", new FormRouterCallback());
         router.addRoute(OPTIONS, "/method_options", new OptionsRouterCallback());
         router.addRoute(GET, "/method_options", new OptionsRouterCallback());
         router.addRoute(PUT, "/method_options", new OptionsRouterCallback());

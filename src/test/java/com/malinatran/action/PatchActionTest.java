@@ -30,23 +30,34 @@ public class PatchActionTest {
     }
 
     @Test
-    public void setPatchedContentReturnsOriginalContent() throws IOException, NoSuchAlgorithmException {
+    public void setBodyReturnsOriginalContent() throws IOException, NoSuchAlgorithmException {
         request.setRequestLine("GET /text-file.txt HTTP/1.1");
-        logger.addETagAndPatchedContent("ABCDEFGHIJK", new char[10]);
+        logger.setETagAndBody("ABCDEFGHIJK", new char[10]);
 
-        patchAction.setPatchedContent(request, response, logger);
+        patchAction.setBody(request, response, logger);
 
         assertEquals("file1 contents", new String(response.getBodyContent()));
     }
 
     @Test
-    public void setPatchedContentReturnsPatchedContent() throws IOException, NoSuchAlgorithmException {
+    public void setBodyReturnsBodyForFormPath() throws IOException, NoSuchAlgorithmException {
+        request.setRequestLine("GET /form HTTP/1.1");
+        char[] content = "testing".toCharArray();
+        logger.setBody(content);
+
+        patchAction.setBody(request, response, logger);
+
+        assertEquals("testing", new String(response.getBodyContent()));
+    }
+
+    @Test
+    public void setBodyReturnsPatchedContent() throws IOException, NoSuchAlgorithmException {
         request.setRequestLine("GET /text-file.txt HTTP/1.1");
         String hash = "a379624177abc4679cafafa8eae1d73e1478aaa6";
         String patched = "patched content";
-        logger.addETagAndPatchedContent(hash, patched.toCharArray());
+        logger.setETagAndBody(hash, patched.toCharArray());
 
-        patchAction.setPatchedContent(request, response, logger);
+        patchAction.setBody(request, response, logger);
 
         assertEquals(patched, new String(response.getBodyContent()));
     }
