@@ -20,6 +20,7 @@ public class RouterTest {
     private Router router;
     private Router mockRouter;
     private Request request;
+    private Request subsequentRequest;
     private Response response;
     private RequestLogger logger;
 
@@ -28,6 +29,7 @@ public class RouterTest {
         router = new Router();
         mockRouter = new MockRouter();
         request = new Request();
+        subsequentRequest = new Request();
         response = new Response("HTTP/1.1");
         logger = new RequestLogger();
     }
@@ -83,5 +85,26 @@ public class RouterTest {
         response = router.getResponse(request, logger);
 
         assertEquals(responseNotAllowed + "\r\n", response.getStatusLine());
+    }
+
+    @Test
+    public void getResponseForPostWithFormPathReturns200() throws IOException, NoSuchAlgorithmException {
+        request.setRequestLine("GET /form HTTP/1.1");
+        request.setBody(new char[10]);
+
+        response = router.getResponse(request, logger);
+
+        assertEquals(responseOK + "\r\n", response.getStatusLine());
+    }
+
+    @Test
+    public void getResponseForGetWithFormPathAfterDeleteReturns200AndSetsBodyToBeEmpty() throws IOException, NoSuchAlgorithmException {
+        request.setRequestLine("DELETE /form HTTP/1.1");
+        subsequentRequest.setRequestLine("GET /form HTTP/1.1");
+
+        response = router.getResponse(subsequentRequest, logger);
+
+        assertEquals(responseOK + "\r\n", response.getStatusLine());
+        assertEquals("", new String(response.getBodyContent()));
     }
 }

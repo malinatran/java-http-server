@@ -17,6 +17,11 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.malinatran.constant.Method.PATCH;
+import static com.malinatran.constant.Method.DELETE;
+import static com.malinatran.constant.Method.PUT;
+import static com.malinatran.constant.Method.POST;
+
 public class Router {
 
     private RouterValidator validator;
@@ -63,13 +68,27 @@ public class Router {
 
     private void logRequest() throws UnsupportedEncodingException, NoSuchAlgorithmException {
         String method = request.getMethod();
+        String path = request.getPath();
         logger.addRequestLine(request);
 
-        if (isMethod(method, Method.PATCH)) {
+        if (isMethod(method, PATCH)) {
             String eTag = request.getHeaderValue(Header.IF_MATCH);
             char[] data = request.getBody();
-            logger.addETagAndPatchedContent(eTag, data);
+            logger.setETagAndBody(eTag, data);
+        } else if (isPutOrPostToForm(method, path)) {
+            char[] data = request.getBody();
+            logger.setBody(data);
+        } else if (isDeleteToForm(method, path)) {
+            logger.setBody(new char[0]);
         }
+    }
+
+    private boolean isPutOrPostToForm(String method, String path) {
+        return (isMethod(method, POST) || isMethod(method, PUT) && path.equals("/form"));
+    }
+
+    private boolean isDeleteToForm(String method, String path) {
+        return (isMethod(method, DELETE) && path.equals("/form"));
     }
 
     private RouterCallback setCallback() throws IOException, NoSuchAlgorithmException {
@@ -79,8 +98,8 @@ public class Router {
         if (validator.isValidRouteAndCredentials(request)) {
             loggedAction.setLogs(response, logger);
             callback = null;
-        } else if (isRequestForPatchedContent()) {
-            patchAction.setPatchedContent(request, response, logger);
+        } else if (isRequestForPatchedContent() || isRequestForBody()) {
+            patchAction.setBody(request, response, logger);
             callback = null;
         } else if (hasRoute(route)) {
             callback = routes.get(route);
@@ -99,12 +118,19 @@ public class Router {
         }
     }
 
+    private boolean isRequestForBody() {
+        String method = request.getMethod();
+        String path = request.getPath();
+
+        return (isMethod(method, Method.GET) && path.equals("/form"));
+    }
+
     private boolean isRequestForPatchedContent() {
         String method = request.getMethod();
         String filePath = request.getFilePath();
 
         return (isMethod(method, Method.GET) &&
-                logger.hasPatchedContent() &&
+                logger.hasBody() &&
                 request.isTextFile(filePath) &&
                 directory.existsInDirectory(filePath));
     }

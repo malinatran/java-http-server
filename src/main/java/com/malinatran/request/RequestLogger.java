@@ -8,12 +8,12 @@ public class RequestLogger {
 
     private ArrayList<String> loggedRequestLines;
     private String eTag;
-    private char[] patchedContent;
+    private char[] body;
 
     public RequestLogger() {
         loggedRequestLines = new ArrayList<String>();
         eTag = "";
-        patchedContent = new char[0];
+        body = new char[0];
     }
 
     public void addRequestLine(Request request) {
@@ -31,26 +31,26 @@ public class RequestLogger {
         return requestLines;
     }
 
-    public void addETagAndPatchedContent(String eTag, char[] data) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+    public void setETagAndBody(String eTag, char[] body) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         if (eTag != null) {
             this.eTag = eTag;
-            this.patchedContent = data;
+            this.body = body;
         }
-    }
-
-    public String getPatchedContent() {
-        return String.valueOf(getPatchedContentAsCharArray());
     }
 
     public String getETag() {
         return eTag;
     }
 
-    public boolean hasPatchedContent() {
-        return (getPatchedContentAsCharArray().length > 0);
+    public boolean hasBody() {
+        return (getBody().length > 0);
     }
 
-    private char[] getPatchedContentAsCharArray() {
-        return patchedContent;
+    public char[] getBody() {
+        return body;
+    }
+
+    public void setBody(char[] body) {
+        this.body = body;
     }
 }
