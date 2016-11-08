@@ -17,7 +17,6 @@ public class DirectoryTest {
     private String DEFAULT_DIRECTORY = ServerSettings.HOME + ServerSettings.DEFAULT_PATH;
     private Map<String, Integer> map;
     private boolean result;
-    private FileType type;
 
     @Before
     public void setUp() {
@@ -55,7 +54,7 @@ public class DirectoryTest {
 
     @Test
     public void getTextReturnsTextFileContent() throws IOException {
-        String result = directory.getContent(DEFAULT_DIRECTORY + "text-file.txt");
+        String result = directory.getContent(DEFAULT_DIRECTORY + "text-file.txt", map);
 
         assertEquals("file1 contents", result);
     }

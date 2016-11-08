@@ -10,6 +10,7 @@ import java.io.IOException;
 
 public class LogsRouterCallback implements RouterCallback {
 
+    public static final String MESSAGE = "Basic realm=MALINA_REALM";
     private RouterValidator validator = new RouterValidator();
 
     public void run(Request request, Response response) {
@@ -17,7 +18,7 @@ public class LogsRouterCallback implements RouterCallback {
 
         if (credentials == null || !validator.isValidCredentials(credentials)) {
             response.setStatus(Status.UNAUTHORIZED);
-            response.setHeader(Header.WWW_AUTHENTICATE, Header.MESSAGE);
+            response.setHeader(Header.WWW_AUTHENTICATE, MESSAGE);
         }
     }
 

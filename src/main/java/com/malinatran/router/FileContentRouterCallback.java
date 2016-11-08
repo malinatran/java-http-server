@@ -17,6 +17,8 @@ import java.util.Map;
 
 public class FileContentRouterCallback implements RouterCallback {
 
+    private static final String IMAGE = "/image";
+    public static final String TEXT_PLAIN = "text/plain";
     private Directory directory = new Directory();
     private Image image = new Image();
     private Response response;
@@ -48,16 +50,16 @@ public class FileContentRouterCallback implements RouterCallback {
     private void getContentByFileType() throws IOException {
         String filePath = request.getFilePath();
         Map<String, Integer> ranges = request.getRangeValues();
-        FileType type = directory.getFileType(filePath, ranges);
+        FileType type = directory.getFileType(filePath);
 
         switch (type) {
             case TEXT:
-                String content = directory.getContent(filePath);
-                setText(content);
-                break;
-            case PARTIAL_TEXT:
-                content = directory.getContent(filePath, ranges);
-                setText(content, ranges);
+                String content = directory.getContent(filePath, ranges);
+                if (!ranges.isEmpty()) {
+                    setText(content, ranges);
+                } else {
+                    setText(content);
+                }
                 break;
             case IMAGE:
                 byte[] imageBytes = directory.getBytes(filePath);
@@ -71,20 +73,20 @@ public class FileContentRouterCallback implements RouterCallback {
 
     private void setText(String text) {
         response.setStatus(Status.OK);
-        response.setHeader(Header.CONTENT_TYPE, Header.TEXT_PLAIN);
+        response.setHeader(Header.CONTENT_TYPE, TEXT_PLAIN);
         response.setBodyContent(text);
     }
 
     private void setText(String text, Map<String, Integer> range) {
         response.setStatus(Status.PARTIAL_CONTENT);
-        response.setHeader(Header.CONTENT_TYPE, Header.TEXT_PLAIN);
+        response.setHeader(Header.CONTENT_TYPE, TEXT_PLAIN);
         response.setHeader(Header.CONTENT_RANGE, range.get(START) + "-" + range.get(END));
         response.setBodyContent(text);
     }
 
     private void setImage(String fileType, byte[] image) {
         response.setStatus(Status.OK);
-        response.setHeader(Header.CONTENT_TYPE, Header.IMAGE + fileType);
+        response.setHeader(Header.CONTENT_TYPE, IMAGE + fileType);
         response.setHeader(Header.CONTENT_LENGTH, String.valueOf(image.length));
         response.setBodyContent(image);
     }

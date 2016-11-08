@@ -35,11 +35,9 @@ public class Directory {
         }
     }
 
-    public FileType getFileType(String fileName, Map<String, Integer> ranges) {
-        if (isTextFile(fileName) && ranges.isEmpty()) {
+    public FileType getFileType(String fileName) {
+        if (isTextFile(fileName)) {
             return FileType.TEXT;
-        } else if (isTextFile(fileName) && !ranges.isEmpty()) {
-            return FileType.PARTIAL_TEXT;
         } else if (isImageFile(fileName)) {
             return FileType.IMAGE;
         }
@@ -66,10 +64,6 @@ public class Directory {
 
     private boolean isFileWithTxtExtension(String fileName) {
         return (fileName.endsWith(".txt"));
-    }
-
-    public String getContent(String filePath) throws IOException {
-        return textFile.readTextFile(filePath);
     }
 
     public String getContent(String filePath, Map<String, Integer> ranges) throws IOException {

@@ -7,8 +7,8 @@ public class ServerSettings {
     public static final String PORT_FLAG = "-p";
     public static final String DIRECTORY_FLAG = "-d";
     public static final int DEFAULT_PORT = 5000;
-    public static final String DEFAULT_PATH = "/Development/cob_spec/public/";
-    public static final String HOME = System.getProperty("user.home");
+    public static final String DEFAULT_PATH = "/public/";
+    public static final String HOME = System.getProperty("user.dir");
     private Map<String, String> configuration;
     private int port;
     private String path;

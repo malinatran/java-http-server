@@ -11,10 +11,7 @@ public class Header {
     public static final String CONTENT_TYPE = "Content-Type";
     public static final String HOST = "Host";
     public static final String IF_MATCH = "If-Match";
-    public static final String IMAGE = "image/";
     public static final String LOCATION = "Location";
-    public static final String MESSAGE = "Basic realm=MALINA_REALM";
     public static final String RANGE = "Range";
-    public static final String TEXT_PLAIN = "text/plain";
     public static final String WWW_AUTHENTICATE = "WWW-Authenticate";
 }

@@ -27,7 +27,7 @@ public class TextFileTest {
 
     @Test
     public void readTextFileReturnsEntireFileContents() throws IOException {
-        result = textFile.readTextFile(DEFAULT_PATH + "text-file.txt");
+        result = textFile.readPartialTextFile(DEFAULT_PATH + "text-file.txt", rangeBytes);
 
         assertEquals("file1 contents", result);
     }

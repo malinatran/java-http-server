@@ -1,7 +1,6 @@
 package com.malinatran.router;
 
 import com.malinatran.constant.Header;
-import com.malinatran.constant.Method;
 import com.malinatran.constant.Status;
 import com.malinatran.utility.ParameterDecoder;
 import com.malinatran.request.Request;
@@ -17,6 +16,7 @@ import java.util.Map;
 
 import static com.malinatran.constant.Method.PATCH;
 import static com.malinatran.constant.Method.DELETE;
+import static com.malinatran.constant.Method.GET;
 import static com.malinatran.constant.Method.PUT;
 import static com.malinatran.constant.Method.POST;
 
@@ -90,13 +90,12 @@ public class Router {
     private RouterCallback setCallback() throws IOException, NoSuchAlgorithmException {
         String route = request.getRoute();
         String method = request.getMethod();
+        callback = null;
 
-        if (validator.isValidRouteAndCredentials(request)) {
+        if (hasBasicAuth()) {
             loggedRouterCallback.run(response, logger);
-            callback = null;
-        } else if (isRequestForPatchedContent() || isRequestForBody()) {
+        } else if (isGetRequestWithLoggedBody()) {
             loggedRouterCallback.run(request, response, logger);
-            callback = null;
         } else if (hasRoute(route)) {
             callback = routes.get(route);
         } else if (hasRoute(method + " *")) {
@@ -114,18 +113,26 @@ public class Router {
         }
     }
 
-    private boolean isRequestForBody() {
+    private boolean hasBasicAuth() {
+        return validator.isValidRouteAndCredentials(request);
+    }
+
+    private boolean isGetRequestWithLoggedBody() {
+        return (isGetRequestToForm() || isGetRequestToExistingFile());
+    }
+
+    private boolean isGetRequestToForm() {
         String method = request.getMethod();
         String path = request.getPath();
 
-        return (isMethod(method, Method.GET) && path.equals("/form"));
+        return (isMethod(method, GET) && path.equals("/form"));
     }
 
-    private boolean isRequestForPatchedContent() {
+    private boolean isGetRequestToExistingFile() {
         String method = request.getMethod();
         String filePath = request.getFilePath();
 
-        return (isMethod(method, Method.GET) &&
+        return (isMethod(method, GET) &&
                 logger.hasBody() &&
                 directory.isTextFile(filePath) &&
                 directory.existsInDirectory(filePath));

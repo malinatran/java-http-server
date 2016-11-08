@@ -16,11 +16,11 @@ import java.util.Map;
 
 public class LoggedRouterCallback implements RouterCallback {
 
- private TextFile textFile = new TextFile();
+    public static final String TEXT_PLAIN = "text/plain";
+    private TextFile textFile = new TextFile();
     private Request request;
     private Response response;
     private RequestLogger logger;
-
 
     public void run(Response response, RequestLogger logger) {
         response.setStatus(Status.OK);
@@ -39,18 +39,19 @@ public class LoggedRouterCallback implements RouterCallback {
         if (path.equals("/form")) {
             content = new String(logger.getBody());
             setText(content);
-        } else if (!ranges.isEmpty()) {
-            content = getContent(ranges);
-            setText(content, ranges);
         } else {
-            content = getContent(ranges);
-            setText(content);
+            content = getOriginalOrPatchedContent(ranges);
+            if (ranges.isEmpty()) {
+                setText(content);
+            } else {
+                setText(content, ranges);
+            }
         }
     }
 
     public void run(Request request, Response response) throws IOException {}
 
-    private String getContent(Map<String, Integer> ranges) throws IOException, NoSuchAlgorithmException {
+    private String getOriginalOrPatchedContent(Map<String, Integer> ranges) throws IOException, NoSuchAlgorithmException {
         String filePath = request.getFilePath();
         String originalContent = textFile.readPartialTextFile(filePath, ranges);
         String encodedContent = SHA1Encoder.convert(originalContent);
@@ -65,13 +66,13 @@ public class LoggedRouterCallback implements RouterCallback {
 
     private void setText(String text) {
         response.setStatus(Status.OK);
-        response.setHeader(Header.CONTENT_TYPE, Header.TEXT_PLAIN);
+        response.setHeader(Header.CONTENT_TYPE, TEXT_PLAIN);
         response.setBodyContent(text);
     }
 
     private void setText(String text, Map<String, Integer> ranges) {
         response.setStatus(Status.PARTIAL_CONTENT);
-        response.setHeader(Header.CONTENT_TYPE, Header.TEXT_PLAIN);
+        response.setHeader(Header.CONTENT_TYPE, TEXT_PLAIN);
         response.setHeader(Header.CONTENT_RANGE, ranges.get(START) + "-" + ranges.get(END));
         response.setBodyContent(text);
     }

@@ -77,7 +77,7 @@ public class ServerSettingsTest {
 
     @Test
     public void getDirectoryReturnsCustomDirectory() throws IOException {
-        String directory = "/Documents/directory/";
+        String directory = "/directory/";
         map.put("-d", directory);
         File file = new File(HOME_DIRECTORY + directory);
         file.mkdir();
