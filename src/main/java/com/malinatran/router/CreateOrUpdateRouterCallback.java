@@ -1,6 +1,6 @@
 package com.malinatran.router;
 
-import com.malinatran.constant.Status;
+import com.malinatran.utility.Status;
 import com.malinatran.request.Request;
 import com.malinatran.request.RequestLogger;
 import com.malinatran.resource.Directory;
@@ -10,14 +10,11 @@ import java.io.IOException;
 
 public class CreateOrUpdateRouterCallback implements RouterCallback {
 
-    private Directory directory;
-
     public void run(Request request, Response response) {
         char[] body = request.getBody();
         String filePath = request.getFilePath();
-        directory = new Directory();
 
-        if (directory.existsInDirectory(filePath)) {
+        if (Directory.existsInDirectory(filePath)) {
             response.setStatus(Status.METHOD_NOT_ALLOWED);
         } else if (body != null) {
             response.setStatus(Status.OK);

@@ -1,6 +1,6 @@
 package com.malinatran.request;
 
-import com.malinatran.constant.Header;
+import com.malinatran.utility.Header;
 import com.malinatran.utility.RangeParser;
 
 import java.util.HashMap;

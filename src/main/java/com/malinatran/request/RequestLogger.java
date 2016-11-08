@@ -1,12 +1,12 @@
 package com.malinatran.request;
 
-import com.malinatran.constant.Header;
+import com.malinatran.utility.Header;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
-import static com.malinatran.constant.Method.PATCH;
+import static com.malinatran.utility.Method.PATCH;
 
 public class RequestLogger {
 
