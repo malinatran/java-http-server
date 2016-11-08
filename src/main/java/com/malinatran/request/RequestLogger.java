@@ -1,8 +1,12 @@
 package com.malinatran.request;
 
+import com.malinatran.constant.Header;
+
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+
+import static com.malinatran.constant.Method.PATCH;
 
 public class RequestLogger {
 
@@ -16,9 +20,18 @@ public class RequestLogger {
         body = new char[0];
     }
 
-    public void addRequestLine(Request request) {
-        String initialLine = request.getMethod() + " " + request.getPath() + " " + request.getProtocolAndVersion();
-        loggedRequestLines.add(initialLine + "\r\n");
+    public void logRequest(Request request) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+        String method = request.getMethod();
+        String path = request.getPath();
+        addRequestLine(request);
+
+        if (MethodReader.isMethod(method, PATCH)) {
+            handlePatch(request);
+       } else if (MethodReader.isPutOrPostToForm(method, path)) {
+            handlePutOrPost(request);
+        } else if (MethodReader.isDeleteToForm(method, path)) {
+            handleDelete();
+        }
     }
 
     public String getLoggedRequests() {
@@ -31,26 +44,47 @@ public class RequestLogger {
         return requestLines;
     }
 
-    public void setETagAndBody(String eTag, char[] body) throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        if (eTag != null) {
-            this.eTag = eTag;
-            this.body = body;
-        }
-    }
-
     public String getETag() {
         return eTag;
-    }
-
-    public boolean hasBody() {
-        return (getBody().length > 0);
     }
 
     public char[] getBody() {
         return body;
     }
 
-    public void setBody(char[] body) {
+    public boolean hasBody() {
+        return body.length > 0;
+    }
+
+    private void addRequestLine(Request request) {
+        String initialLine = request.getMethod() + " " + request.getPath() + " " + request.getProtocolAndVersion();
+        loggedRequestLines.add(initialLine + "\r\n");
+    }
+
+    private void handlePatch(Request request) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+        String eTag = request.getHeaderValue(Header.IF_MATCH);
+        char[] body = request.getBody();
+
+        setETagAndBody(eTag, body);
+    }
+
+    private void setETagAndBody(String eTag, char[] body) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+        if (eTag != null) {
+            this.eTag = eTag;
+            this.body = body;
+        }
+    }
+
+    private void handlePutOrPost(Request request) {
+        char[] data = request.getBody();
+        setBody(data);
+    }
+
+    private void handleDelete() {
+        setBody(new char[0]);
+    }
+
+    private void setBody(char[] body) {
         this.body = body;
     }
 }

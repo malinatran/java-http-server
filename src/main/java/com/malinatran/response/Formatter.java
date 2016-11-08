@@ -2,7 +2,7 @@ package com.malinatran.response;
 
 import java.util.Map;
 
-public class ResponseFormatter {
+public class Formatter {
 
     public static String formatHeaderLines(Map<String, String> headers) {
         String headerLines = "";
@@ -18,5 +18,9 @@ public class ResponseFormatter {
 
     public static String addNewLine(String line) {
         return line + "\r\n";
+    }
+
+    public static String addEOFCharacter(int end, int count) {
+        return (end == count ?  "\n" : "");
     }
 }

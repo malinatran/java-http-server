@@ -6,14 +6,17 @@ import java.security.NoSuchAlgorithmException;
 
 public class SHA1Encoder {
 
+    private static final String SHA_1 = "SHA-1";
+    private static final String UTF_8 = "UTF-8";
+
     public static String convert(String text) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         MessageDigest digest;
         byte[] input = null;
 
         try {
-            digest = MessageDigest.getInstance("SHA-1");
+            digest = MessageDigest.getInstance(SHA_1);
             digest.reset();
-            input = digest.digest(text.getBytes("UTF-8"));
+            input = digest.digest(text.getBytes(UTF_8));
         } catch (NoSuchAlgorithmException e1) {
             e1.printStackTrace();
         } catch (UnsupportedEncodingException e) {
@@ -34,7 +37,7 @@ public class SHA1Encoder {
                     stringBuffer.append((char) ('0' + halfByte));
                 else
                     stringBuffer.append((char) ('a' + (halfByte - 10)));
-                halfByte = data[i] & 0x0F;
+                    halfByte = data[i] & 0x0F;
 
             } while (counter++ < 1);
         }

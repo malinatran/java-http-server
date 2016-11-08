@@ -1,0 +1,47 @@
+package com.malinatran.request;
+
+import com.malinatran.resource.Directory;
+import com.malinatran.resource.FileTypeReader;
+
+import static com.malinatran.constant.Method.GET;
+import static com.malinatran.constant.Method.DELETE;
+import static com.malinatran.constant.Method.POST;
+import static com.malinatran.constant.Method.PUT;
+
+public class MethodReader {
+
+    private static final String FORM = "/form";
+
+    public static boolean isGetRequestWithLoggedBody(Request request, RequestLogger logger) {
+        return (isGetRequestToForm(request) || isGetRequestToExistingFile(request, logger));
+    }
+
+    public static boolean isGetRequestToForm(Request request) {
+        String method = request.getMethod();
+        String path = request.getPath();
+
+        return (isMethod(method, GET) && path.equals(FORM));
+    }
+
+    public static boolean isGetRequestToExistingFile(Request request, RequestLogger logger) {
+        String method = request.getMethod();
+        String filePath = request.getFilePath();
+
+        return (isMethod(method, GET) &&
+                logger.hasBody() &&
+                FileTypeReader.isTextFile(filePath) &&
+                Directory.existsInDirectory(filePath));
+    }
+
+    public static boolean isPutOrPostToForm(String method, String path) {
+        return (isMethod(method, POST) || isMethod(method, PUT) && path.equals(FORM));
+    }
+
+    public static boolean isDeleteToForm(String method, String path) {
+        return (isMethod(method, DELETE) && path.equals(FORM));
+    }
+
+    public static boolean isMethod(String text, String methodType) {
+        return text.equals(methodType);
+    }
+}

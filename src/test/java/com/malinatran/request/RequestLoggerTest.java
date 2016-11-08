@@ -3,6 +3,9 @@ package com.malinatran.request;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+
 import static org.junit.Assert.*;
 
 public class RequestLoggerTest {
@@ -19,23 +22,22 @@ public class RequestLoggerTest {
     }
 
     @Test
-    public void addRequestLineAddsStringToLogger() {
+    public void logRequestStoresStringToLogger() throws UnsupportedEncodingException, NoSuchAlgorithmException {
         request.setRequestLine("GET / HTTP/1.1");
 
-        logger.addRequestLine(request);
+        logger.logRequest(request);
 
         assertEquals("GET / HTTP/1.1\r\n", logger.getLoggedRequests());
     }
 
     @Test
-    public void addRequestLineAddsMultipleStringsToLogger() {
+    public void logRequestStoresMultipleStringsToLogger() throws UnsupportedEncodingException, NoSuchAlgorithmException {
         request.setRequestLine("PUT /these HTTP/1.1");
         secondRequest.setRequestLine("GET /logs HTTP/1.1");
 
-        logger.addRequestLine(request);
-        logger.addRequestLine(secondRequest);
+        logger.logRequest(request);
+        logger.logRequest(secondRequest);
 
         assertEquals("PUT /these HTTP/1.1\r\nGET /logs HTTP/1.1\r\n", logger.getLoggedRequests());
     }
-
 }

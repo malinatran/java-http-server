@@ -51,18 +51,4 @@ public class DirectoryTest {
 
         assertFalse(result);
     }
-
-    @Test
-    public void getTextReturnsTextFileContent() throws IOException {
-        String result = directory.getContent(DEFAULT_DIRECTORY + "text-file.txt", map);
-
-        assertEquals("file1 contents", result);
-    }
-
-    @Test
-    public void getBytesReturnsBytesFromImageFile() throws IOException {
-        byte[] result = directory.getBytes(DEFAULT_DIRECTORY + "image.gif");
-
-        assertEquals(7169, result.length);
-    }
 }

@@ -55,7 +55,7 @@ public class Response {
     }
 
     public String getStatusLine() {
-        return ResponseFormatter.addNewLine(protocol + " " + status);
+        return Formatter.addNewLine(protocol + " " + status);
     }
 
     private String getHeaders() {
@@ -63,6 +63,6 @@ public class Response {
     }
 
     private String getHeaderLines() {
-        return ResponseFormatter.formatHeaderLines(headers);
+        return Formatter.formatHeaderLines(headers);
     }
 }
