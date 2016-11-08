@@ -53,7 +53,7 @@ public class LoggedRouterCallback implements RouterCallback {
 
     private String getOriginalOrPatchedContent(Map<String, Integer> ranges) throws IOException, NoSuchAlgorithmException {
         String filePath = request.getFilePath();
-        String originalContent = textFile.readPartialTextFile(filePath, ranges);
+        String originalContent = textFile.readTextFile(filePath, ranges);
         String encodedContent = SHA1Encoder.convert(originalContent);
 
         if (encodedContent.equals(logger.getETag())) {
