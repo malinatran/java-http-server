@@ -14,21 +14,33 @@ public class CommandLineArgsParser {
     public CommandLineArgsParser(String[] args) {
         int size = args.length;
 
-        if (size == 4 || size == 0) {
+        if (hasFourArgsOrNone(size)) {
             setConfiguration(args);
-        } else if (size == 2) {
+        } else if (hasTwoArgs(size)) {
             setConfigurationIfFlagsExist(args);
         } else {
             throwInvalidArgsError(args);
         }
     }
 
+    private boolean hasFourArgsOrNone(int size) {
+        return (size == 4 || size == 0);
+    }
+
+    private boolean hasTwoArgs(int size) {
+        return (size == 2);
+    }
+
     private void setConfigurationIfFlagsExist(String[] args) {
-        if (InputValidator.isFlag(args[0])) {
+        if (isFirstArgAFlag(args[0])) {
             setConfiguration(args);
         } else {
             throwInvalidArgsError(args);
         }
+    }
+
+    private boolean isFirstArgAFlag(String arg) {
+       return (InputValidator.isFlag(arg));
     }
 
     private void setConfiguration(String[] args) {

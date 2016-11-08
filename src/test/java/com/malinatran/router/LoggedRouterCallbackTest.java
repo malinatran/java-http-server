@@ -41,11 +41,10 @@ public class LoggedRouterCallbackTest {
         assertNotNull(response.getBodyContent());
     }
 
-
     @Test
     public void runReturnsOriginalContent() throws IOException, NoSuchAlgorithmException {
         request.setRequestLine("GET /text-file.txt HTTP/1.1");
-        logger.setETagAndBody("ABCDEFGHIJK", new char[10]);
+        request.setHeader("If-Match: random");
 
         loggedRouterCallback.run(request, response, logger);
 
@@ -54,9 +53,12 @@ public class LoggedRouterCallbackTest {
 
     @Test
     public void runReturnsBodyForFormPath() throws IOException, NoSuchAlgorithmException {
-        request.setRequestLine("GET /form HTTP/1.1");
+        Request initialRequest = new Request();
         char[] content = "testing".toCharArray();
-        logger.setBody(content);
+        initialRequest.setRequestLine("POST /form HTTP/1.1");
+        initialRequest.setBody(content);
+        logger.logRequest(initialRequest);
+        request.setRequestLine("GET /form HTTP/1.1");
 
         loggedRouterCallback.run(request, response, logger);
 
@@ -65,10 +67,14 @@ public class LoggedRouterCallbackTest {
 
     @Test
     public void runReturnsPatchedContent() throws IOException, NoSuchAlgorithmException {
-        request.setRequestLine("GET /text-file.txt HTTP/1.1");
+        Request initialRequest = new Request();
         String hash = "a379624177abc4679cafafa8eae1d73e1478aaa6";
         String patched = "patched content";
-        logger.setETagAndBody(hash, patched.toCharArray());
+        initialRequest.setRequestLine("PATCH /text-file.txt HTTP/1.1");
+        initialRequest.setHeader("If-Match: " + hash);
+        initialRequest.setBody(patched.toCharArray());
+        logger.logRequest(initialRequest);
+        request.setRequestLine("GET /text-file.txt HTTP/1.1");
 
         loggedRouterCallback.run(request, response, logger);
 

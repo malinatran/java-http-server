@@ -8,11 +8,11 @@ import org.junit.Test;
 import java.io.IOException;
 import static org.junit.Assert.*;
 
-public class LogsRouterCallbackTest {
+public class AuthorizedRouterCallbackTest {
 
     @Test
     public void runWithInvalidCredentialsReturns401() throws IOException {
-        RouterCallback callback = new LogsRouterCallback();
+        RouterCallback callback = new AuthorizedRouterCallback();
         Request request = new Request();
         request.setRequestLine("GET /logs HTTP/1.1");
         request.setHeader("Authorization: Basic HelloWorld");

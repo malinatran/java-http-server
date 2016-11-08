@@ -22,7 +22,7 @@ public class Routes {
         router.addRoute(HEAD, "/", new IndexRouterCallback());
         router.addRoute(HEAD, "*", new NotFoundOrAllowedRouterCallback());
         router.addRoute(GET, "/redirect", new RedirectRouterCallback());
-        router.addRoute(GET, "/logs", new LogsRouterCallback());
+        router.addRoute(GET, "/logs", new AuthorizedRouterCallback());
         router.addRoute(GET, "/coffee", new EasterEggRouterCallback());
         router.addRoute(GET, "/tea", new EasterEggRouterCallback());
         router.addRoute(PATCH, "*", new FileContentRouterCallback());

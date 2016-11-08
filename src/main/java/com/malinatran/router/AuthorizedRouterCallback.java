@@ -8,7 +8,7 @@ import com.malinatran.response.Response;
 
 import java.io.IOException;
 
-public class LogsRouterCallback implements RouterCallback {
+public class AuthorizedRouterCallback implements RouterCallback {
 
     public static final String MESSAGE = "Basic realm=MALINA_REALM";
     private RouterValidator validator = new RouterValidator();
@@ -16,10 +16,14 @@ public class LogsRouterCallback implements RouterCallback {
     public void run(Request request, Response response) {
         String credentials = request.getHeaderValue(Header.AUTHORIZATION);
 
-        if (credentials == null || !validator.isValidCredentials(credentials)) {
+        if (isInvalid(credentials)) {
             response.setStatus(Status.UNAUTHORIZED);
             response.setHeader(Header.WWW_AUTHENTICATE, MESSAGE);
         }
+    }
+
+    private boolean isInvalid(String credentials) {
+        return (credentials == null || !validator.isValidCredentials(credentials));
     }
 
     public void run(Response response, RequestLogger logger) throws IOException {}

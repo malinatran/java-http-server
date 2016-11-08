@@ -10,9 +10,11 @@ import java.io.IOException;
 
 public class RedirectRouterCallback implements RouterCallback {
 
+    private final String HTTP = "http://";
+
     public void run(Request request, Response response) {
         String host = request.getHeaderValue(Header.HOST);
-        String url = "http://" + host + "/";
+        String url = HTTP + host + "/";
         response.setStatus(Status.FOUND);
         response.setHeader(Header.LOCATION, url);
     }

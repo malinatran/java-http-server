@@ -6,7 +6,7 @@ import java.nio.file.Paths;
 
 public class Image {
 
-    public byte[] extractBytes(String fileName) {
+    public static byte[] extractBytes(String fileName) {
         byte[] imageBytes = new byte[0];
 
         try {
@@ -18,7 +18,7 @@ public class Image {
         return imageBytes;
     }
 
-    public String getImageType(String fileName) {
+    public static String getImageType(String fileName) {
         int startIndex = fileName.indexOf(".") + 1;
         int endIndex = fileName.length();
         return fileName.substring(startIndex, endIndex);
