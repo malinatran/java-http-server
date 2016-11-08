@@ -12,7 +12,18 @@ public class TextFile {
     private Map<String, Integer> ranges;
     private int count;
 
-    private String readTextFile(String filePath) throws IOException {
+    public String readTextFile(String filePath, Map<String, Integer> ranges) throws IOException {
+        this.ranges = ranges;
+        this.count = getCharacterCount(filePath);
+
+        if (ranges.isEmpty()) {
+            return readFull(filePath);
+        } else {
+            return readPartial(filePath);
+        }
+    }
+
+    private String readFull(String filePath) throws IOException {
         String content = "";
         String line;
 
@@ -26,25 +37,18 @@ public class TextFile {
         return content;
     }
 
-    public String readPartialTextFile(String filePath, Map<String, Integer> ranges) throws IOException {
-        this.ranges = ranges;
-        this.count = getCharacterCount(filePath);
+    private String readPartial(String filePath) throws IOException {
+        int[] contentRange = setContentRange();
+        String content = readFull(filePath);
 
-        if (ranges.isEmpty()) {
-            return readTextFile(filePath);
-        } else {
-            int[] contentRange = setContentRange();
-            String content = readTextFile(filePath);
+        int start = contentRange[0];
+        int end = Math.min(contentRange[1] + 1, count);
 
-            int start = contentRange[0];
-            int end = Math.min(contentRange[1] + 1, count);
-
-            return content.substring(start, end) + addEOFCharacter(end);
-        }
+        return content.substring(start, end) + addEOFCharacter(end);
     }
 
     private int getCharacterCount(String filePath) throws IOException {
-        String content = readTextFile(filePath);
+        String content = readFull(filePath);
 
         return content.length();
     }

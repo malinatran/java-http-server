@@ -67,7 +67,7 @@ public class Directory {
     }
 
     public String getContent(String filePath, Map<String, Integer> ranges) throws IOException {
-        return textFile.readPartialTextFile(filePath, ranges);
+        return textFile.readTextFile(filePath, ranges);
     }
 
     public byte[] getBytes(String filePath) throws IOException {
