@@ -1,8 +1,8 @@
 package com.malinatran.router;
 
-import com.malinatran.constant.Header;
-import com.malinatran.constant.Method;
-import com.malinatran.constant.Status;
+import com.malinatran.utility.Header;
+import com.malinatran.utility.Method;
+import com.malinatran.utility.Status;
 import com.malinatran.request.Request;
 import com.malinatran.request.RequestLogger;
 import com.malinatran.response.Response;

@@ -1,6 +1,6 @@
 package com.malinatran.mocks;
 
-import com.malinatran.constant.Status;
+import com.malinatran.utility.Status;
 import com.malinatran.request.Request;
 import com.malinatran.response.Response;
 import com.malinatran.request.RequestLogger;

@@ -1,6 +1,6 @@
 package com.malinatran.resource;
 
-import com.malinatran.constant.FileType;
+import com.malinatran.utility.FileType;
 
 public class FileTypeReader {
 

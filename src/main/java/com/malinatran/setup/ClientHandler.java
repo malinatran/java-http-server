@@ -16,13 +16,13 @@ public class ClientHandler implements Runnable {
     private final Writer out;
     private final Reader in;
     private final Router router;
-    private final RequestLogger requestLogger;
+    private final RequestLogger logger;
     private final String directoryPath;
 
-    public ClientHandler (Writer out, Reader in, RequestLogger requestLogger, Router router, String directoryPath) throws IOException {
+    public ClientHandler (Writer out, Reader in, RequestLogger logger, Router router, String directoryPath) throws IOException {
         this.out = out;
         this.in = in;
-        this.requestLogger = requestLogger;
+        this.logger = logger;
         this.router = router;
         this.directoryPath = directoryPath;
     }
@@ -41,7 +41,7 @@ public class ClientHandler implements Runnable {
     private void getRequestAndResponse() throws IOException, NoSuchAlgorithmException {
         RequestListener requestListener = new RequestListener();
         Request request = requestListener.getNextRequest(in, directoryPath);
-        Response response = router.getResponse(request, requestLogger);
+        Response response = router.getResponse(request, logger);
         out.write(response);
     }
 

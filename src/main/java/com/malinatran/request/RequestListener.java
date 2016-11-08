@@ -1,6 +1,6 @@
 package com.malinatran.request;
 
-import com.malinatran.constant.Header;
+import com.malinatran.utility.Header;
 import com.malinatran.reader.Reader;
 
 import java.io.IOException;
@@ -43,7 +43,6 @@ public class RequestListener {
             char[] body = new char[contentLength];
             in.read(body, 0, contentLength);
             request.setBody(body);
-
         }
     }
 }

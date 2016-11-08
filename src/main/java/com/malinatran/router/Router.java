@@ -1,6 +1,6 @@
 package com.malinatran.router;
 
-import com.malinatran.constant.Status;
+import com.malinatran.utility.Status;
 import com.malinatran.request.MethodReader;
 import com.malinatran.utility.ParameterDecoder;
 import com.malinatran.request.Request;

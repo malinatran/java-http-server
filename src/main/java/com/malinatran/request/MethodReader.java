@@ -3,10 +3,10 @@ package com.malinatran.request;
 import com.malinatran.resource.Directory;
 import com.malinatran.resource.FileTypeReader;
 
-import static com.malinatran.constant.Method.GET;
-import static com.malinatran.constant.Method.DELETE;
-import static com.malinatran.constant.Method.POST;
-import static com.malinatran.constant.Method.PUT;
+import static com.malinatran.utility.Method.GET;
+import static com.malinatran.utility.Method.DELETE;
+import static com.malinatran.utility.Method.POST;
+import static com.malinatran.utility.Method.PUT;
 
 public class MethodReader {
 

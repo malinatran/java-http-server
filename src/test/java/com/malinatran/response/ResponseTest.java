@@ -1,7 +1,7 @@
 package com.malinatran.response;
 
-import com.malinatran.constant.Header;
-import com.malinatran.constant.Status;
+import com.malinatran.utility.Header;
+import com.malinatran.utility.Status;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -1,6 +1,6 @@
 package com.malinatran.router;
 
-import com.malinatran.constant.Method;
+import com.malinatran.utility.Method;
 import com.malinatran.request.Request;
 
 public class RouterValidator {
