@@ -6,6 +6,9 @@ import com.malinatran.utility.RangeParser;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.malinatran.resource.TextFile.END;
+import static com.malinatran.resource.TextFile.START;
+
 public class Request {
 
     private Map<String, String> headers;
@@ -67,11 +70,11 @@ public class Request {
         String rangeEnd = rangeValues[1];
 
         if (rangeStart.length() > 0) {
-            ranges.put("Start", Integer.parseInt(rangeStart));
+            ranges.put(START, Integer.parseInt(rangeStart));
         }
 
         if (rangeEnd.length() > 0) {
-            ranges.put("End", Integer.parseInt(rangeEnd));
+            ranges.put(END, Integer.parseInt(rangeEnd));
         }
     }
 

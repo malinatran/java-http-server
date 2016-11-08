@@ -12,7 +12,7 @@ public class TextFile {
     private Map<String, Integer> ranges;
     private int count;
 
-    public String readTextFile(String filePath) throws IOException {
+    private String readTextFile(String filePath) throws IOException {
         String content = "";
         String line;
 
