@@ -19,27 +19,19 @@ public class Response {
         return headers.containsKey(key);
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public byte[] getBodyContent() {
+        return (bodyContent == null ? new byte[0] : bodyContent);
     }
 
-    public void setHeader(String key, String val) {
-        headers.put(key, val);
+    private String getHeaderLines() {
+        return Formatter.formatHeaderLines(headers);
     }
 
-    public void setBodyContent(String bodyContent) {
-        this.bodyContent = bodyContent.getBytes();
+    private String getHeaders() {
+        return getStatusLine() + getHeaderLines();
     }
 
-    public void setBodyContent(byte[] bodyContent) {
-        this.bodyContent = bodyContent;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public byte[] getResponseHeadersAndBody() {
+    public byte[] getHeadersAndBody() {
         byte[] header = getHeaders().getBytes();
         byte[] body = getBodyContent();
         byte[] response = new byte[header.length + body.length];
@@ -50,19 +42,35 @@ public class Response {
         return response;
     }
 
-    public byte[] getBodyContent() {
-        return (bodyContent == null ? new byte[0] : bodyContent);
+    public String getStatus() {
+        return status;
     }
 
     public String getStatusLine() {
         return Formatter.addNewLine(protocol + " " + status);
     }
 
-    private String getHeaders() {
-        return getStatusLine() + getHeaderLines();
+    public Response setBodyContent(byte[] bodyContent) {
+        this.bodyContent = bodyContent;
+
+        return this;
     }
 
-    private String getHeaderLines() {
-        return Formatter.formatHeaderLines(headers);
+    public Response setBodyContent(String bodyContent) {
+        this.bodyContent = bodyContent.getBytes();
+
+        return this;
+    }
+
+    public Response setHeader(String key, String val) {
+        headers.put(key, val);
+
+        return this;
+    }
+
+    public Response setStatus(String status) {
+        this.status = status;
+
+        return this;
     }
 }

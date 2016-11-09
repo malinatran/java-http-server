@@ -7,7 +7,7 @@ import static org.junit.Assert.assertEquals;
 
 public class ImageTest {
 
-    private String DEFAULT_DIRECTORY = ServerSettings.HOME + ServerSettings.DEFAULT_PATH;
+    private String PATH = ServerSettings.ROOT + ServerSettings.DEFAULT_DIRECTORY;
     private Image image;
     private String result;
 
@@ -18,7 +18,7 @@ public class ImageTest {
 
     @Test
     public void extractBytesReturnsByteArray() {
-        byte[] result = image.extractBytes(DEFAULT_DIRECTORY + "/image.gif");
+        byte[] result = image.read(PATH + "/image.gif");
 
         assertEquals(7169, result.length);
     }

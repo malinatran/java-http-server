@@ -5,47 +5,40 @@ import java.util.Map;
 
 public class CommandLineArgsParser {
 
+    private String[] args;
     private Map<String, String> configuration;
 
-    public Map<String, String> getConfiguration() {
+    public CommandLineArgsParser(String[] args) {
+        this.args = args;
+        this.configuration = new HashMap<String, String>();
+    }
+
+    public Map<String, String> configure() {
+        int size = args.length;
+
+        switch(size) {
+            case 0:
+                setConfiguration();
+                break;
+            case 2:
+                setConfigurationIfFlagExists();
+                break;
+            case 4:
+                setConfiguration();
+                break;
+            default:
+                throwInvalidArgsError();
+        }
+
         return configuration;
     }
 
-    public CommandLineArgsParser(String[] args) {
-        int size = args.length;
-
-        if (hasFourArgsOrNone(size)) {
-            setConfiguration(args);
-        } else if (hasTwoArgs(size)) {
-            setConfigurationIfFlagsExist(args);
-        } else {
-            throwInvalidArgsError(args);
-        }
-    }
-
-    private boolean hasFourArgsOrNone(int size) {
-        return (size == 4 || size == 0);
-    }
-
-    private boolean hasTwoArgs(int size) {
-        return (size == 2);
-    }
-
-    private void setConfigurationIfFlagsExist(String[] args) {
-        if (isFirstArgAFlag(args[0])) {
-            setConfiguration(args);
-        } else {
-            throwInvalidArgsError(args);
-        }
-    }
-
     private boolean isFirstArgAFlag(String arg) {
-       return (InputValidator.isFlag(arg));
+        return (InputValidator.isFlag(arg));
     }
 
-    private void setConfiguration(String[] args) {
+    private Map<String, String> setConfiguration() {
         String currentKey = "";
-        this.configuration = new HashMap<String, String>();
 
         for (int i = 0; i < args.length; i++) {
             String currentArg = args[i];
@@ -57,9 +50,21 @@ public class CommandLineArgsParser {
                 currentKey = "";
             }
         }
+
+        return configuration;
     }
 
-    private void throwInvalidArgsError(String[] args) {
+    private Map<String, String> setConfigurationIfFlagExists() {
+        if (isFirstArgAFlag(args[0])) {
+            setConfiguration();
+        } else {
+            throwInvalidArgsError();
+        }
+
+        return configuration;
+    }
+
+    private void throwInvalidArgsError() {
         ErrorHandler.print(args);
         System.exit(0);
     }

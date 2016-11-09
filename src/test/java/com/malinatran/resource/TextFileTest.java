@@ -8,71 +8,69 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.malinatran.resource.TextFile.END;
-import static com.malinatran.resource.TextFile.START;
 import static org.junit.Assert.assertEquals;
 
 public class TextFileTest {
 
-    private TextFile textFile;
-    private Map<String, Integer> rangeBytes;
-    private String DEFAULT_PATH = ServerSettings.HOME + ServerSettings.DEFAULT_PATH;
+    private Map<String, Integer> range;
+    private String PATH = ServerSettings.ROOT + ServerSettings.DEFAULT_DIRECTORY;
+    private String START = "Start";
+    private String END = "End";
     private String result;
 
     @Before
     public void setUp() {
-        textFile = new TextFile();
-        rangeBytes = new HashMap<String, Integer>();
+        range = new HashMap<String, Integer>();
     }
 
     @Test
-    public void readTextFileReturnsEntireFileContents() throws IOException {
-        result = textFile.readTextFile(DEFAULT_PATH + "text-file.txt", rangeBytes);
+    public void readFullTextFileReturnsEntireFileContents() throws IOException {
+        result = TextFile.read(PATH + "text-file.txt", range);
 
         assertEquals("file1 contents", result);
     }
 
     @Test
     public void readPartialTextFileReturnsBeginningOfTextIfRangesAreSpecified() throws IOException {
-        rangeBytes.put(START, 0);
-        rangeBytes.put(END, 10);
+        range.put(START, 0);
+        range.put(END, 10);
 
-        result = textFile.readTextFile(DEFAULT_PATH + "text-file.txt", rangeBytes);
+        result = TextFile.read(PATH + "text-file.txt", range);
 
         assertEquals("file1 conte", result);
     }
 
     @Test
     public void readPartialTextFileReturnsSnippetOfTextIfRangesAreSpecified() throws IOException {
-        rangeBytes.put(START, 6);
-        rangeBytes.put(END, 10);
+        range.put(START, 6);
+        range.put(END, 10);
 
-        result = textFile.readTextFile(DEFAULT_PATH + "text-file.txt", rangeBytes);
+        result = TextFile.read(PATH + "text-file.txt", range);
 
         assertEquals("conte", result);
     }
 
     @Test
     public void readPartialTextFileReturnsEndOfTextIfOnlyRangeEndIsSpecified() throws IOException {
-        rangeBytes.put(END, 10);
+        range.put(END, 10);
 
-        result = textFile.readTextFile(DEFAULT_PATH + "text-file.txt", rangeBytes);
+        result = TextFile.read(PATH + "text-file.txt", range);
 
         assertEquals(" contents\n", result);
     }
 
     @Test
     public void readPartialTextFileReturnsTextFromStartToEndIfOnlyRangeStartIsSpecified() throws IOException {
-        rangeBytes.put(START, 6);
+        range.put(START, 6);
 
-        result = textFile.readTextFile(DEFAULT_PATH + "text-file.txt", rangeBytes);
+        result = TextFile.read(PATH + "text-file.txt", range);
 
         assertEquals("contents\n", result);
     }
 
     @Test
     public void readPartialTextReturnsFullTextIfNoRangeIsSpecified() throws IOException {
-        result = textFile.readTextFile(DEFAULT_PATH + "text-file.txt", rangeBytes);
+        result = TextFile.read(PATH + "text-file.txt", range);
 
 
         assertEquals("file1 contents", result);

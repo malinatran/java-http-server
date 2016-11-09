@@ -12,6 +12,7 @@ public class MockRouter extends Router {
     public Response getResponse(Request request, RequestLogger requestLogger) {
         Response response = new Response("HTTP/1.1");
         response.setStatus(Status.OK);
+
         return response;
     }
 }

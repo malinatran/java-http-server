@@ -17,7 +17,6 @@ import java.util.Map;
 
 public class FileContentRouterCallback implements RouterCallback {
 
-    private TextFile textFile = new TextFile();
     private Response response;
     private Request request;
 
@@ -25,62 +24,75 @@ public class FileContentRouterCallback implements RouterCallback {
         this.request = request;
         this.response = response;
 
-        getResponse();
+        buildResponse();
     }
 
-    private void getResponse() throws IOException {
-        String filePath = request.getFilePath();
-        boolean exists = Directory.existsInDirectory(filePath);
+    public void run(Response response, RequestLogger logger) throws IOException {}
+
+    public void run(Request request, Response response, RequestLogger logger) throws IOException {}
+
+    private FileContentRouterCallback buildResponse() throws IOException {
+        String absolutePath = request.getAbsolutePath();
+        boolean exists = Directory.existsInDirectory(absolutePath);
 
         if (exists) {
-            setResponse(filePath);
+            buildResponseByMethod(absolutePath);
         } else {
             response.setStatus(Status.NOT_FOUND);
         }
+
+        return this;
     }
 
-    private void setResponse(String filePath) throws IOException {
+    private FileContentRouterCallback buildResponseByFileType(String absolutePath) throws IOException {
+        FileType type = FileTypeReader.getFileType(absolutePath);
+
+        switch (type) {
+            case TEXT:
+                setTextFileContent(absolutePath);
+                break;
+            case IMAGE:
+                setImageFileContent(absolutePath);
+                break;
+            case UNSUPPORTED:
+                response.setStatus(Status.UNSUPPORTED_MEDIA_TYPE);
+                break;
+        }
+
+        return this;
+    }
+
+    private FileContentRouterCallback buildResponseByMethod(String absolutePath) throws IOException {
         String method = request.getMethod();
 
         if (method.equals(Method.PATCH)) {
             response.setStatus(Status.NO_CONTENT);
         } else {
-            getContentByFileType(filePath);
+            buildResponseByFileType(absolutePath);
         }
+
+        return this;
     }
 
-    private void getContentByFileType(String filePath) throws IOException {
-        FileType type = FileTypeReader.getFileType(filePath);
+    private FileContentRouterCallback setImageFileContent(String absolutePath) throws IOException {
+        byte[] image = Image.read(absolutePath);
+        String imageType = Image.getImageType(absolutePath);
+        ResponseBuilder.image(response, imageType, image);
 
-        switch (type) {
-            case TEXT:
-                setTextOrPartialText(filePath);
-                break;
-            case IMAGE:
-                handleImage(filePath);
-                break;
-            default:
-                response.setStatus(Status.UNSUPPORTED_MEDIA_TYPE);
-        }
+        return this;
     }
 
-    private void setTextOrPartialText(String filePath) throws IOException {
+    private FileContentRouterCallback setTextFileContent(String absolutePath) throws IOException {
         Map<String, Integer> ranges = request.getRangeValues();
-        String content = textFile.readTextFile(filePath, ranges);
+        String content = TextFile.read(absolutePath, ranges);
 
         if (ranges.isEmpty()) {
             ResponseBuilder.text(response, content);
         } else {
-            ResponseBuilder.partialText(response, content, ranges);
+            int total = TextFile.getCharacterCount(absolutePath);
+            ResponseBuilder.partialText(response, content, ranges, total);
         }
-    }
 
-    private void handleImage(String filePath) throws IOException {
-        byte[] imageBytes = Image.extractBytes(filePath);
-        String imageType = Image.getImageType(filePath);
-        ResponseBuilder.image(response, imageType, imageBytes);
+        return this;
     }
-
-    public void run(Response response, RequestLogger logger) throws IOException {}
-    public void run(Request request, Response response, RequestLogger logger) throws IOException {}
 }

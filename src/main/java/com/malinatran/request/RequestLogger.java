@@ -20,6 +20,28 @@ public class RequestLogger {
         body = new char[0];
     }
 
+    public char[] getBody() {
+        return body;
+    }
+
+    public String getETag() {
+        return eTag;
+    }
+
+    public String getLoggedRequests() {
+        String requestLines = "";
+
+        for (String line : loggedRequestLines) {
+            requestLines += line;
+        }
+
+        return requestLines;
+    }
+
+    public boolean hasBody() {
+        return body.length > 0;
+    }
+
     public void logRequest(Request request) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         String method = request.getMethod();
         String path = request.getPath();
@@ -34,57 +56,46 @@ public class RequestLogger {
         }
     }
 
-    public String getLoggedRequests() {
-        String requestLines = "";
-
-        for (String line : loggedRequestLines) {
-            requestLines += line;
-        }
-
-        return requestLines;
-    }
-
-    public String getETag() {
-        return eTag;
-    }
-
-    public char[] getBody() {
-        return body;
-    }
-
-    public boolean hasBody() {
-        return body.length > 0;
-    }
-
-    private void addRequestLine(Request request) {
+    private ArrayList<String> addRequestLine(Request request) {
         String initialLine = request.getMethod() + " " + request.getPath() + " " + request.getProtocolAndVersion();
         loggedRequestLines.add(initialLine + "\r\n");
+
+        return loggedRequestLines;
     }
 
-    private void handlePatch(Request request) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+    private RequestLogger handleDelete() {
+        setBody(new char[0]);
+
+        return this;
+    }
+
+    private RequestLogger handlePatch(Request request) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         String eTag = request.getHeaderValue(Header.IF_MATCH);
         char[] body = request.getBody();
-
         setETagAndBody(eTag, body);
+
+        return this;
     }
 
-    private void setETagAndBody(String eTag, char[] body) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+    private RequestLogger handlePutOrPost(Request request) {
+        char[] data = request.getBody();
+        setBody(data);
+
+        return this;
+    }
+
+    private RequestLogger setETagAndBody(String eTag, char[] body) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         if (eTag != null) {
             this.eTag = eTag;
             this.body = body;
         }
+
+        return this;
     }
 
-    private void handlePutOrPost(Request request) {
-        char[] data = request.getBody();
-        setBody(data);
-    }
-
-    private void handleDelete() {
-        setBody(new char[0]);
-    }
-
-    private void setBody(char[] body) {
+    private RequestLogger setBody(char[] body) {
         this.body = body;
+
+        return this;
     }
 }

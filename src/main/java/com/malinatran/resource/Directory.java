@@ -4,17 +4,6 @@ import java.io.File;
 
 public class Directory {
 
-    public static String getLinks(String directoryPath) {
-        File directory = new File(directoryPath);
-        String message = "";
-
-        if (directory.isDirectory()) {
-            String[] files = directory.list();
-            message = (files != null ? getAnchorTagLinks(files) : "");
-        }
-        return message;
-    }
-
     public static boolean existsInDirectory(String directoryPath) {
         File directory = new File(getDirectoryPath(directoryPath));
         String[] files;
@@ -27,6 +16,17 @@ public class Directory {
         }
     }
 
+    public static String getLinks(String directoryPath) {
+        File directory = new File(directoryPath);
+        String message = "";
+
+        if (directory.isDirectory()) {
+            String[] files = directory.list();
+            message = (files != null ? getAnchorTagLinks(files) : "");
+        }
+        return message;
+    }
+
     private static String getAnchorTagLinks(String[] files) {
         String links = "";
 
@@ -37,14 +37,10 @@ public class Directory {
         return links;
     }
 
-    private static boolean hasFileName(String[] files, String fileName) {
-        for (String file : files) {
-            if (file.equals(fileName)) {
-                return true;
-            }
-        }
+    private static String getDirectoryPath(String path) {
+        String fileName = getFileName(path);
 
-        return false;
+        return path.replace(fileName, "");
     }
 
     private static String getFileName(String path) {
@@ -54,9 +50,13 @@ public class Directory {
         return path.substring(delimiter, length);
     }
 
-    private static String getDirectoryPath(String path) {
-        String fileName = getFileName(path);
+    private static boolean hasFileName(String[] files, String fileName) {
+        for (String file : files) {
+            if (file.equals(fileName)) {
+                return true;
+            }
+        }
 
-        return path.replace(fileName, "");
+        return false;
     }
 }

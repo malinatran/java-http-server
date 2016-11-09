@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
 
 public class LoggedRouterCallbackTest {
 
-    private String DEFAULT_DIRECTORY = ServerSettings.HOME + ServerSettings.DEFAULT_PATH;
+    private String PATH = ServerSettings.ROOT + ServerSettings.DEFAULT_DIRECTORY;
     private Request request;
     private Response response;
     private RequestLogger logger;
@@ -27,7 +27,7 @@ public class LoggedRouterCallbackTest {
         response = new Response("HTTP/1.1");
         logger = new RequestLogger();
         loggedRouterCallback = new LoggedRouterCallback();
-        request.setDirectoryPath(DEFAULT_DIRECTORY);
+        request.setDirectoryPath(PATH);
     }
 
     @Test

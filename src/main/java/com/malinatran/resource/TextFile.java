@@ -9,17 +9,17 @@ import java.util.Map;
 
 public class TextFile {
 
-    public static final String START = "Start";
-    public static final String END = "End";
-    private Map<String, Integer> ranges;
+    public static int getCharacterCount(String filePath) throws IOException {
+        String content = readFull(filePath);
 
-    public String readTextFile(String filePath, Map<String, Integer> ranges) throws IOException {
-        this.ranges = ranges;
-
-        return (ranges.isEmpty() ? readFull(filePath) : readPartial(filePath));
+        return content.length();
     }
 
-    private String readFull(String filePath) throws IOException {
+    public static String read(String filePath, Map<String, Integer> range) throws IOException {
+        return (range.isEmpty() ? readFull(filePath) : readPartial(range, filePath));
+    }
+
+    private static String readFull(String filePath) throws IOException {
         FileReader fileReader = new FileReader(filePath);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
         String content = "";
@@ -32,57 +32,14 @@ public class TextFile {
         return content;
     }
 
-    private String readPartial(String filePath) throws IOException {
+    private static String readPartial(Map<String, Integer> range, String filePath) throws IOException {
         int count = getCharacterCount(filePath);
-        int[] contentRange = setContentRange(count);
+        int[] contentRange = ContentRangeHelper.getRange(range, count);
         String content = readFull(filePath);
 
         int start = contentRange[0];
         int end = Math.min(contentRange[1] + 1, count);
 
         return content.substring(start, end) + Formatter.addEOFCharacter(end, count);
-    }
-
-    private int getCharacterCount(String filePath) throws IOException {
-        String content = readFull(filePath);
-
-        return content.length();
-    }
-
-    private int[] setContentRange(int count) {
-        int[] contentRange = new int[2];
-
-        if (hasStartAndEndRange()) {
-            contentRange[0] = getValue(START);
-            contentRange[1] = getValue(END);
-        } else if (hasStartRangeOnly()) {
-            contentRange[0] = getValue(START);
-            contentRange[1] = count;
-        } else if (hasEndRangeOnly()) {
-            contentRange[0] = count - (getValue(END) - 1);
-            contentRange[1] = count;
-        }
-
-        return contentRange;
-    }
-
-    private int getValue(String key) {
-        return ranges.get(key);
-    }
-
-    private boolean hasStartAndEndRange() {
-        return hasRange(START) && hasRange(END);
-    }
-
-    private boolean hasStartRangeOnly() {
-        return hasRange(START) && !hasRange(END);
-    }
-
-    private boolean hasEndRangeOnly() {
-        return !hasRange(START) && hasRange(END);
-    }
-
-    private boolean hasRange(String key) {
-        return ranges.containsKey(key);
     }
 }

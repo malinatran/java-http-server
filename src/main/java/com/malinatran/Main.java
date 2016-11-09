@@ -10,6 +10,8 @@ import com.malinatran.writer.ResponseWriter;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Main {
 
@@ -29,6 +31,8 @@ public class Main {
 			startClientHandlerThread();
 		}
 	}
+
+	private static ExecutorService executor = Executors.newFixedThreadPool(100);
 
 	private static void setupSocket() {
 		try {
@@ -50,8 +54,9 @@ public class Main {
 		ResponseWriter out = new ResponseWriter(clientSocket);
 		RequestReader in = new RequestReader(clientSocket);
 		ClientHandler clientHandler = new ClientHandler(out, in, logger, router, settings.getDirectory());
-		Thread thread = new Thread(clientHandler);
-		thread.start();
+        executor.execute(clientHandler);
+//		Thread thread = new Thread(clientHandler);
+//		thread.start();
 	}
 
 	protected void finalize() throws IOException {

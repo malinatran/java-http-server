@@ -9,7 +9,7 @@ public class SHA1Encoder {
     private static final String SHA_1 = "SHA-1";
     private static final String UTF_8 = "UTF-8";
 
-    public static String convert(String text) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+    public static String encode(String text) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         MessageDigest digest;
         byte[] input = null;
 
@@ -45,4 +45,3 @@ public class SHA1Encoder {
         return stringBuffer.toString();
     }
 }
-

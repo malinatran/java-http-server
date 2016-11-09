@@ -2,8 +2,6 @@ package com.malinatran.request;
 
 import com.malinatran.utility.Header;
 import com.malinatran.utility.Method;
-import static com.malinatran.resource.TextFile.START;
-import static com.malinatran.resource.TextFile.END;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,6 +13,8 @@ public class RequestTest {
 
     private Request request;
     private Map<String, Integer> expected;
+    private String START = "Start";
+    private String END = "End";
 
     @Before
     public void setUp() {

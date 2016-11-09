@@ -13,12 +13,9 @@ public class MockResponseWriter implements Writer {
         this.responseLogger = responseLogger;
     }
 
+    public void close() {}
+
     public void write(Response response) {
         responseLogger.logResponse(response);
     }
-
-    public void close() {
-    }
 }
-
-

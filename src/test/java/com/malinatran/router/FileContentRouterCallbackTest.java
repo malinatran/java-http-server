@@ -15,20 +15,17 @@ import static org.junit.Assert.*;
 
 public class FileContentRouterCallbackTest {
 
-    private String DEFAULT_DIRECTORY = ServerSettings.HOME + ServerSettings.DEFAULT_PATH;
+    private String PATH = ServerSettings.ROOT + ServerSettings.DEFAULT_DIRECTORY;
     private RouterCallback callback;
     private Request request;
     private Response response;
-    private Image image;
 
     @Before
     public void setUp() {
         callback = new FileContentRouterCallback();
         request = new Request();
         response = new Response("HTTP/1.1");
-        request.setDirectoryPath(DEFAULT_DIRECTORY);
-        response = new Response("HTTP/1.1");
-        image = new Image();
+        request.setDirectoryPath(PATH);
     }
 
     @Test
@@ -69,7 +66,8 @@ public class FileContentRouterCallbackTest {
 
     @Test
     public void runWithGetRequestToExistingResourceAndInvalidTextFileReturns415() throws IOException {
-        File file = new File(DEFAULT_DIRECTORY + "exist.pdf");
+        File file = new File(PATH + "exist.pdf");
+        file.delete();
         file.createNewFile();
         request.setRequestLine("GET /exist.pdf HTTP/1.1");
 
@@ -104,14 +102,13 @@ public class FileContentRouterCallbackTest {
     }
 
     @Test
-    public void runReturns206AndSetsContentRangeAsHeader() throws IOException {
+    public void runSetsContentRangeAsHeader() throws IOException {
         String text = "ile1 ";
+        request.setHeader("Range: bytes=1-5");
         request.setRequestLine("GET /text-file.txt HTTP/1.1");
-        request.setHeader("Range: byte=1-5");
 
         callback.run(request, response);
 
-        assertEquals(Status.PARTIAL_CONTENT, response.getStatus());
         assertEquals(text, new String(response.getBodyContent()));
         assertTrue(response.hasHeader(Header.CONTENT_RANGE));
     }

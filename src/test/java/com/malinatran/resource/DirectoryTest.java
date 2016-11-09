@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 
 public class DirectoryTest {
 
-    private String DEFAULT_DIRECTORY = ServerSettings.HOME + ServerSettings.DEFAULT_PATH;
+    private String PATH = ServerSettings.ROOT + ServerSettings.DEFAULT_DIRECTORY;
     private Map<String, Integer> map;
     private boolean result;
 
@@ -23,28 +23,28 @@ public class DirectoryTest {
 
     @Test
     public void getLinksWithExistingDirectoryReturnsLinks() {
-        String link = Directory.getLinks(DEFAULT_DIRECTORY);
+        String link = Directory.getLinks(PATH);
 
         assertTrue(link.contains("<a style=\"display: block\" href=\"/image.png\">image.png</a>"));
     }
 
     @Test
     public void existsInDirectoryReturnsTrueIfItExistsInDirectory() {
-        result = Directory.existsInDirectory(DEFAULT_DIRECTORY + "file1");
+        result = Directory.existsInDirectory(PATH + "file1");
 
         assertTrue(result);
     }
 
     @Test
     public void existsInDirectoryReturnsFalseIfItDoesNotExistInDirectory() {
-        result = Directory.existsInDirectory(DEFAULT_DIRECTORY + "image.pdf");
+        result = Directory.existsInDirectory(PATH + "image.pdf");
 
         assertFalse(result);
     }
 
     @Test
     public void existsInDirectoryReturnsFalseIfNotDirectory() {
-        result = Directory.existsInDirectory(DEFAULT_DIRECTORY);
+        result = Directory.existsInDirectory(PATH);
 
         assertFalse(result);
     }

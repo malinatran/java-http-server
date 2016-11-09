@@ -13,12 +13,12 @@ public class MockServerSettings extends ServerSettings {
         didExit = false;
     }
 
+    public boolean didExit() {
+       return didExit;
+    }
+
     @Override
     protected void printAndTerminate(String key, String value) {
         didExit = true;
-    }
-
-    public boolean didExit() {
-       return didExit;
     }
 }

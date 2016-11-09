@@ -6,21 +6,22 @@ import java.nio.file.Paths;
 
 public class Image {
 
-    public static byte[] extractBytes(String fileName) {
-        byte[] imageBytes = new byte[0];
+    public static byte[] read(String fileName) {
+        byte[] image = new byte[0];
 
         try {
-            imageBytes = Files.readAllBytes(Paths.get(fileName));
+            image = Files.readAllBytes(Paths.get(fileName));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return imageBytes;
+        return image;
     }
 
     public static String getImageType(String fileName) {
         int startIndex = fileName.indexOf(".") + 1;
         int endIndex = fileName.length();
+
         return fileName.substring(startIndex, endIndex);
     }
 }

@@ -1,5 +1,6 @@
 package com.malinatran.router;
 
+import com.malinatran.utility.Authorizer;
 import com.malinatran.utility.Header;
 import com.malinatran.utility.Status;
 import com.malinatran.request.Request;
@@ -11,7 +12,7 @@ import java.io.IOException;
 public class AuthorizedRouterCallback implements RouterCallback {
 
     public static final String MESSAGE = "Basic realm=MALINA_REALM";
-    private RouterValidator validator = new RouterValidator();
+    private Authorizer authorizer = new Authorizer();
 
     public void run(Request request, Response response) {
         String credentials = request.getHeaderValue(Header.AUTHORIZATION);
@@ -23,7 +24,7 @@ public class AuthorizedRouterCallback implements RouterCallback {
     }
 
     private boolean isInvalid(String credentials) {
-        return (credentials == null || !validator.isValidCredentials(credentials));
+        return (credentials == null || !authorizer.hasValidCredentials(credentials));
     }
 
     public void run(Response response, RequestLogger logger) throws IOException {}

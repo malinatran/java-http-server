@@ -15,7 +15,6 @@ import java.util.Map;
 public class LoggedRouterCallback implements RouterCallback {
 
     private static final String FORM = "/form";
-    private TextFile textFile = new TextFile();
     private Request request;
     private Response response;
     private RequestLogger logger;
@@ -30,10 +29,12 @@ public class LoggedRouterCallback implements RouterCallback {
         this.response = response;
         this.logger = logger;
 
-        getBodyContent();
+        buildResponse();
     }
 
-    public void getBodyContent() throws IOException, NoSuchAlgorithmException {
+    public void run(Request request, Response response) throws IOException {}
+
+    private LoggedRouterCallback buildResponse() throws IOException, NoSuchAlgorithmException {
         Map<String, Integer> ranges = request.getRangeValues();
         String path = request.getPath();
 
@@ -41,31 +42,34 @@ public class LoggedRouterCallback implements RouterCallback {
             String content = String.valueOf(logger.getBody());
             ResponseBuilder.text(response, content);
         } else {
-            buildResponseForTextFile(ranges);
+            setTextFileContent(ranges);
         }
+
+        return this;
     }
 
-    public void run(Request request, Response response) throws IOException {}
+    private boolean doesETagMatch(String encoded) {
+        return encoded.equals(logger.getETag());
+    }
 
-    private void buildResponseForTextFile(Map<String, Integer> ranges) throws IOException, NoSuchAlgorithmException {
+    private String getOriginalOrPatchedContent(Map<String, Integer> ranges) throws IOException, NoSuchAlgorithmException {
+        String filePath = request.getAbsolutePath();
+        String original = TextFile.read(filePath, ranges);
+        String encoded = SHA1Encoder.encode(original);
+
+        return (doesETagMatch(encoded) ? String.valueOf(logger.getBody()) : original);
+    }
+
+    private LoggedRouterCallback setTextFileContent(Map<String, Integer> ranges) throws IOException, NoSuchAlgorithmException {
         String content = getOriginalOrPatchedContent(ranges);
 
         if (ranges.isEmpty()) {
             ResponseBuilder.text(response, content);
         } else {
-            ResponseBuilder.partialText(response, content, ranges);
+            int total = TextFile.getCharacterCount(content);
+            ResponseBuilder.partialText(response, content, ranges, total);
         }
-    }
 
-    private String getOriginalOrPatchedContent(Map<String, Integer> ranges) throws IOException, NoSuchAlgorithmException {
-        String filePath = request.getFilePath();
-        String original = textFile.readTextFile(filePath, ranges);
-        String encoded = SHA1Encoder.convert(original);
-
-        return (doesETagMatch(encoded) ? String.valueOf(logger.getBody()) : original);
-    }
-
-    private boolean doesETagMatch(String encoded) {
-        return encoded.equals(logger.getETag());
+        return this;
     }
 }

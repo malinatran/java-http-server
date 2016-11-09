@@ -8,7 +8,7 @@ public class OptionalArgs {
 
 	public static ServerSettings configureServer(String[] args) {
 		CommandLineArgsParser parser = new CommandLineArgsParser(args);
-		settings = new ServerSettings(parser.getConfiguration());
+		settings = new ServerSettings(parser.configure());
 
 		return settings;
 	}
