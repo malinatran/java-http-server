@@ -12,7 +12,7 @@ public class CreateOrUpdateRouterCallback implements RouterCallback {
 
     public void run(Request request, Response response) {
         char[] body = request.getBody();
-        String filePath = request.getFilePath();
+        String filePath = request.getAbsolutePath();
 
         if (Directory.existsInDirectory(filePath)) {
             response.setStatus(Status.METHOD_NOT_ALLOWED);

@@ -2,6 +2,10 @@ package com.malinatran.resource;
 
 import com.malinatran.utility.FileType;
 
+import static com.malinatran.utility.FileType.TEXT;
+import static com.malinatran.utility.FileType.IMAGE;
+import static com.malinatran.utility.FileType.UNSUPPORTED;
+
 public class FileTypeReader {
 
     private static final String[] FILE_EXTENSIONS = { ".gif", ".jpeg", ".jpg", ".png" };
@@ -9,16 +13,24 @@ public class FileTypeReader {
 
     public static FileType getFileType(String fileName) {
         if (isTextFile(fileName)) {
-            return FileType.TEXT;
+            return TEXT;
         } else if (isImageFile(fileName)) {
-            return FileType.IMAGE;
+            return IMAGE;
+        } else {
+            return UNSUPPORTED;
         }
-
-        return FileType.UNSUPPORTED;
     }
 
     public static boolean isTextFile(String fileName) {
-        return isFileWithoutExtension(fileName) || isFileWithTxtExtension(fileName);
+        return doesNotHaveFileExtension(fileName) || hasTxtExtension(fileName);
+    }
+
+    private static boolean doesNotHaveFileExtension(String fileName) {
+        return (fileName.indexOf(".") == -1);
+    }
+
+    private static boolean hasTxtExtension(String fileName) {
+        return (fileName.endsWith(TXT));
     }
 
     private static boolean isImageFile(String fileName) {
@@ -29,13 +41,5 @@ public class FileTypeReader {
         }
 
         return false;
-    }
-
-    private static boolean isFileWithoutExtension(String fileName) {
-        return (fileName.indexOf(".") == -1);
-    }
-
-    private static boolean isFileWithTxtExtension(String fileName) {
-        return (fileName.endsWith(TXT));
     }
 }

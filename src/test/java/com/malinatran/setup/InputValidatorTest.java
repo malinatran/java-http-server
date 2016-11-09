@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 
 public class InputValidatorTest {
 
-    private String HOME_DIRECTORY = ServerSettings.HOME;
+    private String PATH = ServerSettings.ROOT;
     private InputValidator validator;
     private boolean result;
     private String actual;
@@ -38,7 +38,7 @@ public class InputValidatorTest {
     @Test
     public void addFileSeparatorsAddsSeparatorsIfNone() throws IOException {
         String fileName = "Documents/dingbat";
-        String directory = HOME_DIRECTORY + "/" + fileName + "/";
+        String directory = PATH + "/" + fileName + "/";
         File file = new File(directory);
         file.mkdir();
         String expected = "/Documents/dingbat/";
@@ -52,7 +52,7 @@ public class InputValidatorTest {
     @Test
     public void addFileSeparatorsAddsSeparatorToBeginningIfDoesNotHaveOne() throws IOException {
         String fileName = "Documents/test-directory/";
-        String directory = HOME_DIRECTORY + "/" + fileName;
+        String directory = PATH + "/" + fileName;
         File file = new File(directory);
         file.mkdir();
         String expected = "/Documents/test-directory/";
@@ -74,7 +74,7 @@ public class InputValidatorTest {
 
     @Test
     public void isValidDirectoryReturnsTrueIfExistingDirectory() {
-        String directory = HOME_DIRECTORY + "/some-directory";
+        String directory = PATH + "/some-directory";
         File file = new File(directory);
         file.mkdir();
         result = validator.isValidDirectory(directory);
@@ -85,24 +85,8 @@ public class InputValidatorTest {
 
     @Test
     public void isValidDirectoryReturnsFalseIfNonexistentDirectory() {
-        String directory = HOME_DIRECTORY + "/not-a-test-directory";
+        String directory = PATH + "/not-a-test-directory";
         result = validator.isValidDirectory(directory);
-
-        assertFalse(result);
-    }
-
-    @Test
-    public void isIntegerReturnsTrueIfInteger() {
-        String integer = "10";
-        result = validator.isInteger(integer);
-
-        assertTrue(result);
-    }
-
-    @Test
-    public void isIntegerReturnsFalseIfNotInteger() {
-        String notInteger = "words";
-        result = validator.isInteger(notInteger);
 
         assertFalse(result);
     }

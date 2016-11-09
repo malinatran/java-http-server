@@ -19,7 +19,7 @@ public class CommandLineArgsParserTest {
     }
 
     @Test
-    public void constructorWithFlagsAndArgsReturnsHashMap() {
+    public void configureReturnsHashMap() {
         port = "9000";
         args = new String[]{ServerSettings.PORT_FLAG, port, ServerSettings.DIRECTORY_FLAG, "/somewhere/over/the/rainbow/"};
         expected.put(ServerSettings.PORT_FLAG, port);
@@ -27,7 +27,7 @@ public class CommandLineArgsParserTest {
 
         CommandLineArgsParser result = new CommandLineArgsParser(args);
 
-        assertEquals(expected, result.getConfiguration());
+        assertEquals(expected, result.configure());
     }
     @Test
     public void constructorWithTwoValidArgsReturnsHashMap() {
@@ -37,6 +37,6 @@ public class CommandLineArgsParserTest {
 
         CommandLineArgsParser result = new CommandLineArgsParser(args);
 
-        assertEquals(expected, result.getConfiguration());
+        assertEquals(expected, result.configure());
     }
 }

@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 
 public class CreateOrUpdateRouterCallbackTest {
 
-    private String DEFAULT_DIRECTORY = ServerSettings.HOME + ServerSettings.DEFAULT_PATH;
+    private String PATH = ServerSettings.ROOT + ServerSettings.DEFAULT_DIRECTORY;
     private RouterCallback callback;
     private Request request;
     private Response response;
@@ -27,7 +27,7 @@ public class CreateOrUpdateRouterCallbackTest {
     @Test
     public void runWithBodyReturns200() throws IOException {
         request.setRequestLine("POST / HTTP/1.1");
-        request.setDirectoryPath(DEFAULT_DIRECTORY);
+        request.setDirectoryPath(PATH);
         request.setBody(new char[4]);
 
         callback.run(request, response);
@@ -38,7 +38,7 @@ public class CreateOrUpdateRouterCallbackTest {
     @Test
     public void runWithoutBodyReturns404() throws IOException {
         request.setRequestLine("PUT / HTTP/1.1");
-        request.setDirectoryPath(DEFAULT_DIRECTORY);
+        request.setDirectoryPath(PATH);
 
         callback.run(request, response);
 
@@ -48,7 +48,7 @@ public class CreateOrUpdateRouterCallbackTest {
     @Test
     public void runWithExistingResourceReturns405() throws IOException {
         request.setRequestLine("POST /text-file.txt HTTP/1.1");
-        request.setDirectoryPath(DEFAULT_DIRECTORY);
+        request.setDirectoryPath(PATH);
         request.setBody(new char[5]);
 
         callback.run(request, response);

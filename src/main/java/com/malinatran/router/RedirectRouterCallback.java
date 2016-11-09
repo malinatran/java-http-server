@@ -20,5 +20,6 @@ public class RedirectRouterCallback implements RouterCallback {
     }
 
     public void run(Response response, RequestLogger logger) throws IOException {}
+
     public void run(Request request, Response response, RequestLogger logger) throws IOException {}
 }

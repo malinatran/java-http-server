@@ -17,11 +17,11 @@ public class ResponseWriter implements Writer {
         writer = new DataOutputStream(output);
     }
 
-    public void write(Response response) throws IOException {
-        writer.write(response.getResponseHeadersAndBody());
-    }
-
     public void close() throws IOException {
         writer.close();
+    }
+
+    public void write(Response response) throws IOException {
+        writer.write(response.getHeadersAndBody());
     }
 }

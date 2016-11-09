@@ -7,12 +7,12 @@ import java.io.IOException;
 
 public class RequestListener {
 
-    public Request getNextRequest(Reader in, String directoryPath) {
+    public Request getNextRequest(Reader in, String directory) {
         Request request = new Request();
 
         try {
             request.setRequestLine(in.readLine());
-            request.setDirectoryPath(directoryPath);
+            request.setDirectoryPath(directory);
             setRequestHeaders(request, in);
             setRequestBody(request, in);
         } catch (IOException e) {
@@ -26,7 +26,18 @@ public class RequestListener {
         return in.readLine().trim();
     }
 
-    private void setRequestHeaders(Request request, Reader in) throws IOException {
+    private RequestListener setRequestBody(Request request, Reader in) throws IOException {
+        if (request.hasHeader(Header.CONTENT_LENGTH)) {
+            int contentLength = Integer.parseInt(request.getHeaderValue(Header.CONTENT_LENGTH));
+            char[] body = new char[contentLength];
+            in.read(body, 0, contentLength);
+            request.setBody(body);
+        }
+
+        return this;
+    }
+
+    private RequestListener setRequestHeaders(Request request, Reader in) throws IOException {
         while (true) {
             String line = formatReadLine(in);
 
@@ -35,14 +46,7 @@ public class RequestListener {
             }
             request.setHeader(line);
         }
-    }
 
-    private void setRequestBody(Request request, Reader in) throws IOException {
-        if (request.hasHeader(Header.CONTENT_LENGTH)) {
-            int contentLength = Integer.parseInt(request.getHeaderValue(Header.CONTENT_LENGTH));
-            char[] body = new char[contentLength];
-            in.read(body, 0, contentLength);
-            request.setBody(body);
-        }
+        return this;
     }
 }

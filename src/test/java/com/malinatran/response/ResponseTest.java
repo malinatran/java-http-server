@@ -84,7 +84,7 @@ public class ResponseTest {
         response.setHeader(Header.CONTENT_TYPE, "image/png");
         response.setBodyContent("Hello world");
 
-        byte[] result = response.getResponseHeadersAndBody();
+        byte[] result = response.getHeadersAndBody();
 
         assertEquals(new byte[0].getClass(), result.getClass());
     }

@@ -25,7 +25,7 @@ public class MethodReader {
 
     public static boolean isGetRequestToExistingFile(Request request, RequestLogger logger) {
         String method = request.getMethod();
-        String filePath = request.getFilePath();
+        String filePath = request.getAbsolutePath();
 
         return (isMethod(method, GET) &&
                 logger.hasBody() &&

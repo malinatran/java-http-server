@@ -7,48 +7,43 @@ import java.util.Map;
 
 public class ParameterDecoder {
 
-    private static Map<String, String> encodedCharacters;
+    private static Map<String, String> encodedCharacters = new HashMap<String, String>();
 
-    public static Map<String, String> getEncodedCharacters() {
-        return encodedCharacters;
-    }
-
-    public static String decodeText(String path) {
-        encodedCharacters = new HashMap<String, String>();
+    public static String decode(String path) {
         addEncodedCharacters();
         String decodedText = "";
 
         if (hasParametersQuery(path)) {
-            decodedText += readAndDecodeCharacter(path);
+            decodedText += getDecodedText(path);
         }
 
         return decodedText;
     }
 
-    private static String readAndDecodeCharacter(String path) {
+    private static String getDecodedText(String path) {
         String[] formattedPath = formatPath(path);
-        List<Integer> voidChar = new ArrayList<Integer>();
+        List<Integer> removeIndices = new ArrayList<Integer>();
         String text = "";
 
         for (int i = 0; i < formattedPath.length; i++) {
-            String currentChar = formattedPath[i];
+            String current = formattedPath[i];
 
-            if (currentChar.equals("%") && i == -3) {
-                text += getCharacter(i, currentChar, formattedPath);
+            if (isLastEncoding(current, i)) {
+                text += getCharacter(i, current, formattedPath);
                 break;
-            } else if (currentChar.equals("%")) {
-                text += getCharacter(i, currentChar, formattedPath);
-                voidChar.add(i + 1);
-                voidChar.add(i + 2);
-            } else if (!voidChar.contains(i)) {
-                text += currentChar;
+            } else if (isEncoding(current)) {
+                text += getCharacter(i, current, formattedPath);
+                removeIndices.add(i + 1);
+                removeIndices.add(i + 2);
+            } else if (!removeIndices.contains(i)) {
+                text += current;
             }
         }
 
         return text + "\n";
     }
 
-    private static void addEncodedCharacters() {
+    private static Map<String, String> addEncodedCharacters() {
         encodedCharacters.put("%20", " ");
         encodedCharacters.put("%22", "\"");
         encodedCharacters.put("%23", "#");
@@ -65,22 +60,32 @@ public class ParameterDecoder {
         encodedCharacters.put("%40", "@");
         encodedCharacters.put("%5B", "[");
         encodedCharacters.put("%5D", "]");
-    }
 
-    private static boolean hasParametersQuery(String path) {
-        return (path.startsWith("/parameters?"));
+        return encodedCharacters;
     }
 
     private static String[] formatPath(String path) {
         return removeQuery(path).replace("=", " = ").replace("&", "\n").split("");
     }
 
-    private static String getCharacter(int index, String currentChar, String[] path) {
+    private static String getCharacter(int index, String character, String[] path) {
         String secondChar = path[index + 1];
         String thirdChar = path[index + 2];
-        String code = currentChar + secondChar + thirdChar;
+        String code = character + secondChar + thirdChar;
 
         return encodedCharacters.get(code);
+    }
+
+    private static boolean hasParametersQuery(String path) {
+        return path.startsWith("/parameters?");
+    }
+
+    private static boolean isLastEncoding(String character, int index) {
+        return isEncoding(character) && index == -3;
+    }
+
+    private static boolean isEncoding(String character) {
+        return character.equals("%");
     }
 
     private static String removeQuery(String path) {

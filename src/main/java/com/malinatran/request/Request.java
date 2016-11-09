@@ -6,9 +6,6 @@ import com.malinatran.utility.RangeParser;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.malinatran.resource.TextFile.END;
-import static com.malinatran.resource.TextFile.START;
-
 public class Request {
 
     private Map<String, String> headers;
@@ -18,39 +15,39 @@ public class Request {
     private char[] body;
     private String directoryPath;
     private Map<String, Integer> ranges;
+    private final String START = "Start";
+    private final String END = "End";
 
     public Request() {
         headers = new HashMap<String, String>();
     }
 
-    public void setDirectoryPath(String directoryPath) {
-        this.directoryPath = directoryPath;
+    public String getAbsolutePath() {
+        return getDirectoryPath() + getPath().replace("/", "").trim();
     }
 
-    public void setHeader(String header) {
-        String[] keyAndValue = header.split(": ");
-        String key = keyAndValue[0];
-        String value = keyAndValue[1];
-        headers.put(key, value);
+    public char[] getBody() {
+        return body;
     }
 
-    public void setBody(char[] body) {
-        this.body = body;
+    public String getDirectoryPath() {
+        return directoryPath;
     }
 
     public String getHeaderValue(String headerName) {
         return headers.get(headerName);
     }
 
-    public boolean hasHeader(String headerName) {
-        return headers.containsKey(headerName);
+    public String getMethod() {
+        return method;
     }
 
-    public void setRequestLine(String requestLine) {
-        String[] parts = requestLine.split(" ");
-        method = parts[0];
-        path = parts[1];
-        protocolAndVersion = parts[2];
+    public String getPath() {
+        return path;
+    }
+
+    public String getProtocolAndVersion() {
+        return protocolAndVersion;
     }
 
     public Map<String, Integer> getRangeValues() {
@@ -65,7 +62,36 @@ public class Request {
         return ranges;
     }
 
-    private void setRanges(String[] rangeValues) {
+    public String getRoute() {
+        return method + " " + path;
+    }
+
+    public boolean hasHeader(String headerName) {
+        return headers.containsKey(headerName);
+    }
+
+    public Request setBody(char[] body) {
+        this.body = body;
+
+        return this;
+    }
+
+    public Request setDirectoryPath(String directoryPath) {
+        this.directoryPath = directoryPath;
+
+        return this;
+    }
+
+    public Request setHeader(String header) {
+        String[] keyAndValue = header.split(": ");
+        String key = keyAndValue[0];
+        String value = keyAndValue[1];
+        headers.put(key, value);
+
+        return this;
+    }
+
+    private Request setRanges(String[] rangeValues) {
         String rangeStart = rangeValues[0];
         String rangeEnd = rangeValues[1];
 
@@ -76,37 +102,16 @@ public class Request {
         if (rangeEnd.length() > 0) {
             ranges.put(END, Integer.parseInt(rangeEnd));
         }
+
+        return this;
     }
 
-    public String getMethod() {
-        return method;
-    }
+    public Request setRequestLine(String requestLine) {
+        String[] parts = requestLine.split(" ");
+        method = parts[0];
+        path = parts[1];
+        protocolAndVersion = parts[2];
 
-    public String getPath() {
-        return path;
-    }
-
-    public String getCleanPath() {
-        return getPath().replace("/", "").trim();
-    }
-
-    public String getRoute() {
-        return method + " " + path;
-    }
-
-    public String getProtocolAndVersion() {
-        return protocolAndVersion;
-    }
-
-    public char[] getBody() {
-        return body; }
-
-    public String getDirectoryPath() {
-        return directoryPath;
-    }
-
-    public String getFilePath() {
-        return getDirectoryPath() + getCleanPath();
-
+        return this;
     }
 }

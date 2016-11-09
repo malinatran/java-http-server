@@ -15,9 +15,9 @@ import static org.junit.Assert.assertTrue;
 
 public class ServerSettingsTest {
 
-    private String HOME_DIRECTORY = ServerSettings.HOME;
-    private String TARGET_DIRECTORY = ServerSettings.DEFAULT_PATH;
-    private String DEFAULT_DIRECTORY = HOME_DIRECTORY + TARGET_DIRECTORY;
+    private String CURRENT_DIRECTORY = ServerSettings.ROOT;
+    private String TARGET_DIRECTORY = ServerSettings.DEFAULT_DIRECTORY;
+    private String DEFAULT_DIRECTORY = CURRENT_DIRECTORY + TARGET_DIRECTORY;
     private Map<String, String> map;
     private int port = 5050;
 
@@ -79,13 +79,13 @@ public class ServerSettingsTest {
     public void getDirectoryReturnsCustomDirectory() throws IOException {
         String directory = "/directory/";
         map.put("-d", directory);
-        File file = new File(HOME_DIRECTORY + directory);
+        File file = new File(CURRENT_DIRECTORY + directory);
         file.mkdir();
         ServerSettings settings = new ServerSettings(map);
 
         String result = settings.getDirectory();
 
-        assertEquals(HOME_DIRECTORY + directory, result);
+        assertEquals(CURRENT_DIRECTORY + directory, result);
         Files.deleteIfExists(file.toPath());
     }
 
