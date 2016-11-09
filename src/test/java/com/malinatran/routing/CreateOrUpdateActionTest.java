@@ -1,4 +1,4 @@
-package com.malinatran.router;
+package com.malinatran.routing;
 
 import com.malinatran.setup.ServerSettings;
 import com.malinatran.utility.Status;

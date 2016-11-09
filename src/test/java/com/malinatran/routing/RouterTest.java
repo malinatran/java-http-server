@@ -1,4 +1,4 @@
-package com.malinatran.router;
+package com.malinatran.routing;
 
 import com.malinatran.mocks.MockRouter;
 import com.malinatran.request.Request;

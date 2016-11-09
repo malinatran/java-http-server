@@ -6,7 +6,7 @@ import com.malinatran.writer.Writer;
 import com.malinatran.request.Request;
 import com.malinatran.request.RequestListener;
 import com.malinatran.response.Response;
-import com.malinatran.router.Router;
+import com.malinatran.routing.Router;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;

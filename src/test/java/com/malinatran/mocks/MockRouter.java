@@ -4,7 +4,7 @@ import com.malinatran.utility.Status;
 import com.malinatran.request.Request;
 import com.malinatran.response.Response;
 import com.malinatran.utility.RequestLogger;
-import com.malinatran.router.Router;
+import com.malinatran.routing.Router;
 
 public class MockRouter extends Router {
 

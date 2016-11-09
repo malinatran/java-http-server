@@ -3,7 +3,7 @@ package com.malinatran.setup;
 import com.malinatran.mocks.*;
 import com.malinatran.reader.Reader;
 import com.malinatran.utility.RequestLogger;
-import com.malinatran.router.Router;
+import com.malinatran.routing.Router;
 import com.malinatran.writer.Writer;
 
 import java.io.IOException;

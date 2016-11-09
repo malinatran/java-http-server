@@ -1,9 +1,8 @@
-package com.malinatran.router;
+package com.malinatran.routing;
 
 import com.malinatran.utility.Header;
 import com.malinatran.utility.Status;
 import com.malinatran.request.Request;
-import com.malinatran.resource.Image;
 import com.malinatran.response.Response;
 import com.malinatran.setup.ServerSettings;
 
