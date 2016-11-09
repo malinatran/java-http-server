@@ -24,5 +24,4 @@ public class OptionsRouterCallbackTest {
         assertEquals(Status.OK, response.getStatus());
         assertTrue(response.hasHeader(Header.ALLOW));
     }
-
 }

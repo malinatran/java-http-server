@@ -1,5 +1,6 @@
 package com.malinatran.router;
 
+import com.malinatran.utility.Header;
 import com.malinatran.utility.Status;
 import com.malinatran.request.Request;
 import com.malinatran.response.Response;
@@ -39,6 +40,6 @@ public class RedirectRouterCallbackTest {
 
         callback.run(request, response);
 
-        assertEquals("localhost:5000", request.getHeaderValue("Host"));
+        assertEquals("localhost:5000", request.getHeaderValue(Header.HOST));
     }
 }

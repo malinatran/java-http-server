@@ -7,7 +7,7 @@ import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
@@ -18,12 +18,12 @@ public class ServerSettingsTest {
     private String CURRENT_DIRECTORY = ServerSettings.ROOT;
     private String TARGET_DIRECTORY = ServerSettings.DEFAULT_DIRECTORY;
     private String DEFAULT_DIRECTORY = CURRENT_DIRECTORY + TARGET_DIRECTORY;
-    private Map<String, String> map;
     private int port = 5050;
+    private Map<String, String> map;
 
     @Before
     public void setUp() {
-        map = new HashMap<String, String>();
+        map = new Hashtable<String, String>();
     }
 
     @Test

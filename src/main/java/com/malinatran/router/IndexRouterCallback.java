@@ -11,15 +11,13 @@ import java.io.IOException;
 public class IndexRouterCallback implements RouterCallback {
 
     public void run(Request request, Response response) throws IOException {
-//        String path = request.getPath();
+        String path = request.getPath();
         String directoryPath = request.getDirectoryPath();
 
-//        if (path.equals("/")) {
+        if (path.equals("/")) {
             response.setStatus(Status.OK);
             response.setBodyContent(Directory.getLinks(directoryPath));
-//        } else {
-//            System.out.println("wtf is going on here");
-//        }
+        }
     }
 
     public void run(Response response, RequestLogger logger) throws IOException {}

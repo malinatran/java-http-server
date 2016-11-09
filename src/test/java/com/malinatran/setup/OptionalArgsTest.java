@@ -9,6 +9,7 @@ import static org.junit.Assert.*;
 
 public class OptionalArgsTest {
 
+    private int port = 9090;
     private ServerSettings settings;
     private ByteArrayOutputStream out;
 
@@ -25,8 +26,7 @@ public class OptionalArgsTest {
 
     @Test
     public void configureServerReturnsServerSettingsObject() {
-        int port = 9090;
-        String[] args = { "-p", "9090"};
+        String[] args = { "-p", Integer.toString(port)};
 
         settings = OptionalArgs.configureServer(args);
 
@@ -35,7 +35,7 @@ public class OptionalArgsTest {
 
     @Test
     public void printArgsPrintsPortAndDirectory() {
-        String[] args = { "-p", "9090"};
+        String[] args = { "-p", Integer.toString(port)};
         OptionalArgs.configureServer(args);
         String expected = "Port: 9090\nDirectory: " + System.getProperty("user.dir") + "/public/\n";
 

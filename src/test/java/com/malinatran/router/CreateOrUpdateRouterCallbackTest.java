@@ -12,10 +12,10 @@ import static org.junit.Assert.*;
 
 public class CreateOrUpdateRouterCallbackTest {
 
-    private String PATH = ServerSettings.ROOT + ServerSettings.DEFAULT_DIRECTORY;
     private RouterCallback callback;
     private Request request;
     private Response response;
+    private String PATH = ServerSettings.ROOT + ServerSettings.DEFAULT_DIRECTORY;
 
     @Before
     public void setUp() {

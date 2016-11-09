@@ -1,6 +1,6 @@
 package com.malinatran.setup;
 
-import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Map;
 
 public class CommandLineArgsParser {
@@ -10,7 +10,7 @@ public class CommandLineArgsParser {
 
     public CommandLineArgsParser(String[] args) {
         this.args = args;
-        this.configuration = new HashMap<String, String>();
+        this.configuration = new Hashtable<String, String>();
     }
 
     public Map<String, String> configure() {

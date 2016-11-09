@@ -15,27 +15,27 @@ import static org.junit.Assert.assertTrue;
 
 public class RouterTest {
 
-    private String responseOK = "HTTP/1.1 200 OK";
     private String responseNotAllowed = "HTTP/1.1 405 Method Not Allowed";
-    private Router router;
+    private String responseOK = "HTTP/1.1 200 OK";
+    private RequestLogger logger;
     private Router mockRouter;
     private Request request;
-    private Request subsequentRequest;
     private Response response;
-    private RequestLogger logger;
+    private Router router;
+    private Request subsequentRequest;
 
     @Before
     public void setUp() {
-        router = new Router();
+        logger = new RequestLogger();
         mockRouter = new MockRouter();
         request = new Request();
-        subsequentRequest = new Request();
         response = new Response("HTTP/1.1");
-        logger = new RequestLogger();
+        router = new Router();
+        subsequentRequest = new Request();
     }
 
     @Test
-    public void addRouteStoresValueIntoHashMap() {
+    public void addRouteStoresValueIntoHashtable() {
         router.addRoute("GET", "/malina", new IndexRouterCallback());
 
         assertTrue(router.hasRoute("GET /malina"));

@@ -24,8 +24,8 @@ public class FileContentRouterCallbackTest {
     public void setUp() {
         callback = new FileContentRouterCallback();
         request = new Request();
-        response = new Response("HTTP/1.1");
         request.setDirectoryPath(PATH);
+        response = new Response("HTTP/1.1");
     }
 
     @Test

@@ -10,22 +10,17 @@ import com.malinatran.request.RequestLogger;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Map;
 
 public class Router {
 
-    private Authorizer authorizer;
     private Map<String, RouterCallback> routes;
     private RouterCallback callback;
     private RouterCallback loggedRouterCallback;
-    private Request request;
-    private Response response;
-    private RequestLogger logger;
 
     public Router() {
-        routes = new HashMap<String, RouterCallback>();
-        authorizer = new Authorizer();
+        routes = new Hashtable<String, RouterCallback>();
         loggedRouterCallback = new LoggedRouterCallback();
     }
 
@@ -36,12 +31,10 @@ public class Router {
     }
 
     public Response getResponse(Request request, RequestLogger logger) throws IOException, NoSuchAlgorithmException {
-        this.request = request;
-        this.response = new Response(request.getProtocolAndVersion());
-        this.logger = logger;
-        decodeParameter();
+        Response response = new Response(request.getProtocolAndVersion());
+        decodeParameter(request, response);
         logger.logRequest(request);
-        runCallback(getCallback());
+        runCallback(request, response, logger);
 
         return response;
     }
@@ -50,18 +43,19 @@ public class Router {
         return routes.containsKey(route);
     }
 
-    private Router decodeParameter() {
+    private Router decodeParameter(Request request, Response response) {
         String decoded = ParameterDecoder.decode(request.getPath());
         response.setBodyContent(decoded);
 
         return this;
     }
 
-    private boolean hasBasicAuth() {
-        return authorizer.hasValidRouteAndCredentials(request);
+    private boolean hasBasicAuth(Request request) {
+        return Authorizer.hasValidRouteAndCredentials(request);
     }
 
-    private Router runCallback(RouterCallback callback) throws IOException {
+    private Router runCallback(Request request, Response response, RequestLogger logger) throws IOException, NoSuchAlgorithmException {
+        RouterCallback callback = getCallback(request, response, logger);
         if (callback != null) {
             callback.run(request, response);
         }
@@ -69,12 +63,12 @@ public class Router {
         return this;
     }
 
-    private RouterCallback getCallback() throws IOException, NoSuchAlgorithmException {
+    private RouterCallback getCallback(Request request, Response response, RequestLogger logger) throws IOException, NoSuchAlgorithmException {
         String route = request.getRoute();
         String method = request.getMethod();
         callback = null;
 
-        if (hasBasicAuth()) {
+        if (hasBasicAuth(request)) {
             loggedRouterCallback.run(response, logger);
         } else if (MethodReader.isGetRequestWithLoggedBody(request, logger)) {
             loggedRouterCallback.run(request, response, logger);

@@ -5,25 +5,25 @@ import com.malinatran.utility.Method;
 
 import org.junit.Before;
 import org.junit.Test;
-import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Map;
 import static org.junit.Assert.*;
 
 public class RequestTest {
 
-    private Request request;
-    private Map<String, Integer> expected;
     private String START = "Start";
     private String END = "End";
+    private Map<String, Integer> expected;
+    private Request request;
 
     @Before
     public void setUp() {
         request = new Request();
-        expected = new HashMap<String, Integer>();
+        expected = new Hashtable<String, Integer>();
     }
 
     @Test
-    public void setHeaderStoresValuesIntoHashMap() {
+    public void setHeaderStoresValuesIntoHashtable() {
         request.setHeader("Host: google.com");
 
         assertEquals("google.com", request.getHeaderValue(Header.HOST));
@@ -55,7 +55,7 @@ public class RequestTest {
     }
 
     @Test
-    public void getRangeValuesWithStartAndEndRangeReturnsHashMapWithBothValues() {
+    public void getRangeValuesWithStartAndEndRangeReturnsHashtableWithBothValues() {
         request.setHeader("Range: bytes=0-99");
         expected.put(START, 0);
         expected.put(END, 99);
@@ -67,7 +67,7 @@ public class RequestTest {
     }
 
     @Test
-    public void getRangeValuesWithStartRangeAndNoEndRangeReturnsHashMapWithStartValue() {
+    public void getRangeValuesWithStartRangeAndNoEndRangeReturnsHashtableWithStartValue() {
         request.setHeader("Range: bytes=4-");
         expected.put(START, 4);
 
@@ -78,7 +78,7 @@ public class RequestTest {
     }
 
     @Test
-    public void getRangeValuesWithEndRangeAndNoStartRangeReturnsHashMapWithEndValue() {
+    public void getRangeValuesWithEndRangeAndNoStartRangeReturnsHashtableWithEndValue() {
         request.setHeader("Range: bytes=-10");
         expected.put(END, 10);
 

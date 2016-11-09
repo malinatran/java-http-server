@@ -1,15 +1,15 @@
 package com.malinatran.setup;
 
+import com.malinatran.mocks.*;
 import com.malinatran.reader.Reader;
-import com.malinatran.mocks.ResponseLogger;
-import com.malinatran.mocks.MockRequestReader;
-import com.malinatran.mocks.MockResponseWriter;
-import com.malinatran.mocks.MockRouter;
 import com.malinatran.request.RequestLogger;
 import com.malinatran.router.Router;
 import com.malinatran.writer.Writer;
 
 import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -22,7 +22,7 @@ public class ClientHandlerTest {
         RequestLogger requestLogger = new RequestLogger();
         Writer writer = new MockResponseWriter(messageLogger);
         Reader reader = new MockRequestReader(new String[]
-                {"GET / HTTP/1.1", "User-Agent: MalinaBrowser", "Host: localhost:6000", ""});
+                {"GET / HTTP/1.1", "User-Agent: MalinaBrowser", "Host: localhost:8000", ""});
         ClientHandler clientHandler = new ClientHandler(writer, reader, requestLogger, mockRouter, "/path/to/somewhere/");
 
         clientHandler.run();

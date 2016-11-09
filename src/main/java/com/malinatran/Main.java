@@ -1,11 +1,13 @@
 package com.malinatran;
 
+import com.malinatran.reader.Reader;
 import com.malinatran.reader.RequestReader;
 import com.malinatran.request.RequestLogger;
 import com.malinatran.router.Router;
 import com.malinatran.router.Routes;
 import com.malinatran.setup.*;
 import com.malinatran.writer.ResponseWriter;
+import com.malinatran.writer.Writer;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -15,11 +17,14 @@ import java.util.concurrent.Executors;
 
 public class Main {
 
-	private static RequestLogger logger;
-	private static Router router;
-	private static ServerSocket serverSocket;
 	private static Socket clientSocket;
-    private static ServerSettings settings;
+	private static ExecutorService executor = Executors.newFixedThreadPool(50);
+	private static Reader in;
+	private static RequestLogger logger;
+	private static Writer out;
+	private static Router router;
+	private static ServerSettings settings;
+	private static ServerSocket serverSocket;
 
 	public static void main(String[] args) throws IOException {
 		settings = OptionalArgs.configureServer(args);
@@ -31,8 +36,6 @@ public class Main {
 			startClientHandlerThread();
 		}
 	}
-
-	private static ExecutorService executor = Executors.newFixedThreadPool(100);
 
 	private static void setupSocket() {
 		try {
@@ -51,16 +54,14 @@ public class Main {
 
 	private static void startClientHandlerThread() throws IOException {
 		clientSocket = serverSocket.accept();
-		ResponseWriter out = new ResponseWriter(clientSocket);
-		RequestReader in = new RequestReader(clientSocket);
+		out = new ResponseWriter(clientSocket);
+		in = new RequestReader(clientSocket);
 		ClientHandler clientHandler = new ClientHandler(out, in, logger, router, settings.getDirectory());
         executor.execute(clientHandler);
-//		Thread thread = new Thread(clientHandler);
-//		thread.start();
 	}
 
 	protected void finalize() throws IOException {
-		clientSocket.close();
+        clientSocket.close();
 		serverSocket.close();
 	}
 }

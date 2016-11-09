@@ -7,11 +7,11 @@ public class Authorizer {
     private static final String CREDENTIALS = System.getenv("COB_SPEC_CREDENTIALS");
     private static final String AUTHORIZATION = "Authorization";
 
-    public boolean hasValidCredentials(String credentials) {
+    public static boolean hasValidCredentials(String credentials) {
         return ((credentials != null) && credentials.equals(CREDENTIALS));
     }
 
-    public boolean hasValidRouteAndCredentials(Request request) {
+    public static boolean hasValidRouteAndCredentials(Request request) {
         String method = request.getMethod();
         String path = request.getPath();
         String credentials = request.getHeaderValue(AUTHORIZATION);

@@ -10,13 +10,11 @@ import static org.junit.Assert.assertTrue;
 public class AuthorizerTest {
 
     private Request request;
-    private Authorizer authorizer;
     private boolean result;
 
     @Before
     public void setUp() {
         request = new Request();
-        authorizer = new Authorizer();
     }
 
     @Test
@@ -24,14 +22,14 @@ public class AuthorizerTest {
         request.setRequestLine("GET /logs HTTP/1.1");
         request.setHeader("Authorization: Basic YWRtaW46aHVudGVyMg==");
 
-        result = authorizer.hasValidRouteAndCredentials(request);
+        result = Authorizer.hasValidRouteAndCredentials(request);
 
         assertTrue(result);
     }
 
     @Test
     public void hasValidCredentialsReturnsFalseWithIncorrectCredentials() {
-        result = authorizer.hasValidCredentials("Basic Hello");
+        result = Authorizer.hasValidCredentials("Basic Hello");
 
         assertFalse(result);
     }

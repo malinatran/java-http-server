@@ -16,18 +16,18 @@ import static org.junit.Assert.*;
 public class LoggedRouterCallbackTest {
 
     private String PATH = ServerSettings.ROOT + ServerSettings.DEFAULT_DIRECTORY;
+    private LoggedRouterCallback loggedRouterCallback;
+    private RequestLogger logger;
     private Request request;
     private Response response;
-    private RequestLogger logger;
-    private LoggedRouterCallback loggedRouterCallback;
 
     @Before
     public void setUp() {
-        request = new Request();
-        response = new Response("HTTP/1.1");
-        logger = new RequestLogger();
         loggedRouterCallback = new LoggedRouterCallback();
+        logger = new RequestLogger();
+        request = new Request();
         request.setDirectoryPath(PATH);
+        response = new Response("HTTP/1.1");
     }
 
     @Test

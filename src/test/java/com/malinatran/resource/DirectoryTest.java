@@ -4,8 +4,7 @@ import com.malinatran.setup.ServerSettings;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Map;
 
 import static org.junit.Assert.*;
@@ -18,7 +17,7 @@ public class DirectoryTest {
 
     @Before
     public void setUp() {
-        map = new HashMap<String, Integer>();
+        map = new Hashtable<String, Integer>();
     }
 
     @Test

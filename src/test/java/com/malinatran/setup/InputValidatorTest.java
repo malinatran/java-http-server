@@ -10,9 +10,9 @@ import static org.junit.Assert.*;
 public class InputValidatorTest {
 
     private String PATH = ServerSettings.ROOT;
-    private InputValidator validator;
-    private boolean result;
     private String actual;
+    private boolean result;
+    private InputValidator validator;
 
     @Before
     public void setUp() {
