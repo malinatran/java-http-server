@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 
 public class InputValidatorTest {
 
-    private String PATH = ServerSettings.ROOT;
+    private String PATH = ServerSettings.HOME_DIRECTORY;
     private String actual;
     private boolean result;
     private InputValidator validator;

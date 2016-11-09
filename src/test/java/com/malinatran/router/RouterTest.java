@@ -35,13 +35,6 @@ public class RouterTest {
     }
 
     @Test
-    public void addRouteStoresValueIntoHashtable() {
-        router.addRoute("GET", "/malina", new IndexRouterCallback());
-
-        assertTrue(router.hasRoute("GET /malina"));
-    }
-
-    @Test
     public void getResponseForGetReturns200() throws IOException, NoSuchAlgorithmException {
         request.setRequestLine("GET / HTTP/1.1");
         request.setBody(new char[10]);

@@ -8,7 +8,7 @@ public class ServerSettings {
     public static final String DIRECTORY_FLAG = "-d";
     public static final int DEFAULT_PORT = 5000;
     public static final String DEFAULT_DIRECTORY = "/public/";
-    public static final String ROOT = System.getProperty("user.dir");
+    public static final String HOME_DIRECTORY = System.getProperty("user.dir");
     private Map<String, String> configuration;
     private int port;
     private String path;
@@ -41,8 +41,8 @@ public class ServerSettings {
     }
 
     public String getDirectory() {
-        String validDirectory = ROOT + DEFAULT_DIRECTORY;
-        String tempDirectory = ROOT + configuration.get(DIRECTORY_FLAG);
+        String validDirectory = HOME_DIRECTORY + DEFAULT_DIRECTORY;
+        String tempDirectory = HOME_DIRECTORY + configuration.get(DIRECTORY_FLAG);
 
         if (configuration.containsKey(DIRECTORY_FLAG)) {
             validDirectory = getDirectoryOrErrorMessage(validDirectory, tempDirectory);

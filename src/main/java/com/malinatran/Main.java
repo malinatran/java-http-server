@@ -4,7 +4,6 @@ import com.malinatran.reader.Reader;
 import com.malinatran.reader.RequestReader;
 import com.malinatran.request.RequestLogger;
 import com.malinatran.router.Router;
-import com.malinatran.router.Routes;
 import com.malinatran.setup.*;
 import com.malinatran.writer.ResponseWriter;
 import com.malinatran.writer.Writer;
@@ -49,7 +48,7 @@ public class Main {
 	private static void setupLoggerAndRouter() {
 		logger = new RequestLogger();
         router = new Router();
-		new Routes(router);
+        router.setupRoutes();
 	}
 
 	private static void startClientHandlerThread() throws IOException {

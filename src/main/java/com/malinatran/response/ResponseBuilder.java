@@ -21,10 +21,10 @@ public class ResponseBuilder {
         return response;
     }
 
-    public static Response partialText(Response response, String text, Map<String, Integer> ranges, int total) {
+    public static Response partialText(Response response, String text, Map<String, Integer> range, int total) {
         response.setStatus(Status.PARTIAL_CONTENT);
         response.setHeader(Header.CONTENT_TYPE, TEXT_PLAIN);
-        response.setHeader(Header.CONTENT_RANGE, ranges.get(START) + "-" + ranges.get(END) + "/" + String.valueOf(total));
+        response.setHeader(Header.CONTENT_RANGE, range.get(START) + "-" + range.get(END) + "/" + String.valueOf(total));
         response.setBodyContent(text);
 
         return response;

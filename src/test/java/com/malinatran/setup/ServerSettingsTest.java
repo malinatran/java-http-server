@@ -15,7 +15,7 @@ import static org.junit.Assert.assertTrue;
 
 public class ServerSettingsTest {
 
-    private String CURRENT_DIRECTORY = ServerSettings.ROOT;
+    private String CURRENT_DIRECTORY = ServerSettings.HOME_DIRECTORY;
     private String TARGET_DIRECTORY = ServerSettings.DEFAULT_DIRECTORY;
     private String DEFAULT_DIRECTORY = CURRENT_DIRECTORY + TARGET_DIRECTORY;
     private int port = 5050;

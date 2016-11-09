@@ -15,7 +15,7 @@ public class CreateOrUpdateRouterCallbackTest {
     private RouterCallback callback;
     private Request request;
     private Response response;
-    private String PATH = ServerSettings.ROOT + ServerSettings.DEFAULT_DIRECTORY;
+    private String PATH = ServerSettings.HOME_DIRECTORY + ServerSettings.DEFAULT_DIRECTORY;
 
     @Before
     public void setUp() {
