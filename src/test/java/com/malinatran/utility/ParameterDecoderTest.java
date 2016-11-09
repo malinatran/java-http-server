@@ -5,9 +5,9 @@ import static org.junit.Assert.*;
 
 public class ParameterDecoderTest {
 
-    private String path;
-    private String expected;
     private String actual;
+    private String expected;
+    private String path;
 
     @Test
     public void decodeReturnsDecodedText() {

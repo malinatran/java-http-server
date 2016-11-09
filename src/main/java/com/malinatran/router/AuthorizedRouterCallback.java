@@ -12,7 +12,6 @@ import java.io.IOException;
 public class AuthorizedRouterCallback implements RouterCallback {
 
     public static final String MESSAGE = "Basic realm=MALINA_REALM";
-    private Authorizer authorizer = new Authorizer();
 
     public void run(Request request, Response response) {
         String credentials = request.getHeaderValue(Header.AUTHORIZATION);
@@ -24,7 +23,7 @@ public class AuthorizedRouterCallback implements RouterCallback {
     }
 
     private boolean isInvalid(String credentials) {
-        return (credentials == null || !authorizer.hasValidCredentials(credentials));
+        return (credentials == null || !Authorizer.hasValidCredentials(credentials));
     }
 
     public void run(Response response, RequestLogger logger) throws IOException {}

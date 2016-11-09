@@ -1,13 +1,10 @@
 package com.malinatran.utility;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ParameterDecoder {
 
-    private static Map<String, String> encodedCharacters = new HashMap<String, String>();
+    private static Map<String, String> encodedCharacters = new Hashtable<String, String>();
 
     public static String decode(String path) {
         addEncodedCharacters();
@@ -22,7 +19,7 @@ public class ParameterDecoder {
 
     private static String getDecodedText(String path) {
         String[] formattedPath = formatPath(path);
-        List<Integer> removeIndices = new ArrayList<Integer>();
+        List<Integer> removeIndices = new Vector<Integer>();
         String text = "";
 
         for (int i = 0; i < formattedPath.length; i++) {

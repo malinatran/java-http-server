@@ -4,18 +4,19 @@ import com.malinatran.utility.Header;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
 
 import static com.malinatran.utility.Method.PATCH;
 
 public class RequestLogger {
 
-    private ArrayList<String> loggedRequestLines;
+    private Vector<String> loggedRequestLines;
     private String eTag;
     private char[] body;
 
     public RequestLogger() {
-        loggedRequestLines = new ArrayList<String>();
+        loggedRequestLines = new Vector<String>();
         eTag = "";
         body = new char[0];
     }
@@ -56,7 +57,7 @@ public class RequestLogger {
         }
     }
 
-    private ArrayList<String> addRequestLine(Request request) {
+    private List<String> addRequestLine(Request request) {
         String initialLine = request.getMethod() + " " + request.getPath() + " " + request.getProtocolAndVersion();
         loggedRequestLines.add(initialLine + "\r\n");
 

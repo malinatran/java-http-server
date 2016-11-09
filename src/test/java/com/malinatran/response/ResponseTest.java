@@ -17,7 +17,6 @@ public class ResponseTest {
         response = new Response("HTTP/1.1");
     }
 
-
     @Test
     public void hasHeaderReturnsTrueIfHeaderExists() {
        response.setHeader(Header.CONTENT_TYPE, "text/plain");
@@ -42,7 +41,7 @@ public class ResponseTest {
     }
 
     @Test
-    public void setHeaderStoresValuesIntoHashMap() {
+    public void setHeaderStoresValuesIntoHashtable() {
         response.setHeader("Host", "google.com");
 
         assertTrue(response.hasHeader("Host"));
@@ -68,11 +67,10 @@ public class ResponseTest {
         assertEquals(size, response.getBodyContent().length);
     }
 
-
     @Test
     public void getStatusReturnsStatusCode() {
         response.setStatus(Status.OK);
-        String expected = "200 OK";
+        String expected = Status.OK;
 
         String result = response.getStatus();
 

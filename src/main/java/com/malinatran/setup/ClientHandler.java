@@ -2,7 +2,6 @@ package com.malinatran.setup;
 
 import com.malinatran.reader.Reader;
 import com.malinatran.request.RequestLogger;
-import com.malinatran.utility.Status;
 import com.malinatran.writer.Writer;
 import com.malinatran.request.Request;
 import com.malinatran.request.RequestListener;
@@ -14,8 +13,8 @@ import java.security.NoSuchAlgorithmException;
 
 public class ClientHandler implements Runnable {
 
-    private final Writer out;
     private final Reader in;
+    private final Writer out;
     private final Router router;
     private final RequestLogger logger;
     private final String directory;

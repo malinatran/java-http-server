@@ -1,7 +1,7 @@
 package com.malinatran.response;
 
 import java.util.Map;
-import java.util.HashMap;
+import java.util.Hashtable;
 
 public class Response {
 
@@ -12,7 +12,7 @@ public class Response {
 
     public Response(String protocol) {
         this.protocol = protocol;
-        this.headers = new HashMap<String, String>();
+        this.headers = new Hashtable<String, String>();
     }
 
     public boolean hasHeader(String key) {

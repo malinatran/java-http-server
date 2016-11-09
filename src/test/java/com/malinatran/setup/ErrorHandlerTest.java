@@ -9,9 +9,9 @@ import static org.junit.Assert.*;
 
 public class ErrorHandlerTest {
 
+    private String expected;
     private ErrorHandler handler;
     private ByteArrayOutputStream out;
-    private String expected;
 
     @Before
     public void setUp() {

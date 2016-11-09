@@ -17,7 +17,7 @@ public class ImageTest {
     }
 
     @Test
-    public void extractBytesReturnsByteArray() {
+    public void readReturnsByteArray() {
         byte[] result = image.read(PATH + "/image.gif");
 
         assertEquals(7169, result.length);

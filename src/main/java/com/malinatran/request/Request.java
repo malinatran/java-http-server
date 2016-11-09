@@ -3,7 +3,7 @@ package com.malinatran.request;
 import com.malinatran.utility.Header;
 import com.malinatran.utility.RangeParser;
 
-import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Map;
 
 public class Request {
@@ -19,7 +19,7 @@ public class Request {
     private final String END = "End";
 
     public Request() {
-        headers = new HashMap<String, String>();
+        headers = new Hashtable<String, String>();
     }
 
     public String getAbsolutePath() {
@@ -52,7 +52,7 @@ public class Request {
 
     public Map<String, Integer> getRangeValues() {
         String header = getHeaderValue(Header.RANGE);
-        ranges = new HashMap<String, Integer>();
+        ranges = new Hashtable<String, Integer>();
 
         if (getHeaderValue(Header.RANGE) != null) {
             String[] rangeValues = RangeParser.getValues(header);
