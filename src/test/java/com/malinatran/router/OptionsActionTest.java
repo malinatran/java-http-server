@@ -10,16 +10,16 @@ import java.io.IOException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class OptionsRouterCallbackTest {
+public class OptionsActionTest {
 
     @Test
     public void runWithMethodOptionsPathAndOptionsMethodReturns200AndAllowHeader() throws IOException {
-        RouterCallback callback = new OptionsRouterCallback();
+        Action action = new OptionsAction();
         Request request = new Request();
         request.setRequestLine("OPTIONS /method_options HTTP/1.1");
         Response response = new Response("HTTP/1.1");
 
-        callback.run(request, response);
+        action.run(request, response);
 
         assertEquals(Status.OK, response.getStatus());
         assertTrue(response.hasHeader(Header.ALLOW));

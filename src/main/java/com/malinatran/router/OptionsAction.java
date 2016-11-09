@@ -4,12 +4,9 @@ import com.malinatran.utility.Header;
 import com.malinatran.utility.Method;
 import com.malinatran.utility.Status;
 import com.malinatran.request.Request;
-import com.malinatran.request.RequestLogger;
 import com.malinatran.response.Response;
 
-import java.io.IOException;
-
-public class OptionsRouterCallback implements RouterCallback {
+public class OptionsAction implements Action {
 
     private static final String METHOD_OPTIONS_PATH = "/method_options";
 
@@ -24,8 +21,4 @@ public class OptionsRouterCallback implements RouterCallback {
             response.setHeader(Header.ALLOW, Header.SOME_METHODS);
         }
     }
-
-    public void run(Response response, RequestLogger logger) throws IOException {}
-
-    public void run(Request request, Response response, RequestLogger logger) throws IOException {}
 }

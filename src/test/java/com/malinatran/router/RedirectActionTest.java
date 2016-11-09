@@ -10,15 +10,15 @@ import org.junit.Test;
 import java.io.IOException;
 import static org.junit.Assert.*;
 
-public class RedirectRouterCallbackTest {
+public class RedirectActionTest {
 
-    private RouterCallback callback;
+    private Action action;
     private Request request;
     private Response response;
 
     @Before
     public void setUp() {
-        callback = new RedirectRouterCallback();
+        action = new RedirectAction();
         request = new Request();
         response = new Response("HTTP/1.1");
     }
@@ -28,7 +28,7 @@ public class RedirectRouterCallbackTest {
         request.setRequestLine("GET /redirect HTTP/1.1");
         request.setHeader("Host: localhost:5000");
 
-        callback.run(request, response);
+        action.run(request, response);
 
         assertEquals(Status.FOUND, response.getStatus());
         assertTrue(response.hasHeader("Location"));
@@ -38,7 +38,7 @@ public class RedirectRouterCallbackTest {
     public void runAccessesHostHeader() throws IOException {
         request.setHeader("Host: localhost:5000");
 
-        callback.run(request, response);
+        action.run(request, response);
 
         assertEquals("localhost:5000", request.getHeaderValue(Header.HOST));
     }

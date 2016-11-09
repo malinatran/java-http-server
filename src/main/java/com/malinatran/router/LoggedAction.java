@@ -4,7 +4,7 @@ import com.malinatran.utility.Status;
 import com.malinatran.request.Request;
 import com.malinatran.resource.TextFile;
 import com.malinatran.response.Response;
-import com.malinatran.request.RequestLogger;
+import com.malinatran.utility.RequestLogger;
 import com.malinatran.response.ResponseBuilder;
 import com.malinatran.utility.SHA1Encoder;
 
@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
-public class LoggedRouterCallback implements RouterCallback {
+public class LoggedAction {
 
     private static final String FORM = "/form";
     private Request request;
@@ -32,9 +32,7 @@ public class LoggedRouterCallback implements RouterCallback {
         buildResponse();
     }
 
-    public void run(Request request, Response response) throws IOException {}
-
-    private LoggedRouterCallback buildResponse() throws IOException, NoSuchAlgorithmException {
+    private LoggedAction buildResponse() throws IOException, NoSuchAlgorithmException {
         Map<String, Integer> ranges = request.getRangeValues();
         String path = request.getPath();
 
@@ -60,7 +58,7 @@ public class LoggedRouterCallback implements RouterCallback {
         return (doesETagMatch(encoded) ? String.valueOf(logger.getBody()) : original);
     }
 
-    private LoggedRouterCallback setTextFileContent(Map<String, Integer> ranges) throws IOException, NoSuchAlgorithmException {
+    private LoggedAction setTextFileContent(Map<String, Integer> ranges) throws IOException, NoSuchAlgorithmException {
         String content = getOriginalOrPatchedContent(ranges);
 
         if (ranges.isEmpty()) {

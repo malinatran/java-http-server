@@ -2,11 +2,11 @@ package com.malinatran.router;
 
 import com.malinatran.utility.Authorizer;
 import com.malinatran.utility.Status;
-import com.malinatran.request.MethodReader;
+import com.malinatran.request.MethodTypeReader;
 import com.malinatran.utility.ParameterDecoder;
 import com.malinatran.request.Request;
 import com.malinatran.response.Response;
-import com.malinatran.request.RequestLogger;
+import com.malinatran.utility.RequestLogger;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -17,20 +17,20 @@ import static com.malinatran.utility.Method.*;
 
 public class Router {
 
-    private Map<String, RouterCallback> routes;
-    private RouterCallback callback;
-    private RouterCallback loggedRouterCallback;
+    private Map<String, Action> routes;
+    private Action action;
+    private LoggedAction loggedAction;
 
     public Router() {
-        routes = new Hashtable<String, RouterCallback>();
-        loggedRouterCallback = new LoggedRouterCallback();
+        routes = new Hashtable<String, Action>();
+        loggedAction = new LoggedAction();
     }
 
     public Response getResponse(Request request, RequestLogger logger) throws IOException, NoSuchAlgorithmException {
         Response response = new Response(request.getProtocolAndVersion());
         decodeParameter(request, response);
         logger.logRequest(request);
-        runCallback(request, response, logger);
+        runAction(request, response, logger);
 
         return response;
     }
@@ -39,8 +39,8 @@ public class Router {
         return routes.containsKey(route);
     }
 
-    private Map<String, RouterCallback> addRoute(String method, String path, RouterCallback callback) {
-        routes.put(method + " " + path, callback);
+    private Map<String, Action> addRoute(String method, String path, Action action) {
+        routes.put(method + " " + path, action);
 
         return routes;
     }
@@ -56,56 +56,56 @@ public class Router {
         return Authorizer.hasValidRouteAndCredentials(request);
     }
 
-    private Router runCallback(Request request, Response response, RequestLogger logger) throws IOException, NoSuchAlgorithmException {
-        RouterCallback callback = getCallback(request, response, logger);
-        if (callback != null) {
-            callback.run(request, response);
+    private Router runAction(Request request, Response response, RequestLogger logger) throws IOException, NoSuchAlgorithmException {
+        Action action = runOrGetCallback(request, response, logger);
+        if (action != null) {
+            action.run(request, response);
         }
 
         return this;
     }
 
-    private RouterCallback getCallback(Request request, Response response, RequestLogger logger) throws IOException, NoSuchAlgorithmException {
+    private Action runOrGetCallback(Request request, Response response, RequestLogger logger) throws IOException, NoSuchAlgorithmException {
         String route = request.getRoute();
         String method = request.getMethod();
-        callback = null;
+        action = null;
 
         if (hasBasicAuth(request)) {
-            loggedRouterCallback.run(response, logger);
-        } else if (MethodReader.isGetRequestWithLoggedBody(request, logger)) {
-            loggedRouterCallback.run(request, response, logger);
+            loggedAction.run(response, logger);
+        } else if (MethodTypeReader.isGetRequestWithLoggedBody(request, logger)) {
+            loggedAction.run(request, response, logger);
         } else if (hasRoute(route)) {
-            callback = routes.get(route);
+            action = routes.get(route);
         } else if (hasRoute(method + " *")) {
-            callback = routes.get(method + " *");
+            action = routes.get(method + " *");
         } else {
             response.setStatus(Status.METHOD_NOT_ALLOWED);
         }
 
-        return callback;
+        return action;
     }
 
     public void setupRoutes() {
-        addRoute(GET, "/form", new FormRouterCallback());
-        addRoute(POST, "/form", new FormRouterCallback());
-        addRoute(PUT, "/form", new FormRouterCallback());
-        addRoute(DELETE, "/form", new FormRouterCallback());
-        addRoute(GET, "/method_options", new OptionsRouterCallback());
-        addRoute(POST, "/method_options", new OptionsRouterCallback());
-        addRoute(PUT, "/method_options", new OptionsRouterCallback());
-        addRoute(HEAD, "/method_options", new OptionsRouterCallback());
-        addRoute(OPTIONS, "/method_options", new OptionsRouterCallback());
-        addRoute(OPTIONS, "/method_options2", new OptionsRouterCallback());
-        addRoute(GET, "/redirect", new RedirectRouterCallback());
-        addRoute(GET, "/logs", new AuthorizedRouterCallback());
-        addRoute(GET, "/coffee", new EasterEggRouterCallback());
-        addRoute(GET, "/tea", new EasterEggRouterCallback());
-        addRoute(PATCH, "*", new FileContentRouterCallback());
-        addRoute(GET, "/", new IndexRouterCallback());
-        addRoute(GET, "*", new FileContentRouterCallback());
-        addRoute(PUT, "*", new CreateOrUpdateRouterCallback());
-        addRoute(POST, "*", new CreateOrUpdateRouterCallback());
-        addRoute(HEAD, "/", new IndexRouterCallback());
-        addRoute(HEAD, "*", new NotFoundOrAllowedRouterCallback());
+        addRoute(GET, "/form", new FormAction());
+        addRoute(POST, "/form", new FormAction());
+        addRoute(PUT, "/form", new FormAction());
+        addRoute(DELETE, "/form", new FormAction());
+        addRoute(GET, "/method_options", new OptionsAction());
+        addRoute(POST, "/method_options", new OptionsAction());
+        addRoute(PUT, "/method_options", new OptionsAction());
+        addRoute(HEAD, "/method_options", new OptionsAction());
+        addRoute(OPTIONS, "/method_options", new OptionsAction());
+        addRoute(OPTIONS, "/method_options2", new OptionsAction());
+        addRoute(GET, "/redirect", new RedirectAction());
+        addRoute(GET, "/logs", new AuthorizedAction());
+        addRoute(GET, "/coffee", new EasterEggAction());
+        addRoute(GET, "/tea", new EasterEggAction());
+        addRoute(PATCH, "*", new FileContentAction());
+        addRoute(GET, "/", new IndexAction());
+        addRoute(GET, "*", new FileContentAction());
+        addRoute(PUT, "*", new CreateOrUpdateAction());
+        addRoute(POST, "*", new CreateOrUpdateAction());
+        addRoute(HEAD, "/", new IndexAction());
+        addRoute(HEAD, "*", new NotFoundOrAllowedAction());
     }
 }

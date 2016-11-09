@@ -4,7 +4,6 @@ import com.malinatran.utility.FileType;
 import com.malinatran.utility.Method;
 import com.malinatran.utility.Status;
 import com.malinatran.request.Request;
-import com.malinatran.request.RequestLogger;
 import com.malinatran.resource.Directory;
 import com.malinatran.resource.FileTypeReader;
 import com.malinatran.resource.Image;
@@ -15,7 +14,7 @@ import com.malinatran.response.ResponseBuilder;
 import java.io.IOException;
 import java.util.Map;
 
-public class FileContentRouterCallback implements RouterCallback {
+public class FileContentAction implements Action {
 
     private Response response;
     private Request request;
@@ -27,11 +26,7 @@ public class FileContentRouterCallback implements RouterCallback {
         buildResponse();
     }
 
-    public void run(Response response, RequestLogger logger) throws IOException {}
-
-    public void run(Request request, Response response, RequestLogger logger) throws IOException {}
-
-    private FileContentRouterCallback buildResponse() throws IOException {
+    private FileContentAction buildResponse() throws IOException {
         String absolutePath = request.getAbsolutePath();
         boolean exists = Directory.existsInDirectory(absolutePath);
 
@@ -44,7 +39,7 @@ public class FileContentRouterCallback implements RouterCallback {
         return this;
     }
 
-    private FileContentRouterCallback buildResponseByFileType(String absolutePath) throws IOException {
+    private FileContentAction buildResponseByFileType(String absolutePath) throws IOException {
         FileType type = FileTypeReader.getFileType(absolutePath);
 
         switch (type) {
@@ -62,7 +57,7 @@ public class FileContentRouterCallback implements RouterCallback {
         return this;
     }
 
-    private FileContentRouterCallback buildResponseByMethod(String absolutePath) throws IOException {
+    private FileContentAction buildResponseByMethod(String absolutePath) throws IOException {
         String method = request.getMethod();
 
         if (method.equals(Method.PATCH)) {
@@ -74,7 +69,7 @@ public class FileContentRouterCallback implements RouterCallback {
         return this;
     }
 
-    private FileContentRouterCallback setImageFileContent(String absolutePath) throws IOException {
+    private FileContentAction setImageFileContent(String absolutePath) throws IOException {
         byte[] image = Image.read(absolutePath);
         String imageType = Image.getImageType(absolutePath);
         ResponseBuilder.image(response, imageType, image);
@@ -82,7 +77,7 @@ public class FileContentRouterCallback implements RouterCallback {
         return this;
     }
 
-    private FileContentRouterCallback setTextFileContent(String absolutePath) throws IOException {
+    private FileContentAction setTextFileContent(String absolutePath) throws IOException {
         Map<String, Integer> ranges = request.getRangeValues();
         String content = TextFile.read(absolutePath, ranges);
 

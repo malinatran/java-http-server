@@ -3,7 +3,7 @@ package com.malinatran.mocks;
 import com.malinatran.utility.Status;
 import com.malinatran.request.Request;
 import com.malinatran.response.Response;
-import com.malinatran.request.RequestLogger;
+import com.malinatran.utility.RequestLogger;
 import com.malinatran.router.Router;
 
 public class MockRouter extends Router {

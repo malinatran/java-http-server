@@ -1,6 +1,7 @@
-package com.malinatran.request;
+package com.malinatran.utility;
 
-import com.malinatran.utility.Header;
+import com.malinatran.request.MethodTypeReader;
+import com.malinatran.request.Request;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
@@ -48,11 +49,11 @@ public class RequestLogger {
         String path = request.getPath();
         addRequestLine(request);
 
-        if (MethodReader.isMethod(method, PATCH)) {
+        if (MethodTypeReader.isMethod(method, PATCH)) {
             handlePatch(request);
-       } else if (MethodReader.isPutOrPostToForm(method, path)) {
+       } else if (MethodTypeReader.isPutOrPostToForm(method, path)) {
             handlePutOrPost(request);
-        } else if (MethodReader.isDeleteToForm(method, path)) {
+        } else if (MethodTypeReader.isDeleteToForm(method, path)) {
             handleDelete();
         }
     }

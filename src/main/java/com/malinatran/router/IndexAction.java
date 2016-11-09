@@ -1,14 +1,13 @@
 package com.malinatran.router;
 
 import com.malinatran.utility.Status;
-import com.malinatran.request.RequestLogger;
 import com.malinatran.resource.Directory;
 import com.malinatran.request.Request;
 import com.malinatran.response.Response;
 
 import java.io.IOException;
 
-public class IndexRouterCallback implements RouterCallback {
+public class IndexAction implements Action {
 
     public void run(Request request, Response response) throws IOException {
         String path = request.getPath();
@@ -19,8 +18,4 @@ public class IndexRouterCallback implements RouterCallback {
             response.setBodyContent(Directory.getLinks(directoryPath));
         }
     }
-
-    public void run(Response response, RequestLogger logger) throws IOException {}
-
-    public void run(Request request, Response response, RequestLogger logger) throws IOException {}
 }

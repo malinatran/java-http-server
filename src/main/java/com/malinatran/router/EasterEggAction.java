@@ -3,12 +3,9 @@ package com.malinatran.router;
 import com.malinatran.utility.Method;
 import com.malinatran.utility.Status;
 import com.malinatran.request.Request;
-import com.malinatran.request.RequestLogger;
 import com.malinatran.response.Response;
 
-import java.io.IOException;
-
-public class EasterEggRouterCallback implements RouterCallback {
+public class EasterEggAction implements Action {
 
     private static final String TEAPOT_MESSAGE = "I'm a teapot";
     private static final String COFFEE = "/coffee";
@@ -25,8 +22,4 @@ public class EasterEggRouterCallback implements RouterCallback {
             response.setStatus(Status.OK);
         }
     }
-
-    public void run(Response response, RequestLogger logger) throws IOException {}
-
-    public void run(Request request, Response response, RequestLogger logger) throws IOException {}
 }
