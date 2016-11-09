@@ -2,13 +2,14 @@ package com.malinatran.request;
 
 import com.malinatran.resource.Directory;
 import com.malinatran.resource.FileTypeReader;
+import com.malinatran.utility.RequestLogger;
 
 import static com.malinatran.utility.Method.GET;
 import static com.malinatran.utility.Method.DELETE;
 import static com.malinatran.utility.Method.POST;
 import static com.malinatran.utility.Method.PUT;
 
-public class MethodReader {
+public class MethodTypeReader {
 
     private static final String FORM = "/form";
 

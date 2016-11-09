@@ -1,5 +1,6 @@
-package com.malinatran.request;
+package com.malinatran.utility;
 
+import com.malinatran.request.Request;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -13,16 +13,16 @@ import java.io.File;
 import java.io.IOException;
 import static org.junit.Assert.*;
 
-public class FileContentRouterCallbackTest {
+public class FileContentActionTest {
 
     private String PATH = ServerSettings.HOME_DIRECTORY + ServerSettings.DEFAULT_DIRECTORY;
-    private RouterCallback callback;
+    private Action action;
     private Request request;
     private Response response;
 
     @Before
     public void setUp() {
-        callback = new FileContentRouterCallback();
+        action = new FileContentAction();
         request = new Request();
         request.setDirectoryPath(PATH);
         response = new Response("HTTP/1.1");
@@ -32,7 +32,7 @@ public class FileContentRouterCallbackTest {
     public void runWithGetRequestToExistingResourceAndValidTextFileReturns200() throws IOException {
         request.setRequestLine("GET /patch-content.txt HTTP/1.1");
 
-        callback.run(request, response);
+        action.run(request, response);
 
         assertEquals(Status.OK, response.getStatus());
     }
@@ -41,7 +41,7 @@ public class FileContentRouterCallbackTest {
     public void runWithGetRequestToValidImageFileReturns404() throws IOException {
         request.setRequestLine("GET /image.gif HTTP/1.1");
 
-        callback.run(request, response);
+        action.run(request, response);
 
         assertEquals(Status.OK, response.getStatus());
     }
@@ -50,7 +50,7 @@ public class FileContentRouterCallbackTest {
     public void runWithGetRequestToNonexistentResourceAndValidTextFileReturns404() throws IOException {
         request.setRequestLine("GET /lala.txt HTTP/1.1");
 
-        callback.run(request, response);
+        action.run(request, response);
 
         assertEquals(Status.NOT_FOUND, response.getStatus());
     }
@@ -59,7 +59,7 @@ public class FileContentRouterCallbackTest {
     public void runWithGetRequestToNonexistentResourceAndInvalidTextFileReturns404() throws IOException {
         request.setRequestLine("GET /image.pdf HTTP/1.1");
 
-        callback.run(request, response);
+        action.run(request, response);
 
         assertEquals(Status.NOT_FOUND, response.getStatus());
     }
@@ -71,7 +71,7 @@ public class FileContentRouterCallbackTest {
         file.createNewFile();
         request.setRequestLine("GET /exist.pdf HTTP/1.1");
 
-        callback.run(request, response);
+        action.run(request, response);
 
         assertEquals(Status.UNSUPPORTED_MEDIA_TYPE, response.getStatus());
         assertTrue(file.exists());
@@ -84,7 +84,7 @@ public class FileContentRouterCallbackTest {
         request.setHeader("Range: bytes=0-4");
         request.setRequestLine("GET /text-file.txt HTTP/1.1");
 
-        callback.run(request, response);
+        action.run(request, response);
 
         assertEquals(Status.PARTIAL_CONTENT, response.getStatus());
     }
@@ -94,7 +94,7 @@ public class FileContentRouterCallbackTest {
         String text = "file1 contents";
         request.setRequestLine("GET /text-file.txt HTTP/1.1");
 
-        callback.run(request, response);
+        action.run(request, response);
 
         assertEquals(Status.OK, response.getStatus());
         assertEquals(text, new String(response.getBodyContent()));
@@ -107,7 +107,7 @@ public class FileContentRouterCallbackTest {
         request.setHeader("Range: bytes=1-5");
         request.setRequestLine("GET /text-file.txt HTTP/1.1");
 
-        callback.run(request, response);
+        action.run(request, response);
 
         assertEquals(text, new String(response.getBodyContent()));
         assertTrue(response.hasHeader(Header.CONTENT_RANGE));
@@ -117,7 +117,7 @@ public class FileContentRouterCallbackTest {
     public void runReturns200AndSetsContentLengthAndTypeAsHeaders() throws IOException {
         request.setRequestLine("GET /image.jpeg HTTP/1.1");
 
-        callback.run(request, response);
+        action.run(request, response);
 
         assertEquals(Status.OK, response.getStatus());
         assertTrue(response.hasHeader(Header.CONTENT_TYPE));

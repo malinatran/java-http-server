@@ -10,16 +10,16 @@ import org.junit.Test;
 import java.io.IOException;
 import static org.junit.Assert.*;
 
-public class CreateOrUpdateRouterCallbackTest {
+public class CreateOrUpdateActionTest {
 
-    private RouterCallback callback;
+    private Action action;
     private Request request;
     private Response response;
     private String PATH = ServerSettings.HOME_DIRECTORY + ServerSettings.DEFAULT_DIRECTORY;
 
     @Before
     public void setUp() {
-        callback = new CreateOrUpdateRouterCallback();
+        action = new CreateOrUpdateAction();
         request = new Request();
         response = new Response("HTTP/1.1");
     }
@@ -30,7 +30,7 @@ public class CreateOrUpdateRouterCallbackTest {
         request.setDirectoryPath(PATH);
         request.setBody(new char[4]);
 
-        callback.run(request, response);
+        action.run(request, response);
 
         assertEquals(Status.OK, response.getStatus());
     }
@@ -40,7 +40,7 @@ public class CreateOrUpdateRouterCallbackTest {
         request.setRequestLine("PUT / HTTP/1.1");
         request.setDirectoryPath(PATH);
 
-        callback.run(request, response);
+        action.run(request, response);
 
         assertEquals(Status.NOT_FOUND, response.getStatus());
     }
@@ -51,7 +51,7 @@ public class CreateOrUpdateRouterCallbackTest {
         request.setDirectoryPath(PATH);
         request.setBody(new char[5]);
 
-        callback.run(request, response);
+        action.run(request, response);
 
         assertEquals(Status.METHOD_NOT_ALLOWED, response.getStatus());
     }

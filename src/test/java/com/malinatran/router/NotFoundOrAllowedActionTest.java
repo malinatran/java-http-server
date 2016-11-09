@@ -9,15 +9,15 @@ import org.junit.Test;
 import java.io.IOException;
 import static org.junit.Assert.*;
 
-public class NotFoundOrAllowedRouterCallbackTest {
+public class NotFoundOrAllowedActionTest {
 
-    private RouterCallback callback;
+    private Action action;
     private Request request;
     private Response response;
 
     @Before
     public void setUp() {
-        callback = new NotFoundOrAllowedRouterCallback();
+        action = new NotFoundOrAllowedAction();
         request = new Request();
         response = new Response("HTTP/1.1");
     }
@@ -26,7 +26,7 @@ public class NotFoundOrAllowedRouterCallbackTest {
     public void runWithHeadReturns404() throws IOException {
         request.setRequestLine("HEAD /file1 HTTP/1.1");
 
-        callback.run(request, response);
+        action.run(request, response);
 
         assertEquals(Status.NOT_FOUND, response.getStatus());
     }
@@ -35,7 +35,7 @@ public class NotFoundOrAllowedRouterCallbackTest {
     public void runWithPutReturns405() throws IOException {
         request.setRequestLine("PUT /file1 HTTP/1.1");
 
-        callback.run(request, response);
+        action.run(request, response);
 
         assertEquals(Status.METHOD_NOT_ALLOWED, response.getStatus());
     }

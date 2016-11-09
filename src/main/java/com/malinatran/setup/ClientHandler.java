@@ -1,7 +1,7 @@
 package com.malinatran.setup;
 
 import com.malinatran.reader.Reader;
-import com.malinatran.request.RequestLogger;
+import com.malinatran.utility.RequestLogger;
 import com.malinatran.writer.Writer;
 import com.malinatran.request.Request;
 import com.malinatran.request.RequestListener;

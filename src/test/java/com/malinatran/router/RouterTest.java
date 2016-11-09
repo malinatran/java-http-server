@@ -2,7 +2,7 @@ package com.malinatran.router;
 
 import com.malinatran.mocks.MockRouter;
 import com.malinatran.request.Request;
-import com.malinatran.request.RequestLogger;
+import com.malinatran.utility.RequestLogger;
 import com.malinatran.response.Response;
 
 import org.junit.Before;

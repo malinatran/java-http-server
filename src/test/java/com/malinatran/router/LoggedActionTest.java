@@ -3,7 +3,7 @@ package com.malinatran.router;
 import com.malinatran.utility.Status;
 import com.malinatran.request.Request;
 import com.malinatran.response.Response;
-import com.malinatran.request.RequestLogger;
+import com.malinatran.utility.RequestLogger;
 import com.malinatran.setup.ServerSettings;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,17 +13,17 @@ import java.security.NoSuchAlgorithmException;
 
 import static org.junit.Assert.*;
 
-public class LoggedRouterCallbackTest {
+public class LoggedActionTest {
 
     private String PATH = ServerSettings.HOME_DIRECTORY + ServerSettings.DEFAULT_DIRECTORY;
-    private LoggedRouterCallback loggedRouterCallback;
+    private LoggedAction loggedAction;
     private RequestLogger logger;
     private Request request;
     private Response response;
 
     @Before
     public void setUp() {
-        loggedRouterCallback = new LoggedRouterCallback();
+        loggedAction = new LoggedAction();
         logger = new RequestLogger();
         request = new Request();
         request.setDirectoryPath(PATH);
@@ -35,7 +35,7 @@ public class LoggedRouterCallbackTest {
         RequestLogger logger = new RequestLogger();
         Response response = new Response("HTTP/1.1");
 
-        loggedRouterCallback.run(response, logger);
+        loggedAction.run(response, logger);
 
         assertEquals(Status.OK, response.getStatus());
         assertNotNull(response.getBodyContent());
@@ -46,7 +46,7 @@ public class LoggedRouterCallbackTest {
         request.setRequestLine("GET /text-file.txt HTTP/1.1");
         request.setHeader("If-Match: random");
 
-        loggedRouterCallback.run(request, response, logger);
+        loggedAction.run(request, response, logger);
 
         assertEquals("file1 contents", new String(response.getBodyContent()));
     }
@@ -60,7 +60,7 @@ public class LoggedRouterCallbackTest {
         logger.logRequest(initialRequest);
         request.setRequestLine("GET /form HTTP/1.1");
 
-        loggedRouterCallback.run(request, response, logger);
+        loggedAction.run(request, response, logger);
 
         assertEquals("testing", new String(response.getBodyContent()));
     }
@@ -76,7 +76,7 @@ public class LoggedRouterCallbackTest {
         logger.logRequest(initialRequest);
         request.setRequestLine("GET /text-file.txt HTTP/1.1");
 
-        loggedRouterCallback.run(request, response, logger);
+        loggedAction.run(request, response, logger);
 
         assertEquals(patched, new String(response.getBodyContent()));
     }

@@ -8,17 +8,17 @@ import org.junit.Test;
 import java.io.IOException;
 import static org.junit.Assert.*;
 
-public class AuthorizedRouterCallbackTest {
+public class AuthorizedActionTest {
 
     @Test
     public void runWithInvalidCredentialsReturns401() throws IOException {
-        RouterCallback callback = new AuthorizedRouterCallback();
+        Action action = new AuthorizedAction();
         Request request = new Request();
         request.setRequestLine("GET /logs HTTP/1.1");
         request.setHeader("Authorization: Basic HelloWorld");
         Response response = new Response("HTTP/1.1");
 
-        callback.run(request, response);
+        action.run(request, response);
 
         assertEquals(Status.UNAUTHORIZED, response.getStatus());
     }

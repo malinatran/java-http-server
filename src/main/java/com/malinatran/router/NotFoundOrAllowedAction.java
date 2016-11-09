@@ -3,12 +3,9 @@ package com.malinatran.router;
 import com.malinatran.utility.Method;
 import com.malinatran.utility.Status;
 import com.malinatran.request.Request;
-import com.malinatran.request.RequestLogger;
 import com.malinatran.response.Response;
 
-import java.io.IOException;
-
-public class NotFoundOrAllowedRouterCallback implements RouterCallback {
+public class NotFoundOrAllowedAction implements Action {
 
     public void run(Request request, Response response) {
         String method = request.getMethod();
@@ -19,8 +16,4 @@ public class NotFoundOrAllowedRouterCallback implements RouterCallback {
             response.setStatus(Status.METHOD_NOT_ALLOWED);
         }
     }
-
-    public void run(Response response, RequestLogger logger) throws IOException {}
-
-    public void run(Request request, Response response, RequestLogger logger) throws IOException {}
 }

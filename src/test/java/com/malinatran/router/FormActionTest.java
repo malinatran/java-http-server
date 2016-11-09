@@ -9,24 +9,24 @@ import org.junit.Test;
 import java.io.IOException;
 import static org.junit.Assert.*;
 
-public class FormRouterCallbackTest {
+public class FormActionTest {
 
     private Request request;
     private Response response;
-    private RouterCallback callback;
+    private Action action;
 
     @Before
     public void setUp() {
         request = new Request();
         response = new Response("HTTP/1.1");
-        callback = new FormRouterCallback();
+        action = new FormAction();
     }
 
     @Test
     public void runWithGetReturns200() throws IOException {
         request.setRequestLine("GET /form HTTP/1.1");
 
-        callback.run(request, response);
+        action.run(request, response);
 
         assertEquals(Status.OK, response.getStatus());
     }

@@ -9,15 +9,15 @@ import org.junit.Test;
 import java.io.IOException;
 import static org.junit.Assert.*;
 
-public class EasterEggRouterCallbackTest {
+public class EasterEggActionTest {
 
-    private RouterCallback callback;
+    private Action action;
     private Request request;
     private Response response;
 
     @Before
     public void setUp() {
-        callback = new EasterEggRouterCallback();
+        action = new EasterEggAction();
         request = new Request();
         response = new Response("HTTP/1.1");
     }
@@ -27,7 +27,7 @@ public class EasterEggRouterCallbackTest {
         String TEAPOT_MESSAGE = "I'm a teapot";
         request.setRequestLine("GET /coffee HTTP/1.1");
 
-        callback.run(request, response);
+        action.run(request, response);
 
         assertEquals(Status.TEAPOT, response.getStatus());
         assertEquals(TEAPOT_MESSAGE, new String(response.getBodyContent()));
@@ -37,7 +37,7 @@ public class EasterEggRouterCallbackTest {
     public void runWithTeaPathReturns200() throws IOException {
         request.setRequestLine("GET /tea HTTP/1.1");
 
-        callback.run(request, response);
+        action.run(request, response);
 
         assertEquals(Status.OK, response.getStatus());
     }

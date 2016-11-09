@@ -2,13 +2,11 @@ package com.malinatran.setup;
 
 import com.malinatran.mocks.*;
 import com.malinatran.reader.Reader;
-import com.malinatran.request.RequestLogger;
+import com.malinatran.utility.RequestLogger;
 import com.malinatran.router.Router;
 import com.malinatran.writer.Writer;
 
 import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
