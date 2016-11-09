@@ -1,4 +1,4 @@
-package com.malinatran.router;
+package com.malinatran.routing;
 
 import com.malinatran.utility.Authorizer;
 import com.malinatran.utility.Header;

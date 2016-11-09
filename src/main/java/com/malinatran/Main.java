@@ -3,7 +3,7 @@ package com.malinatran;
 import com.malinatran.reader.Reader;
 import com.malinatran.reader.RequestReader;
 import com.malinatran.utility.RequestLogger;
-import com.malinatran.router.Router;
+import com.malinatran.routing.Router;
 import com.malinatran.setup.*;
 import com.malinatran.writer.ResponseWriter;
 import com.malinatran.writer.Writer;
