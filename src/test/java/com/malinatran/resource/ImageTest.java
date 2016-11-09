@@ -7,7 +7,7 @@ import static org.junit.Assert.assertEquals;
 
 public class ImageTest {
 
-    private String PATH = ServerSettings.ROOT + ServerSettings.DEFAULT_DIRECTORY;
+    private String PATH = ServerSettings.HOME_DIRECTORY + ServerSettings.DEFAULT_DIRECTORY;
     private Image image;
     private String result;
 

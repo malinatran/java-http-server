@@ -13,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 public class TextFileTest {
 
     private Map<String, Integer> range;
-    private String PATH = ServerSettings.ROOT + ServerSettings.DEFAULT_DIRECTORY;
+    private String PATH = ServerSettings.HOME_DIRECTORY + ServerSettings.DEFAULT_DIRECTORY;
     private String START = "Start";
     private String END = "End";
     private int start = 6;
@@ -23,6 +23,15 @@ public class TextFileTest {
     @Before
     public void setUp() {
         range = new Hashtable<String, Integer>();
+    }
+
+    @Test
+    public void getCharacterCountReturnsCharacterInFile() throws IOException {
+        String filePath = PATH + "text-file.txt";
+
+        int count = TextFile.getCharacterCount(filePath);
+
+        assertEquals(14, count);
     }
 
     @Test

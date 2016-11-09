@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
 
 public class LoggedRouterCallbackTest {
 
-    private String PATH = ServerSettings.ROOT + ServerSettings.DEFAULT_DIRECTORY;
+    private String PATH = ServerSettings.HOME_DIRECTORY + ServerSettings.DEFAULT_DIRECTORY;
     private LoggedRouterCallback loggedRouterCallback;
     private RequestLogger logger;
     private Request request;

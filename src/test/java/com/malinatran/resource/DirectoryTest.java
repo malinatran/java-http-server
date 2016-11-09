@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 
 public class DirectoryTest {
 
-    private String PATH = ServerSettings.ROOT + ServerSettings.DEFAULT_DIRECTORY;
+    private String PATH = ServerSettings.HOME_DIRECTORY + ServerSettings.DEFAULT_DIRECTORY;
     private Map<String, Integer> map;
     private boolean result;
 

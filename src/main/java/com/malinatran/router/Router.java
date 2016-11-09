@@ -13,6 +13,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Hashtable;
 import java.util.Map;
 
+import static com.malinatran.utility.Method.*;
+
 public class Router {
 
     private Map<String, RouterCallback> routes;
@@ -22,12 +24,6 @@ public class Router {
     public Router() {
         routes = new Hashtable<String, RouterCallback>();
         loggedRouterCallback = new LoggedRouterCallback();
-    }
-
-    public Map<String, RouterCallback> addRoute(String method, String path, RouterCallback callback) {
-        routes.put(method + " " + path, callback);
-
-        return routes;
     }
 
     public Response getResponse(Request request, RequestLogger logger) throws IOException, NoSuchAlgorithmException {
@@ -41,6 +37,12 @@ public class Router {
 
     public boolean hasRoute(String route) {
         return routes.containsKey(route);
+    }
+
+    private Map<String, RouterCallback> addRoute(String method, String path, RouterCallback callback) {
+        routes.put(method + " " + path, callback);
+
+        return routes;
     }
 
     private Router decodeParameter(Request request, Response response) {
@@ -81,5 +83,29 @@ public class Router {
         }
 
         return callback;
+    }
+
+    public void setupRoutes() {
+        addRoute(GET, "/form", new FormRouterCallback());
+        addRoute(POST, "/form", new FormRouterCallback());
+        addRoute(PUT, "/form", new FormRouterCallback());
+        addRoute(DELETE, "/form", new FormRouterCallback());
+        addRoute(GET, "/method_options", new OptionsRouterCallback());
+        addRoute(POST, "/method_options", new OptionsRouterCallback());
+        addRoute(PUT, "/method_options", new OptionsRouterCallback());
+        addRoute(HEAD, "/method_options", new OptionsRouterCallback());
+        addRoute(OPTIONS, "/method_options", new OptionsRouterCallback());
+        addRoute(OPTIONS, "/method_options2", new OptionsRouterCallback());
+        addRoute(GET, "/redirect", new RedirectRouterCallback());
+        addRoute(GET, "/logs", new AuthorizedRouterCallback());
+        addRoute(GET, "/coffee", new EasterEggRouterCallback());
+        addRoute(GET, "/tea", new EasterEggRouterCallback());
+        addRoute(PATCH, "*", new FileContentRouterCallback());
+        addRoute(GET, "/", new IndexRouterCallback());
+        addRoute(GET, "*", new FileContentRouterCallback());
+        addRoute(PUT, "*", new CreateOrUpdateRouterCallback());
+        addRoute(POST, "*", new CreateOrUpdateRouterCallback());
+        addRoute(HEAD, "/", new IndexRouterCallback());
+        addRoute(HEAD, "*", new NotFoundOrAllowedRouterCallback());
     }
 }
