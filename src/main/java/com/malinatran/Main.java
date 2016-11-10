@@ -28,7 +28,7 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 		settings = OptionalArgs.configureServer(args);
 		setupSocket();
-        setupLoggerAndRouter();
+		setupLoggerAndRouter();
 		OptionalArgs.printArgs();
 
 		while (true) {
@@ -40,15 +40,15 @@ public class Main {
 		try {
 			serverSocket = new ServerSocket(settings.getPort());
 		} catch (Exception e) {
-            ErrorHandler.print(ErrorHandler.PORT, settings.getPort(), ErrorHandler.BUSY);
+			ErrorHandler.print(ErrorHandler.PORT, settings.getPort(), ErrorHandler.BUSY);
 			System.exit(0);
 		}
 	}
 
 	private static void setupLoggerAndRouter() {
 		logger = new RequestLogger();
-        router = new Router();
-        router.setupRoutes();
+		router = new Router();
+		router.setupRoutes();
 	}
 
 	private static void startClientHandlerThread() throws IOException {
@@ -56,11 +56,11 @@ public class Main {
 		out = new ResponseWriter(clientSocket);
 		in = new RequestReader(clientSocket);
 		ClientHandler clientHandler = new ClientHandler(out, in, logger, router, settings.getDirectory());
-        executor.execute(clientHandler);
+		executor.execute(clientHandler);
 	}
 
 	protected void finalize() throws IOException {
-        clientSocket.close();
+		clientSocket.close();
 		serverSocket.close();
 	}
 }
