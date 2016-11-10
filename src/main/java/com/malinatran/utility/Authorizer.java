@@ -5,7 +5,6 @@ import com.malinatran.request.Request;
 public class Authorizer {
 
     private static final String CREDENTIALS = System.getenv("COB_SPEC_CREDENTIALS");
-    private static final String AUTHORIZATION = "Authorization";
 
     public static boolean hasValidCredentials(String credentials) {
         return ((credentials != null) && credentials.equals(CREDENTIALS));
@@ -14,7 +13,7 @@ public class Authorizer {
     public static boolean hasValidRouteAndCredentials(Request request) {
         String method = request.getMethod();
         String path = request.getPath();
-        String credentials = request.getHeaderValue(AUTHORIZATION);
+        String credentials = request.getHeaderValue(Header.AUTHORIZATION);
 
         return (method.equals(Method.GET) &&
                 path.equals("/logs") &&

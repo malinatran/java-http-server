@@ -2,35 +2,27 @@ package com.malinatran.utility;
 
 import com.malinatran.request.Request;
 
-import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class AuthorizerTest {
 
-    private Request request;
-    private boolean result;
+    @Test
+    public void hasValidCredentialsReturnsFalseWithIncorrectCredentials() {
+        boolean result = Authorizer.hasValidCredentials("Basic Hello");
 
-    @Before
-    public void setUp() {
-        request = new Request();
+        assertFalse(result);
     }
 
     @Test
     public void hasValidRouteAndCredentialsReturnsTrueWithCorrectRouteAndCredentials() {
+        Request request = new Request();
         request.setRequestLine("GET /logs HTTP/1.1");
-        request.setHeader("Authorization: Basic YWRtaW46aHVudGVyMg==");
+        request.setHeader(Header.AUTHORIZATION + ": " + System.getenv("COB_SPEC_CREDENTIALS"));
 
-        result = Authorizer.hasValidRouteAndCredentials(request);
+        boolean result = Authorizer.hasValidRouteAndCredentials(request);
 
         assertTrue(result);
-    }
-
-    @Test
-    public void hasValidCredentialsReturnsFalseWithIncorrectCredentials() {
-        result = Authorizer.hasValidCredentials("Basic Hello");
-
-        assertFalse(result);
     }
 }
