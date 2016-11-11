@@ -1,5 +1,6 @@
 package com.malinatran.request;
 
+import com.malinatran.resource.ContentRangeHelper;
 import com.malinatran.utility.Header;
 import com.malinatran.utility.Method;
 
@@ -11,8 +12,6 @@ import static org.junit.Assert.*;
 
 public class RequestTest {
 
-    private String START = "Start";
-    private String END = "End";
     private Map<String, Integer> expected;
     private Request request;
 
@@ -57,34 +56,34 @@ public class RequestTest {
     @Test
     public void getRangeValuesWithStartAndEndRangeReturnsHashtableWithBothValues() {
         request.setHeader("Range: bytes=0-99");
-        expected.put(START, 0);
-        expected.put(END, 99);
+        expected.put(ContentRangeHelper.START, 0);
+        expected.put(ContentRangeHelper.END, 99);
 
         Map<String, Integer> actual = request.getRangeValues();
 
-        assertEquals(expected.get(START), actual.get(START));
-        assertEquals(expected.get(END), actual.get(END));
+        assertEquals(expected.get(ContentRangeHelper.START), actual.get(ContentRangeHelper.START));
+        assertEquals(expected.get(ContentRangeHelper.END), actual.get(ContentRangeHelper.END));
     }
 
     @Test
     public void getRangeValuesWithStartRangeAndNoEndRangeReturnsHashtableWithStartValue() {
         request.setHeader("Range: bytes=4-");
-        expected.put(START, 4);
+        expected.put(ContentRangeHelper.START, 4);
 
         Map<String, Integer> actual = request.getRangeValues();
 
-        assertEquals(expected.get(START), actual.get(START));
-        assertNull(actual.get(END));
+        assertEquals(expected.get(ContentRangeHelper.START), actual.get(ContentRangeHelper.START));
+        assertNull(actual.get(ContentRangeHelper.END));
     }
 
     @Test
     public void getRangeValuesWithEndRangeAndNoStartRangeReturnsHashtableWithEndValue() {
         request.setHeader("Range: bytes=-10");
-        expected.put(END, 10);
+        expected.put(ContentRangeHelper.END, 10);
 
         Map<String, Integer> actual = request.getRangeValues();
 
-        assertEquals(expected.get(END), actual.get(END));
-        assertNull(actual.get(START));
+        assertEquals(expected.get(ContentRangeHelper.END), actual.get(ContentRangeHelper.END));
+        assertNull(actual.get(ContentRangeHelper.START));
     }
 }

@@ -1,5 +1,6 @@
 package com.malinatran.response;
 
+import com.malinatran.resource.ContentRangeHelper;
 import com.malinatran.utility.Header;
 import com.malinatran.utility.Status;
 
@@ -7,9 +8,7 @@ import java.util.Map;
 
 public class ResponseBuilder {
 
-    private static final String END = "End";
     private static final String IMAGE = "image/";
-    private static final String START = "Start";
     private static final String TEXT_PLAIN = "text/plain";
 
     public static Response image(Response response, String imageType, byte[] image) {
@@ -24,7 +23,7 @@ public class ResponseBuilder {
     public static Response partialText(Response response, String text, Map<String, Integer> range, int total) {
         response.setStatus(Status.PARTIAL_CONTENT);
         response.setHeader(Header.CONTENT_TYPE, TEXT_PLAIN);
-        response.setHeader(Header.CONTENT_RANGE, range.get(START) + "-" + range.get(END) + "/" + String.valueOf(total));
+        response.setHeader(Header.CONTENT_RANGE, range.get(ContentRangeHelper.START) + "-" + range.get(ContentRangeHelper.END) + "/" + String.valueOf(total));
         response.setBodyContent(text);
 
         return response;

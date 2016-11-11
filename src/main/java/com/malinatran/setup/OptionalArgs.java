@@ -2,22 +2,22 @@ package com.malinatran.setup;
 
 public class OptionalArgs {
 
-	private static final String PORT = "Port: ";
-	private static final String DIRECTORY = "Directory: ";
-	private static ServerSettings settings;
+    private static final String PORT = "Port: ";
+    private static final String DIRECTORY = "Directory: ";
+    private static ServerSettings settings;
 
-	public static ServerSettings configureServer(String[] args) {
-		CommandLineArgsParser parser = new CommandLineArgsParser(args);
-		settings = new ServerSettings(parser.configure());
+    public static ServerSettings configureServer(String[] args) {
+        CommandLineArgsParser parser = new CommandLineArgsParser(args);
+        settings = new ServerSettings(parser.configure());
 
-		return settings;
-	}
+        return settings;
+    }
 
-	public static void printArgs() {
+    public static void printArgs() {
         int port = settings.getPort();
-		String directory = settings.getDirectory();
+        String directory = settings.getDirectory();
 
-		System.out.println(PORT + String.valueOf(port));
-		System.out.println(DIRECTORY + directory);
-	}
+        System.out.println(PORT + String.valueOf(port));
+        System.out.println(DIRECTORY + directory);
+    }
 }

@@ -7,6 +7,9 @@ public class CommandLineArgsParser {
 
     private String[] args;
     private Map<String, String> configuration;
+    private final int NO_ARGS = 0;
+    private final int TWO_ARGS = 2;
+    private final int FOUR_ARGS = 4;
 
     public CommandLineArgsParser(String[] args) {
         this.args = args;
@@ -14,16 +17,16 @@ public class CommandLineArgsParser {
     }
 
     public Map<String, String> configure() {
-        int size = args.length;
+        int numberOfArgs = args.length;
 
-        switch(size) {
-            case 0:
+        switch(numberOfArgs) {
+            case NO_ARGS:
                 setConfiguration();
                 break;
-            case 2:
+            case TWO_ARGS:
                 setConfigurationIfFlagExists();
                 break;
-            case 4:
+            case FOUR_ARGS:
                 setConfiguration();
                 break;
             default:

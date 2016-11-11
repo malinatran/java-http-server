@@ -14,8 +14,6 @@ public class TextFileTest {
 
     private Map<String, Integer> range;
     private String PATH = ServerSettings.HOME_DIRECTORY + ServerSettings.DEFAULT_DIRECTORY;
-    private String START = "Start";
-    private String END = "End";
     private int start = 6;
     private int end = 10;
     private String result;
@@ -43,8 +41,8 @@ public class TextFileTest {
 
     @Test
     public void readReturnsBeginningOfTextIfRangesAreSpecified() throws IOException {
-        range.put(START, 0);
-        range.put(END, end);
+        range.put(ContentRangeHelper.START, 0);
+        range.put(ContentRangeHelper.END, end);
 
         result = TextFile.read(PATH + "text-file.txt", range);
 
@@ -53,8 +51,8 @@ public class TextFileTest {
 
     @Test
     public void readReturnsSnippetOfTextIfRangesAreSpecified() throws IOException {
-        range.put(START, start);
-        range.put(END, end);
+        range.put(ContentRangeHelper.START, start);
+        range.put(ContentRangeHelper.END, end);
 
         result = TextFile.read(PATH + "text-file.txt", range);
 
@@ -63,7 +61,7 @@ public class TextFileTest {
 
     @Test
     public void readReturnsEndOfTextIfOnlyRangeEndIsSpecified() throws IOException {
-        range.put(END, end);
+        range.put(ContentRangeHelper.END, end);
 
         result = TextFile.read(PATH + "text-file.txt", range);
 
@@ -72,7 +70,7 @@ public class TextFileTest {
 
     @Test
     public void readReturnsTextFromStartToEndIfOnlyRangeStartIsSpecified() throws IOException {
-        range.put(START, start);
+        range.put(ContentRangeHelper.START, start);
 
         result = TextFile.read(PATH + "text-file.txt", range);
 

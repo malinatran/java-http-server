@@ -1,5 +1,6 @@
 package com.malinatran.request;
 
+import com.malinatran.resource.ContentRangeHelper;
 import com.malinatran.utility.Header;
 import com.malinatran.utility.RangeParser;
 
@@ -15,8 +16,6 @@ public class Request {
     private char[] body;
     private String directoryPath;
     private Map<String, Integer> ranges;
-    private final String START = "Start";
-    private final String END = "End";
 
     public Request() {
         headers = new Hashtable<String, String>();
@@ -96,11 +95,11 @@ public class Request {
         String rangeEnd = rangeValues[1];
 
         if (rangeStart.length() > 0) {
-            ranges.put(START, Integer.parseInt(rangeStart));
+            ranges.put(ContentRangeHelper.START, Integer.parseInt(rangeStart));
         }
 
         if (rangeEnd.length() > 0) {
-            ranges.put(END, Integer.parseInt(rangeEnd));
+            ranges.put(ContentRangeHelper.END, Integer.parseInt(rangeEnd));
         }
 
         return this;
