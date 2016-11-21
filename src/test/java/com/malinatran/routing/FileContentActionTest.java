@@ -23,7 +23,7 @@ public class FileContentActionTest {
     public void setUp() {
         action = new FileContentAction();
         request = new Request();
-        request.setDirectoryPath(PATH);
+        request.setDirectory(PATH);
         response = new Response("HTTP/1.1");
     }
 

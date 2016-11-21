@@ -26,7 +26,7 @@ public class LoggedActionTest {
         loggedAction = new LoggedAction();
         logger = new RequestLogger();
         request = new Request();
-        request.setDirectoryPath(PATH);
+        request.setDirectory(PATH);
         response = new Response("HTTP/1.1");
     }
 

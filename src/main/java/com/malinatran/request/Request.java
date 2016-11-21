@@ -14,7 +14,7 @@ public class Request {
     private String path;
     private String protocolAndVersion;
     private char[] body;
-    private String directoryPath;
+    private String directory;
     private Map<String, Integer> ranges;
 
     public Request() {
@@ -22,15 +22,15 @@ public class Request {
     }
 
     public String getAbsolutePath() {
-        return getDirectoryPath() + getPath().replace("/", "").trim();
+        return getDirectory() + getPath().replace("/", "").trim();
     }
 
     public char[] getBody() {
         return body;
     }
 
-    public String getDirectoryPath() {
-        return directoryPath;
+    public String getDirectory() {
+        return directory;
     }
 
     public String getHeaderValue(String headerName) {
@@ -75,8 +75,8 @@ public class Request {
         return this;
     }
 
-    public Request setDirectoryPath(String directoryPath) {
-        this.directoryPath = directoryPath;
+    public Request setDirectory(String directory) {
+        this.directory = directory;
 
         return this;
     }

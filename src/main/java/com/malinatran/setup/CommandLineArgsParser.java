@@ -43,16 +43,22 @@ public class CommandLineArgsParser {
     private Map<String, String> setConfiguration() {
         String currentKey = "";
 
-        for (int i = 0; i < args.length; i++) {
-            String currentArg = args[i];
+        for (String arg : args) {
 
-            if (InputValidator.isFlag(currentArg)) {
-                currentKey = currentArg;
+            if (InputValidator.isFlag(arg)) {
+                currentKey = arg;
             } else if (!currentKey.isEmpty()) {
-                configuration.put(currentKey, InputValidator.addFileSeparators(currentKey, currentArg));
+                storeKeyAndValue(currentKey, arg);
                 currentKey = "";
             }
         }
+
+        return configuration;
+    }
+
+    private Map<String, String> storeKeyAndValue(String key, String arg) {
+        String value = InputValidator.addFileSeparators(key, arg);
+        configuration.put(key, value);
 
         return configuration;
     }

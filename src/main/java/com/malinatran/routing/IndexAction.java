@@ -11,11 +11,11 @@ public class IndexAction implements Action {
 
     public void run(Request request, Response response) throws IOException {
         String path = request.getPath();
-        String directoryPath = request.getDirectoryPath();
+        String directory = request.getDirectory();
 
         if (path.equals("/")) {
             response.setStatus(Status.OK);
-            response.setBodyContent(Directory.getLinks(directoryPath));
+            response.setBodyContent(Directory.getLinks(directory));
         }
     }
 }

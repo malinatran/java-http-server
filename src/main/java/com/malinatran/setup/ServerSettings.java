@@ -11,23 +11,44 @@ public class ServerSettings {
     public static final String HOME_DIRECTORY = System.getProperty("user.dir");
     private Map<String, String> configuration;
     private int port;
-    private String path;
+    private String directory;
 
     public ServerSettings(Map<String, String> configuration) {
         this.configuration = configuration;
         this.port = getPort();
-        this.path = getDirectory();
+        this.directory = getDirectory();
     }
 
     public int getPort() {
         int validPort = DEFAULT_PORT;
         String tempPort = configuration.get(PORT_FLAG);
 
-        if (configuration.containsKey(PORT_FLAG)) {
+        if (hasFlag(PORT_FLAG)) {
             validPort = getPortOrErrorMessage(validPort, tempPort);
         }
 
         return validPort;
+    }
+
+    public String getDirectory() {
+        String validDirectory = HOME_DIRECTORY + DEFAULT_DIRECTORY;
+        String tempDirectory = HOME_DIRECTORY + configuration.get(DIRECTORY_FLAG);
+
+        if (hasFlag(DIRECTORY_FLAG)) {
+            validDirectory = getDirectoryOrErrorMessage(validDirectory, tempDirectory);
+        }
+
+        return validDirectory;
+    }
+
+    private String getDirectoryOrErrorMessage(String validDirectory, String tempDirectory) {
+        if (InputValidator.isValidDirectory(tempDirectory)) {
+            return tempDirectory;
+        } else  {
+            printAndTerminate(ErrorHandler.DIRECTORY, tempDirectory);
+        }
+
+        return validDirectory;
     }
 
     private int getPortOrErrorMessage(int validPort, String tempPort) {
@@ -40,28 +61,11 @@ public class ServerSettings {
         return validPort;
     }
 
-    public String getDirectory() {
-        String validDirectory = HOME_DIRECTORY + DEFAULT_DIRECTORY;
-        String tempDirectory = HOME_DIRECTORY + configuration.get(DIRECTORY_FLAG);
-
-        if (configuration.containsKey(DIRECTORY_FLAG)) {
-            validDirectory = getDirectoryOrErrorMessage(validDirectory, tempDirectory);
-        }
-
-        return validDirectory;
+    private boolean hasFlag(String flagType) {
+        return configuration.containsKey(flagType);
     }
 
-    public String getDirectoryOrErrorMessage(String validDirectory, String tempDirectory) {
-        if (InputValidator.isValidDirectory(tempDirectory)) {
-            return tempDirectory;
-        } else  {
-            printAndTerminate(ErrorHandler.DIRECTORY, tempDirectory);
-        }
-
-        return validDirectory;
-    }
-
-    protected void printAndTerminate(String key, String value) {
+    private void printAndTerminate(String key, String value) {
         ErrorHandler.print(key, value, ErrorHandler.INVALID);
         System.exit(0);
     }

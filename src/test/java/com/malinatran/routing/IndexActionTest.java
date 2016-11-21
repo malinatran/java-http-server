@@ -15,7 +15,7 @@ public class IndexActionTest {
         Action action = new IndexAction();
         Request request = new Request();
         request.setRequestLine("GET / HTTP/1.1");
-        request.setDirectoryPath("/test/directory/");
+        request.setDirectory("/test/directory/");
         Response response = new Response("HTTP/1.1");
 
         action.run(request, response);

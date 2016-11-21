@@ -4,24 +4,24 @@ import java.io.File;
 
 public class Directory {
 
-    public static boolean existsInDirectory(String directoryPath) {
-        File directory = new File(getDirectoryPath(directoryPath));
+    public static boolean existsInDirectory(String filePath) {
+        File file = new File(getDirectory(filePath));
         String[] files;
 
-        if (directory.isDirectory()) {
-            files = directory.list();
-            return hasFileName(files, getFileName(directoryPath));
+        if (file.isDirectory()) {
+            files = file.list();
+            return hasFileName(files, getFileName(filePath));
         } else {
             return false;
         }
     }
 
-    public static String getLinks(String directoryPath) {
-        File directory = new File(directoryPath);
+    public static String getLinks(String filePath) {
+        File file = new File(filePath);
         String message = "";
 
-        if (directory.isDirectory()) {
-            String[] files = directory.list();
+        if (file.isDirectory()) {
+            String[] files = file.list();
             message = (files != null ? getAnchorTagLinks(files) : "");
         }
         return message;
@@ -37,17 +37,17 @@ public class Directory {
         return links;
     }
 
-    private static String getDirectoryPath(String path) {
-        String fileName = getFileName(path);
+    private static String getDirectory(String filePath) {
+        String fileName = getFileName(filePath);
 
-        return path.replace(fileName, "");
+        return filePath.replace(fileName, "");
     }
 
-    private static String getFileName(String path) {
-        int delimiter = path.lastIndexOf("/") + 1;
-        int length = path.length();
+    private static String getFileName(String filePath) {
+        int delimiter = filePath.lastIndexOf("/") + 1;
+        int length = filePath.length();
 
-        return path.substring(delimiter, length);
+        return filePath.substring(delimiter, length);
     }
 
     private static boolean hasFileName(String[] files, String fileName) {

@@ -27,7 +27,7 @@ public class CreateOrUpdateActionTest {
     @Test
     public void runWithBodyReturns200() throws IOException {
         request.setRequestLine("POST / HTTP/1.1");
-        request.setDirectoryPath(PATH);
+        request.setDirectory(PATH);
         request.setBody(new char[4]);
 
         action.run(request, response);
@@ -38,7 +38,7 @@ public class CreateOrUpdateActionTest {
     @Test
     public void runWithoutBodyReturns404() throws IOException {
         request.setRequestLine("PUT / HTTP/1.1");
-        request.setDirectoryPath(PATH);
+        request.setDirectory(PATH);
 
         action.run(request, response);
 
@@ -48,7 +48,7 @@ public class CreateOrUpdateActionTest {
     @Test
     public void runWithExistingResourceReturns405() throws IOException {
         request.setRequestLine("POST /text-file.txt HTTP/1.1");
-        request.setDirectoryPath(PATH);
+        request.setDirectory(PATH);
         request.setBody(new char[5]);
 
         action.run(request, response);

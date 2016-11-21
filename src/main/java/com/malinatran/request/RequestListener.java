@@ -12,7 +12,7 @@ public class RequestListener {
 
         try {
             request.setRequestLine(in.readLine());
-            request.setDirectoryPath(directory);
+            request.setDirectory(directory);
             setRequestHeaders(request, in);
             setRequestBody(request, in);
         } catch (IOException e) {
