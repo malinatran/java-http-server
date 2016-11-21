@@ -11,15 +11,13 @@ public class AuthorizedAction implements Action {
     public static final String MESSAGE = "Basic realm=MALINA_REALM";
 
     public void run(Request request, Response response) {
+        String method = request.getMethod();
+        String path = request.getPath();
         String credentials = request.getHeaderValue(Header.AUTHORIZATION);
 
-        if (isInvalid(credentials)) {
+        if (!Authorizer.hasValidRouteAndCredentials(method, path, credentials)) {
             response.setStatus(Status.UNAUTHORIZED);
             response.setHeader(Header.WWW_AUTHENTICATE, MESSAGE);
         }
-    }
-
-    private boolean isInvalid(String credentials) {
-        return (credentials == null || !Authorizer.hasValidCredentials(credentials));
     }
 }

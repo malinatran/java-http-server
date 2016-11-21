@@ -65,7 +65,7 @@ public class ServerSettings {
         return configuration.containsKey(flagType);
     }
 
-    private void printAndTerminate(String key, String value) {
+    protected void printAndTerminate(String key, String value) {
         ErrorHandler.print(key, value, ErrorHandler.INVALID);
         System.exit(0);
     }

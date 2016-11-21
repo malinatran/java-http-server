@@ -48,7 +48,6 @@ public class Main {
 	private static void setupLoggerAndRouter() {
 		logger = new RequestLogger();
 		router = new Router();
-		router.setupRoutes();
 	}
 
 	private static void startClientHandlerThread() throws IOException {

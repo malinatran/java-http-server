@@ -4,11 +4,11 @@
 * Build a simple, multi-threaded HTTP server in Java
 * Gain deeper understanding of how the Internet operates
 * Adhere to [SOLID principles](https://www.wikiwand.com/en/SOLID_(object-oriented_design)) and [test-driven development](https://www.wikiwand.com/en/Test-driven_development)
-* Pass acceptance tests outlined by [Cob Spec](http://github.com/8thlight/cobspec)
+* Pass acceptance tests outlined by [Cob Spec](http://github.com/8thlight/cob_spec)
 
 ### Installation
 - Requires Java 1.8 and Maven
-- Setup environment variable: `export COB_SPEC_CREDENTIALS='Basic YWRtaW46aHVudGVyMg=='`
+- Setup environment variable: `export JAVA_SERVER_TOKEN='Basic YWRtaW46aHVudGVyMg=='`
 - Instructions:
 ```
 $ git clone https://github.com/malinatran/java-http-server

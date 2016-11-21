@@ -1,7 +1,5 @@
 package com.malinatran.utility;
 
-import com.malinatran.request.Request;
-
 import org.junit.Test;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -9,20 +7,46 @@ import static org.junit.Assert.assertTrue;
 public class AuthorizerTest {
 
     @Test
-    public void hasValidCredentialsReturnsFalseWithIncorrectCredentials() {
-        boolean result = Authorizer.hasValidCredentials("Basic Hello");
+    public void hasValidRouteAndCredentialsReturnsTrueWithCorrectRouteAndCredentials() {
+        String method = "GET";
+        String path = "/logs";
+        String credentials = System.getenv("JAVA_SERVER_TOKEN");
+
+        boolean result = Authorizer.hasValidRouteAndCredentials(method, path, credentials);
+
+        assertTrue(result);
+    }
+
+    @Test
+    public void hasValidRouteAndCredentialsReturnsFalseWithIncorrectMethod() {
+        String method = "POST";
+        String path = "/logs";
+        String credentials =  System.getenv("JAVA_SERVER_TOKEN");
+
+        boolean result = Authorizer.hasValidRouteAndCredentials(method, path, credentials);
 
         assertFalse(result);
     }
 
     @Test
-    public void hasValidRouteAndCredentialsReturnsTrueWithCorrectRouteAndCredentials() {
-        Request request = new Request();
-        request.setRequestLine("GET /logs HTTP/1.1");
-        request.setHeader(Header.AUTHORIZATION + ": " + System.getenv("COB_SPEC_CREDENTIALS"));
+    public void hasValidRouteAndCredentialsReturnsFalseWithIncorrectPath() {
+        String method = "GET";
+        String path = "/log";
+        String credentials =  System.getenv("JAVA_SERVER_TOKEN");
 
-        boolean result = Authorizer.hasValidRouteAndCredentials(request);
+        boolean result = Authorizer.hasValidRouteAndCredentials(method, path, credentials);
 
-        assertTrue(result);
+        assertFalse(result);
+    }
+
+    @Test
+    public void hasValidRouteAndCredentialsReturnsFalseWithIncorrectCredentials() {
+        String method = "GET";
+        String path = "/logs";
+        String credentials = "Hello world";
+
+        boolean result = Authorizer.hasValidRouteAndCredentials(method, path, credentials);
+
+        assertFalse(result);
     }
 }
