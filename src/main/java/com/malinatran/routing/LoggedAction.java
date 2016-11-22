@@ -1,8 +1,8 @@
 package com.malinatran.routing;
 
+import com.malinatran.resource.FileContentReader;
 import com.malinatran.utility.Status;
 import com.malinatran.request.Request;
-import com.malinatran.resource.TextFile;
 import com.malinatran.response.Response;
 import com.malinatran.utility.RequestLogger;
 import com.malinatran.response.ResponseBuilder;
@@ -40,7 +40,7 @@ public class LoggedAction {
             String content = String.valueOf(logger.getBody());
             ResponseBuilder.text(response, content);
         } else {
-            setTextFileContent(ranges);
+            setContent(ranges);
         }
 
         return this;
@@ -50,24 +50,24 @@ public class LoggedAction {
         return encoded.equals(logger.getETag());
     }
 
-    private String getOriginalOrPatchedContent(Map<String, Integer> ranges) throws IOException, NoSuchAlgorithmException {
-        String filePath = request.getAbsolutePath();
-        String original = TextFile.read(filePath, ranges);
-        String encoded = SHA1Encoder.encode(original);
-
-        return (doesETagMatch(encoded) ? String.valueOf(logger.getBody()) : original);
-    }
-
-    private LoggedAction setTextFileContent(Map<String, Integer> ranges) throws IOException, NoSuchAlgorithmException {
+    private LoggedAction setContent(Map<String, Integer> ranges) throws IOException, NoSuchAlgorithmException {
         String content = getOriginalOrPatchedContent(ranges);
 
         if (ranges.isEmpty()) {
             ResponseBuilder.text(response, content);
         } else {
-            int total = TextFile.getCharacterCount(content);
+            int total = FileContentReader.getCharacterCount(content);
             ResponseBuilder.partialText(response, content, ranges, total);
         }
 
         return this;
+    }
+
+    private String getOriginalOrPatchedContent(Map<String, Integer> ranges) throws IOException, NoSuchAlgorithmException {
+        String filePath = request.getAbsolutePath();
+        String original = FileContentReader.read(filePath, ranges);
+        String encoded = SHA1Encoder.encode(original);
+
+        return (doesETagMatch(encoded) ? String.valueOf(logger.getBody()) : original);
     }
 }

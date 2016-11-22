@@ -1,16 +1,16 @@
 package com.malinatran.resource;
 
 import com.malinatran.setup.ServerSettings;
-
 import org.junit.Before;
 import org.junit.Test;
+
 import java.io.IOException;
 import java.util.Hashtable;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
-public class TextFileTest {
+public class FileContentReaderTest {
 
     private Map<String, Integer> range;
     private String PATH = ServerSettings.HOME_DIRECTORY + ServerSettings.DEFAULT_DIRECTORY;
@@ -27,16 +27,16 @@ public class TextFileTest {
     public void getCharacterCountReturnsCharacterInFile() throws IOException {
         String filePath = PATH + "text-file.txt";
 
-        int count = TextFile.getCharacterCount(filePath);
+        int count = FileContentReader.getCharacterCount(filePath);
 
         assertEquals(14, count);
     }
 
     @Test
     public void readReturnsEntireFileContents() throws IOException {
-        result = TextFile.read(PATH + "text-file.txt", range);
+        result = FileContentReader.read(PATH + "text-file.txt", range);
 
-        assertEquals("file1 contents", result);
+        assertEquals("file1 contents\n", result);
     }
 
     @Test
@@ -44,7 +44,7 @@ public class TextFileTest {
         range.put(ContentRangeHelper.START, 0);
         range.put(ContentRangeHelper.END, end);
 
-        result = TextFile.read(PATH + "text-file.txt", range);
+        result = FileContentReader.read(PATH + "text-file.txt", range);
 
         assertEquals("file1 conte", result);
     }
@@ -54,7 +54,7 @@ public class TextFileTest {
         range.put(ContentRangeHelper.START, start);
         range.put(ContentRangeHelper.END, end);
 
-        result = TextFile.read(PATH + "text-file.txt", range);
+        result = FileContentReader.read(PATH + "text-file.txt", range);
 
         assertEquals("conte", result);
     }
@@ -63,7 +63,7 @@ public class TextFileTest {
     public void readReturnsEndOfTextIfOnlyRangeEndIsSpecified() throws IOException {
         range.put(ContentRangeHelper.END, end);
 
-        result = TextFile.read(PATH + "text-file.txt", range);
+        result = FileContentReader.read(PATH + "text-file.txt", range);
 
         assertEquals(" contents\n", result);
     }
@@ -72,15 +72,22 @@ public class TextFileTest {
     public void readReturnsTextFromStartToEndIfOnlyRangeStartIsSpecified() throws IOException {
         range.put(ContentRangeHelper.START, start);
 
-        result = TextFile.read(PATH + "text-file.txt", range);
+        result = FileContentReader.read(PATH + "text-file.txt", range);
 
         assertEquals("contents\n", result);
     }
 
     @Test
     public void readReturnsFullTextIfNoRangeIsSpecified() throws IOException {
-        result = TextFile.read(PATH + "text-file.txt", range);
+        result = FileContentReader.read(PATH + "text-file.txt", range);
 
-        assertEquals("file1 contents", result);
+        assertEquals("file1 contents\n", result);
+    }
+
+    @Test
+    public void readReturnsByteArray() {
+        byte[] result = FileContentReader.read(PATH + "/image.gif");
+
+        assertEquals(7169, result.length);
     }
 }

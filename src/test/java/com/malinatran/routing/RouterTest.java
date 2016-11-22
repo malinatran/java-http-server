@@ -2,6 +2,7 @@ package com.malinatran.routing;
 
 import com.malinatran.mocks.MockRouter;
 import com.malinatran.request.Request;
+import com.malinatran.setup.ServerSettings;
 import com.malinatran.utility.RequestLogger;
 import com.malinatran.response.Response;
 
@@ -10,11 +11,12 @@ import org.junit.Test;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
+import static com.malinatran.response.Formatter.CRLF;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class RouterTest {
 
+    private String PATH = ServerSettings.HOME_DIRECTORY + ServerSettings.DEFAULT_DIRECTORY;
     private String responseNotAllowed = "HTTP/1.1 405 Method Not Allowed";
     private String responseOK = "HTTP/1.1 200 OK";
     private RequestLogger logger;
@@ -29,6 +31,7 @@ public class RouterTest {
         logger = new RequestLogger();
         mockRouter = new MockRouter();
         request = new Request();
+        request.setDirectory(PATH);
         response = new Response("HTTP/1.1");
         router = new Router();
         subsequentRequest = new Request();
@@ -41,7 +44,7 @@ public class RouterTest {
 
         response = mockRouter.getResponse(request, logger);
 
-        assertEquals(responseOK + "\r\n", response.getStatusLine());
+        assertEquals(responseOK + CRLF, response.getStatusLine());
     }
 
     @Test
@@ -50,7 +53,7 @@ public class RouterTest {
 
         response = router.getResponse(request, logger);
 
-        assertEquals(responseNotAllowed + "\r\n", response.getStatusLine());
+        assertEquals(responseNotAllowed + CRLF, response.getStatusLine());
     }
 
     @Test
@@ -59,7 +62,7 @@ public class RouterTest {
 
         response = mockRouter.getResponse(request, logger);
 
-        assertEquals(responseOK + "\r\n", response.getStatusLine());
+        assertEquals(responseOK + CRLF, response.getStatusLine());
     }
 
     @Test
@@ -68,7 +71,7 @@ public class RouterTest {
 
         response = router.getResponse(request, logger);
 
-        assertEquals(responseNotAllowed + "\r\n", response.getStatusLine());
+        assertEquals(responseNotAllowed + CRLF, response.getStatusLine());
     }
 
     @Test
@@ -77,7 +80,7 @@ public class RouterTest {
 
         response = router.getResponse(request, logger);
 
-        assertEquals(responseNotAllowed + "\r\n", response.getStatusLine());
+        assertEquals(responseNotAllowed + CRLF, response.getStatusLine());
     }
 
     @Test
@@ -87,7 +90,7 @@ public class RouterTest {
 
         response = router.getResponse(request, logger);
 
-        assertEquals(responseOK + "\r\n", response.getStatusLine());
+        assertEquals(responseOK + CRLF, response.getStatusLine());
     }
 
     @Test
@@ -97,7 +100,7 @@ public class RouterTest {
 
         response = router.getResponse(subsequentRequest, logger);
 
-        assertEquals(responseOK + "\r\n", response.getStatusLine());
+        assertEquals(responseOK + CRLF, response.getStatusLine());
         assertEquals("", new String(response.getBodyContent()));
     }
 }

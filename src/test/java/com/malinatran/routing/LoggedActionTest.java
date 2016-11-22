@@ -48,7 +48,7 @@ public class LoggedActionTest {
 
         loggedAction.run(request, response, logger);
 
-        assertEquals("file1 contents", new String(response.getBodyContent()));
+        assertEquals("file1 contents\n", new String(response.getBodyContent()));
     }
 
     @Test
@@ -67,16 +67,19 @@ public class LoggedActionTest {
 
     @Test
     public void runReturnsPatchedContent() throws IOException, NoSuchAlgorithmException {
-        Request initialRequest = new Request();
-        String hash = "a379624177abc4679cafafa8eae1d73e1478aaa6";
         String patched = "patched content";
-        initialRequest.setRequestLine("PATCH /text-file.txt HTTP/1.1");
-        initialRequest.setHeader("If-Match: " + hash);
-        initialRequest.setBody(patched.toCharArray());
-        logger.logRequest(initialRequest);
-        request.setRequestLine("GET /text-file.txt HTTP/1.1");
+        String hash = "dc50a0d27dda2eee9f65644cd7e4c9cf11de8bec";
+        request.setDirectory(PATH);
+        request.setRequestLine("PATCH /patch-content.txt HTTP/1.1");
+        request.setHeader("If-Match: " + hash);
+        request.setBody(patched.toCharArray());
+        logger.logRequest(request);
+        Request secondRequest = new Request();
+        secondRequest.setDirectory(PATH);
+        secondRequest.setRequestLine("GET /patch-content.txt HTTP/1.1");
+        secondRequest.setBody("default content".toCharArray());
 
-        loggedAction.run(request, response, logger);
+        loggedAction.run(secondRequest, response, logger);
 
         assertEquals(patched, new String(response.getBodyContent()));
     }

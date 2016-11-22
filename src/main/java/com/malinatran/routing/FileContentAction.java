@@ -6,8 +6,7 @@ import com.malinatran.utility.Status;
 import com.malinatran.request.Request;
 import com.malinatran.resource.Directory;
 import com.malinatran.resource.FileTypeReader;
-import com.malinatran.resource.Image;
-import com.malinatran.resource.TextFile;
+import com.malinatran.resource.FileContentReader;
 import com.malinatran.response.Response;
 import com.malinatran.response.ResponseBuilder;
 
@@ -39,24 +38,6 @@ public class FileContentAction implements Action {
         return this;
     }
 
-    private FileContentAction buildResponseByFileType(String absolutePath) throws IOException {
-        FileType type = FileTypeReader.getFileType(absolutePath);
-
-        switch (type) {
-            case TEXT:
-                setTextFileContent(absolutePath);
-                break;
-            case IMAGE:
-                setImageFileContent(absolutePath);
-                break;
-            case UNSUPPORTED:
-                response.setStatus(Status.UNSUPPORTED_MEDIA_TYPE);
-                break;
-        }
-
-        return this;
-    }
-
     private FileContentAction buildResponseByMethod(String absolutePath) throws IOException {
         String method = request.getMethod();
 
@@ -69,22 +50,40 @@ public class FileContentAction implements Action {
         return this;
     }
 
-    private FileContentAction setImageFileContent(String absolutePath) throws IOException {
-        byte[] image = Image.read(absolutePath);
-        String imageType = Image.getImageType(absolutePath);
+    private FileContentAction buildResponseByFileType(String absolutePath) throws IOException {
+        FileType type = FileTypeReader.getFileType(absolutePath);
+
+        switch (type) {
+            case TEXT:
+                setTextContent(absolutePath);
+                break;
+            case IMAGE:
+                setImageContent(absolutePath);
+                break;
+            case UNSUPPORTED:
+                response.setStatus(Status.UNSUPPORTED_MEDIA_TYPE);
+                break;
+        }
+
+        return this;
+    }
+
+    private FileContentAction setImageContent(String absolutePath) throws IOException {
+        byte[] image = FileContentReader.read(absolutePath);
+        String imageType = FileTypeReader.getFileExtension(absolutePath);
         ResponseBuilder.image(response, imageType, image);
 
         return this;
     }
 
-    private FileContentAction setTextFileContent(String absolutePath) throws IOException {
+    private FileContentAction setTextContent(String absolutePath) throws IOException {
         Map<String, Integer> ranges = request.getRangeValues();
-        String content = TextFile.read(absolutePath, ranges);
+        String content = FileContentReader.read(absolutePath, ranges);
 
         if (ranges.isEmpty()) {
             ResponseBuilder.text(response, content);
         } else {
-            int total = TextFile.getCharacterCount(absolutePath);
+            int total = FileContentReader.getCharacterCount(absolutePath);
             ResponseBuilder.partialText(response, content, ranges, total);
         }
 

@@ -89,7 +89,7 @@ public class FileContentActionTest {
 
     @Test
     public void runReturns200AndSetsContentTypeAsHeader() throws IOException {
-        String text = "file1 contents";
+        String text = "file1 contents\n";
         request.setRequestLine("GET /text-file.txt HTTP/1.1");
 
         action.run(request, response);
