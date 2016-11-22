@@ -54,7 +54,7 @@ public class RequestLogger {
 
         if (method.equals(PATCH)) {
             handlePatch(request);
-       } else if (MethodTypeReader.isPutOrPostToForm(method, path)) {
+        } else if (MethodTypeReader.isPutOrPostToForm(method, path)) {
             handlePutOrPost(request);
         } else if (MethodTypeReader.isDeleteToForm(method, path)) {
             handleDelete();
@@ -68,16 +68,16 @@ public class RequestLogger {
         return loggedRequestLines;
     }
 
-    private RequestLogger handleDelete() {
-        setBody(new char[0]);
-
-        return this;
-    }
-
     private RequestLogger handlePatch(Request request) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         String eTag = request.getHeaderValue(Header.IF_MATCH);
         char[] body = request.getBody();
         setETagAndBody(eTag, body);
+
+        return this;
+    }
+
+    private RequestLogger handleDelete() {
+        setBody(new char[0]);
 
         return this;
     }

@@ -18,6 +18,7 @@ public class RouterTest {
 
     private String PATH = ServerSettings.HOME_DIRECTORY + ServerSettings.DEFAULT_DIRECTORY;
     private String responseNotAllowed = "HTTP/1.1 405 Method Not Allowed";
+    private String responseNotFound = "HTTP/1.1 404 Not Found";
     private String responseOK = "HTTP/1.1 200 OK";
     private RequestLogger logger;
     private Router mockRouter;
@@ -71,7 +72,7 @@ public class RouterTest {
 
         response = router.getResponse(request, logger);
 
-        assertEquals(responseNotAllowed + CRLF, response.getStatusLine());
+        assertEquals(responseNotFound + CRLF, response.getStatusLine());
     }
 
     @Test
@@ -80,7 +81,7 @@ public class RouterTest {
 
         response = router.getResponse(request, logger);
 
-        assertEquals(responseNotAllowed + CRLF, response.getStatusLine());
+        assertEquals(responseNotFound + CRLF, response.getStatusLine());
     }
 
     @Test

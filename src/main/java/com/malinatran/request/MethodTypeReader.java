@@ -11,20 +11,20 @@ import static com.malinatran.request.Method.PUT;
 
 public class MethodTypeReader {
 
-    private static final String FORM_PATH = "/form";
+    public static final String FORM_PATH = "/form";
 
     public static boolean isGetRequestWithLoggedBody(Request request, RequestLogger logger) {
         return (isGetRequestToForm(request) || isGetRequestToExistingFile(request, logger));
     }
 
-    public static boolean isGetRequestToForm(Request request) {
+    private static boolean isGetRequestToForm(Request request) {
         String method = request.getMethod();
         String path = request.getPath();
 
         return (method.equals(GET) && path.equals(FORM_PATH));
     }
 
-    public static boolean isGetRequestToExistingFile(Request request, RequestLogger logger) {
+    private static boolean isGetRequestToExistingFile(Request request, RequestLogger logger) {
         String method = request.getMethod();
         String filePath = request.getAbsolutePath();
 

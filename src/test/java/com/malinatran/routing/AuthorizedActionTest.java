@@ -9,6 +9,7 @@ import java.io.IOException;
 import static org.junit.Assert.*;
 
 public class AuthorizedActionTest {
+
     @Test
     public void runWithInvalidCredentialsReturns401() throws IOException {
         Action action = new AuthorizedAction();
