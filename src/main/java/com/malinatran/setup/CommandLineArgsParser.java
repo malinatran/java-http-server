@@ -74,7 +74,7 @@ public class CommandLineArgsParser {
     }
 
     private void throwInvalidArgsError() {
-        ErrorHandler.print(args);
+        ErrorMessagePrinter.print(args);
         System.exit(0);
     }
 }

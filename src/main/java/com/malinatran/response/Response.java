@@ -47,7 +47,9 @@ public class Response {
     }
 
     public String getStatusLine() {
-        return Formatter.addNewLine(protocol + " " + status);
+        String statusLine = String.format("%s %s", protocol, status);
+
+        return Formatter.addCRLF(statusLine);
     }
 
     public Response setBodyContent(byte[] bodyContent) {

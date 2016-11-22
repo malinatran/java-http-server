@@ -1,19 +1,19 @@
 package com.malinatran.routing;
 
-import com.malinatran.utility.Authorizer;
-import com.malinatran.utility.Status;
 import com.malinatran.request.MethodTypeReader;
-import com.malinatran.utility.ParameterDecoder;
 import com.malinatran.request.Request;
 import com.malinatran.response.Response;
+import com.malinatran.utility.Authorizer;
+import com.malinatran.utility.ParameterDecoder;
 import com.malinatran.utility.RequestLogger;
+import com.malinatran.utility.Status;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Hashtable;
 import java.util.Map;
 
-import static com.malinatran.utility.Method.*;
+import static com.malinatran.request.Method.*;
 
 public class Router {
 
@@ -22,8 +22,15 @@ public class Router {
     private LoggedAction loggedAction;
 
     public Router() {
-        routes = new Hashtable<String, Action>();
         loggedAction = new LoggedAction();
+        routes = new Hashtable<String, Action>();
+    }
+
+    private Map<String, Action> addRoute(String method, String path, Action action) {
+        String key = String.format("%s %s", method, path);
+        routes.put(key, action);
+
+        return routes;
     }
 
     public Response getResponse(Request request, RequestLogger logger) throws IOException, NoSuchAlgorithmException {
@@ -39,12 +46,6 @@ public class Router {
         return routes.containsKey(route);
     }
 
-    private Map<String, Action> addRoute(String method, String path, Action action) {
-        routes.put(method + " " + path, action);
-
-        return routes;
-    }
-
     private Router decodeParameter(Request request, Response response) {
         String decoded = ParameterDecoder.decode(request.getPath());
         response.setBodyContent(decoded);
@@ -52,8 +53,28 @@ public class Router {
         return this;
     }
 
-    private boolean hasBasicAuth(Request request) {
-        return Authorizer.hasValidRouteAndCredentials(request);
+    public void setupRoutes() {
+        addRoute(GET, "/form", new FormAction());
+        addRoute(POST, "/form", new FormAction());
+        addRoute(PUT, "/form", new FormAction());
+        addRoute(DELETE, "/form", new FormAction());
+        addRoute(GET, "/method_options", new OptionsAction());
+        addRoute(POST, "/method_options", new OptionsAction());
+        addRoute(PUT, "/method_options", new OptionsAction());
+        addRoute(HEAD, "/method_options", new OptionsAction());
+        addRoute(OPTIONS, "/method_options", new OptionsAction());
+        addRoute(OPTIONS, "/method_options2", new OptionsAction());
+        addRoute(GET, "/redirect", new RedirectAction());
+        addRoute(GET, "/logs", new AuthorizedAction());
+        addRoute(GET, "/coffee", new EasterEggAction());
+        addRoute(GET, "/tea", new EasterEggAction());
+        addRoute(PATCH, "*", new FileContentAction());
+        addRoute(GET, "/", new IndexAction());
+        addRoute(GET, "*", new FileContentAction());
+        addRoute(PUT, "*", new CreateOrUpdateAction());
+        addRoute(POST, "*", new CreateOrUpdateAction());
+        addRoute(HEAD, "/", new IndexAction());
+        addRoute(HEAD, "*", new NotFoundOrAllowedAction());
     }
 
     private Router runAction(Request request, Response response, RequestLogger logger) throws IOException, NoSuchAlgorithmException {
@@ -85,27 +106,11 @@ public class Router {
         return action;
     }
 
-    public void setupRoutes() {
-        addRoute(GET, "/form", new FormAction());
-        addRoute(POST, "/form", new FormAction());
-        addRoute(PUT, "/form", new FormAction());
-        addRoute(DELETE, "/form", new FormAction());
-        addRoute(GET, "/method_options", new OptionsAction());
-        addRoute(POST, "/method_options", new OptionsAction());
-        addRoute(PUT, "/method_options", new OptionsAction());
-        addRoute(HEAD, "/method_options", new OptionsAction());
-        addRoute(OPTIONS, "/method_options", new OptionsAction());
-        addRoute(OPTIONS, "/method_options2", new OptionsAction());
-        addRoute(GET, "/redirect", new RedirectAction());
-        addRoute(GET, "/logs", new AuthorizedAction());
-        addRoute(GET, "/coffee", new EasterEggAction());
-        addRoute(GET, "/tea", new EasterEggAction());
-        addRoute(PATCH, "*", new FileContentAction());
-        addRoute(GET, "/", new IndexAction());
-        addRoute(GET, "*", new FileContentAction());
-        addRoute(PUT, "*", new CreateOrUpdateAction());
-        addRoute(POST, "*", new CreateOrUpdateAction());
-        addRoute(HEAD, "/", new IndexAction());
-        addRoute(HEAD, "*", new NotFoundOrAllowedAction());
+    private boolean hasBasicAuth(Request request) {
+        String method = request.getMethod();
+        String path = request.getPath();
+        String credentials = request.getHeaderValue(Header.AUTHORIZATION);
+
+        return Authorizer.hasValidRouteAndCredentials(method, path, credentials);
     }
 }

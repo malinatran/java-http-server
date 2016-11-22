@@ -1,7 +1,6 @@
 package com.malinatran.routing;
 
 import com.malinatran.utility.Authorizer;
-import com.malinatran.utility.Header;
 import com.malinatran.utility.Status;
 import com.malinatran.request.Request;
 import com.malinatran.response.Response;

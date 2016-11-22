@@ -64,7 +64,7 @@ public class RouterTest {
 
     @Test
     public void getResponseForPutWithRandomPathReturns405() throws IOException, NoSuchAlgorithmException {
-        request.setRequestLine("PUT /file1 HTTP/1.1");
+        request.setRequestLine("PUT /lala HTTP/1.1");
 
         response = router.getResponse(request, logger);
 

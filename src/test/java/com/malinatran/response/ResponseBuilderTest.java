@@ -1,6 +1,6 @@
 package com.malinatran.response;
 
-import com.malinatran.utility.Header;
+import com.malinatran.routing.Header;
 import com.malinatran.utility.Status;
 import org.junit.Before;
 import org.junit.Test;

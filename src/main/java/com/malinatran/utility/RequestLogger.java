@@ -2,13 +2,15 @@ package com.malinatran.utility;
 
 import com.malinatran.request.MethodTypeReader;
 import com.malinatran.request.Request;
+import com.malinatran.response.Formatter;
+import com.malinatran.routing.Header;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Vector;
 
-import static com.malinatran.utility.Method.PATCH;
+import static com.malinatran.request.Method.PATCH;
 
 public class RequestLogger {
 
@@ -47,9 +49,10 @@ public class RequestLogger {
     public void logRequest(Request request) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         String method = request.getMethod();
         String path = request.getPath();
-        addRequestLine(request);
+        String protocolAndVersion = request.getProtocolAndVersion();
+        addRequestLine(method, path, protocolAndVersion);
 
-        if (MethodTypeReader.isMethod(method, PATCH)) {
+        if (method.equals(PATCH)) {
             handlePatch(request);
        } else if (MethodTypeReader.isPutOrPostToForm(method, path)) {
             handlePutOrPost(request);
@@ -58,9 +61,9 @@ public class RequestLogger {
         }
     }
 
-    private List<String> addRequestLine(Request request) {
-        String initialLine = request.getMethod() + " " + request.getPath() + " " + request.getProtocolAndVersion();
-        loggedRequestLines.add(initialLine + "\r\n");
+    private List<String> addRequestLine(String method, String path, String protocolAndVersion) {
+        String initialLine = String.format("%s %s %s", method, path, protocolAndVersion);
+        loggedRequestLines.add(Formatter.addCRLF(initialLine));
 
         return loggedRequestLines;
     }

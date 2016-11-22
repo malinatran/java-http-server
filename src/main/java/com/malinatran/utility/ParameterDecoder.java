@@ -1,13 +1,17 @@
 package com.malinatran.utility;
 
-import java.util.*;
+import com.malinatran.response.Formatter;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Vector;
 
 public class ParameterDecoder {
 
-    private static Map<String, String> encodedCharacters = new Hashtable<String, String>();
+    private static final String PARAMS_QUERY = "/parameters?";
+    private static Map<String, String> encodedCharacters = Mapping.getEncodedCharacters();
 
     public static String decode(String path) {
-        addEncodedCharacters();
         String decodedText = "";
 
         if (hasParametersQuery(path)) {
@@ -19,7 +23,7 @@ public class ParameterDecoder {
 
     private static String getDecodedText(String path) {
         String[] formattedPath = formatPath(path);
-        List<Integer> removeIndices = new Vector<Integer>();
+        List<Integer> indicesToRemove = new Vector<Integer>();
         String text = "";
 
         for (int i = 0; i < formattedPath.length; i++) {
@@ -30,39 +34,20 @@ public class ParameterDecoder {
                 break;
             } else if (isEncoding(current)) {
                 text += getCharacter(i, current, formattedPath);
-                removeIndices.add(i + 1);
-                removeIndices.add(i + 2);
-            } else if (!removeIndices.contains(i)) {
+                indicesToRemove.add(i + 1);
+                indicesToRemove.add(i + 2);
+            } else if (!indicesToRemove.contains(i)) {
                 text += current;
             }
         }
 
-        return text + "\n";
-    }
-
-    private static Map<String, String> addEncodedCharacters() {
-        encodedCharacters.put("%20", " ");
-        encodedCharacters.put("%22", "\"");
-        encodedCharacters.put("%23", "#");
-        encodedCharacters.put("%24", "$");
-        encodedCharacters.put("%26", "&");
-        encodedCharacters.put("%2B", "+");
-        encodedCharacters.put("%2C", ",");
-        encodedCharacters.put("%3A", ":");
-        encodedCharacters.put("%3B", ";");
-        encodedCharacters.put("%3C", "<");
-        encodedCharacters.put("%3D", "=");
-        encodedCharacters.put("%3E", ">");
-        encodedCharacters.put("%3F", "?");
-        encodedCharacters.put("%40", "@");
-        encodedCharacters.put("%5B", "[");
-        encodedCharacters.put("%5D", "]");
-
-        return encodedCharacters;
+        return Formatter.addLF(text);
     }
 
     private static String[] formatPath(String path) {
-        return removeQuery(path).replace("=", " = ").replace("&", "\n").split("");
+        String[] formattedPath = path.replace(PARAMS_QUERY, "").replace("=", " = ").replace("&", Formatter.LF).split("");
+
+        return formattedPath;
     }
 
     private static String getCharacter(int index, String character, String[] path) {
@@ -74,7 +59,7 @@ public class ParameterDecoder {
     }
 
     private static boolean hasParametersQuery(String path) {
-        return path.startsWith("/parameters?");
+        return path.startsWith(PARAMS_QUERY);
     }
 
     private static boolean isLastEncoding(String character, int index) {
@@ -83,17 +68,5 @@ public class ParameterDecoder {
 
     private static boolean isEncoding(String character) {
         return character.equals("%");
-    }
-
-    private static String removeQuery(String path) {
-        String pathWithoutQuery = "";
-
-        if (path.startsWith("/") && path.contains("?")) {
-            int endChar = path.indexOf("?");
-            String substring = path.substring(0, endChar + 1);
-            pathWithoutQuery = path.replace(substring, "");
-        }
-
-        return pathWithoutQuery;
     }
 }

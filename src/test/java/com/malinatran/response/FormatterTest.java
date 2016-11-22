@@ -15,7 +15,7 @@ public class FormatterTest {
 
         String eofCharacter = Formatter.addEOFCharacter(end, count);
 
-        assertEquals("\n", eofCharacter);
+        assertEquals(Formatter.LF, eofCharacter);
     }
 
     @Test
@@ -28,6 +28,26 @@ public class FormatterTest {
     }
 
     @Test
+    public void addLFReturnsStringWithNewLF() {
+        String name = "Jane Villanueva";
+
+        String actual = Formatter.addLF(name);
+        String expected = "Jane Villanueva\n";
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void addCRLFReturnsStringWithNewCRLF() {
+        String name = "Malina";
+
+        String actual = Formatter.addCRLF(name);
+        String expected = "Malina\r\n";
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
     public void formatHeaderLinesIteratesThroughHashtableAndReturnsStringWithNewLine() {
         Map<String, String> headers = new Hashtable<String, String>();
         headers.put("Allow", "GET,HEAD,POST,OPTIONS,PUT");
@@ -36,15 +56,5 @@ public class FormatterTest {
         String expected = "Allow: GET,HEAD,POST,OPTIONS,PUT\r\n\r\n";
 
         assertEquals(expected, formattedLines);
-    }
-
-    @Test
-    public void addNewLineReturnsStringWithNewLine() {
-        String name = "Malina";
-
-        String formattedLine = Formatter.addNewLine(name);
-        String expected = "Malina\r\n";
-
-        assertEquals(expected, formattedLine);
     }
 }

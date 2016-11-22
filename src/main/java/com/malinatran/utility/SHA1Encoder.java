@@ -17,8 +17,8 @@ public class SHA1Encoder {
             digest = MessageDigest.getInstance(SHA_1);
             digest.reset();
             input = digest.digest(text.getBytes(UTF_8));
-        } catch (NoSuchAlgorithmException e1) {
-            e1.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -27,21 +27,42 @@ public class SHA1Encoder {
     }
 
     private static String convertFromBytesToHex(byte[] data) {
-        StringBuffer stringBuffer = new StringBuffer();
+        StringBuffer encodedData = new StringBuffer();
 
-        for (int i = 0; i < data.length; i++) {
-            int halfByte = (data[i] >>> 4) & 0x0F;
+        for (byte datum : data) {
+            int halfByte = setInitialValue(datum);
             int counter = 0;
+
             do {
-                if ((0 <= halfByte) && (halfByte <= 9))
-                    stringBuffer.append((char) ('0' + halfByte));
-                else
-                    stringBuffer.append((char) ('a' + (halfByte - 10)));
-                    halfByte = data[i] & 0x0F;
+                if (isWithinRange(halfByte)) {
+                    appendZero(encodedData, halfByte);
+                } else
+                    appendLetter(encodedData, halfByte);
+                    halfByte = changeValue(datum);
 
             } while (counter++ < 1);
         }
 
-        return stringBuffer.toString();
+        return encodedData.toString();
+    }
+
+    private static int setInitialValue(byte datum) {
+        return (datum >>> 4) & 0x0F;
+    }
+
+    private static int changeValue(byte datum) {
+        return datum & 0x0F;
+    }
+
+    private static boolean isWithinRange(int halfByte) {
+        return (0 <= halfByte) && (halfByte <= 9);
+    }
+
+    private static StringBuffer appendZero(StringBuffer encodedData, int halfByte) {
+       return encodedData.append((char) ('0' + halfByte));
+    }
+
+    private static StringBuffer appendLetter(StringBuffer encodedData, int halfByte) {
+        return encodedData.append((char) ('a' + (halfByte - 10)));
     }
 }

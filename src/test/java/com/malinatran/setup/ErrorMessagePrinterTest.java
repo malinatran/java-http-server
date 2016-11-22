@@ -7,15 +7,15 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import static org.junit.Assert.*;
 
-public class ErrorHandlerTest {
+public class ErrorMessagePrinterTest {
 
     private String expected;
-    private ErrorHandler handler;
+    private ErrorMessagePrinter handler;
     private ByteArrayOutputStream out;
 
     @Before
     public void setUp() {
-        handler = new ErrorHandler();
+        handler = new ErrorMessagePrinter();
         out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
     }
@@ -29,7 +29,7 @@ public class ErrorHandlerTest {
     public void printTakesInStringsAsArgs() {
         expected = "Invalid directory: /directory. Exiting now.\n";
 
-        handler.print(ErrorHandler.DIRECTORY, "/directory", ErrorHandler.INVALID);
+        handler.print(ErrorMessagePrinter.DIRECTORY, "/directory", ErrorMessagePrinter.INVALID);
 
         assertEquals(expected, out.toString());
     }
@@ -38,14 +38,14 @@ public class ErrorHandlerTest {
     public void printTakesInStringsAndIntegerAsArgs() {
         expected = "Busy port: 9090. Exiting now.\n";
 
-        handler.print(ErrorHandler.PORT, 9090, ErrorHandler.BUSY);
+        handler.print(ErrorMessagePrinter.PORT, 9090, ErrorMessagePrinter.BUSY);
 
         assertEquals(expected, out.toString());
     }
 
     @Test
     public void printTakesInStringArrayAsArgs() {
-        expected = "Invalid args: [-p, 5050, -d]. Exiting now.\n" + ErrorHandler.FORMATTING_RULES + "\n";
+        expected = "Invalid args: [-p, 5050, -d]. Exiting now.\n" + ErrorMessagePrinter.FORMATTING_RULES + "\n";
 
         handler.print(new String[]{"-p", "5050", "-d"});
 

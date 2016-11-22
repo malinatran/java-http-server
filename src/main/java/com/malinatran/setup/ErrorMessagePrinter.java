@@ -2,7 +2,7 @@ package com.malinatran.setup;
 
 import java.util.Arrays;
 
-public class ErrorHandler {
+public class ErrorMessagePrinter {
 
     public static final String PORT = "port";
     public static final String DIRECTORY = "directory";

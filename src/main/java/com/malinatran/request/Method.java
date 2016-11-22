@@ -1,4 +1,4 @@
-package com.malinatran.utility;
+package com.malinatran.request;
 
 public class Method {
 

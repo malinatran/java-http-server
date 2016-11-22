@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class LoggedAction {
 
-    private static final String FORM = "/form";
+    private static final String FORM_PATH = "/form";
     private Request request;
     private Response response;
     private RequestLogger logger;
@@ -36,7 +36,7 @@ public class LoggedAction {
         Map<String, Integer> ranges = request.getRangeValues();
         String path = request.getPath();
 
-        if (path.equals(FORM)) {
+        if (path.equals(FORM_PATH)) {
             String content = String.valueOf(logger.getBody());
             ResponseBuilder.text(response, content);
         } else {

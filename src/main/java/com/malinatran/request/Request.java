@@ -1,7 +1,7 @@
 package com.malinatran.request;
 
 import com.malinatran.resource.ContentRangeHelper;
-import com.malinatran.utility.Header;
+import com.malinatran.routing.Header;
 import com.malinatran.utility.RangeParser;
 
 import java.util.Hashtable;

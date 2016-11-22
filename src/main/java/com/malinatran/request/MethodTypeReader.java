@@ -4,14 +4,14 @@ import com.malinatran.resource.Directory;
 import com.malinatran.resource.FileTypeReader;
 import com.malinatran.utility.RequestLogger;
 
-import static com.malinatran.utility.Method.GET;
-import static com.malinatran.utility.Method.DELETE;
-import static com.malinatran.utility.Method.POST;
-import static com.malinatran.utility.Method.PUT;
+import static com.malinatran.request.Method.GET;
+import static com.malinatran.request.Method.DELETE;
+import static com.malinatran.request.Method.POST;
+import static com.malinatran.request.Method.PUT;
 
 public class MethodTypeReader {
 
-    private static final String FORM = "/form";
+    private static final String FORM_PATH = "/form";
 
     public static boolean isGetRequestWithLoggedBody(Request request, RequestLogger logger) {
         return (isGetRequestToForm(request) || isGetRequestToExistingFile(request, logger));
@@ -21,28 +21,24 @@ public class MethodTypeReader {
         String method = request.getMethod();
         String path = request.getPath();
 
-        return (isMethod(method, GET) && path.equals(FORM));
+        return (method.equals(GET) && path.equals(FORM_PATH));
     }
 
     public static boolean isGetRequestToExistingFile(Request request, RequestLogger logger) {
         String method = request.getMethod();
         String filePath = request.getAbsolutePath();
 
-        return (isMethod(method, GET) &&
+        return (method.equals(GET) &&
                 logger.hasBody() &&
                 FileTypeReader.isTextFile(filePath) &&
                 Directory.existsInDirectory(filePath));
     }
 
     public static boolean isPutOrPostToForm(String method, String path) {
-        return (isMethod(method, POST) || isMethod(method, PUT) && path.equals(FORM));
+        return (method.equals(POST) || method.equals(PUT) && path.equals(FORM_PATH));
     }
 
     public static boolean isDeleteToForm(String method, String path) {
-        return (isMethod(method, DELETE) && path.equals(FORM));
-    }
-
-    public static boolean isMethod(String text, String methodType) {
-        return text.equals(methodType);
+        return (method.equals(DELETE) && path.equals(FORM_PATH));
     }
 }

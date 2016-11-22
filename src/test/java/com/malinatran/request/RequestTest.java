@@ -1,8 +1,7 @@
 package com.malinatran.request;
 
 import com.malinatran.resource.ContentRangeHelper;
-import com.malinatran.utility.Header;
-import com.malinatran.utility.Method;
+import com.malinatran.routing.Header;
 
 import org.junit.Before;
 import org.junit.Test;

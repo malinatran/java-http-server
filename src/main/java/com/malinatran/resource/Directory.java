@@ -1,5 +1,7 @@
 package com.malinatran.resource;
 
+import com.malinatran.response.Formatter;
+
 import java.io.File;
 
 public class Directory {
@@ -31,10 +33,16 @@ public class Directory {
         String links = "";
 
         for (String file : files) {
-            links += "<a style=\"display: block\" href=\"/" + file + "\">" + file + "</a>\n";
+            links += getAnchorTagLink(file);
         }
 
         return links;
+    }
+
+    private static String getAnchorTagLink(String file) {
+        String html = "<a style=\"display: block\" href=\"/" + file + "\">" + file + "</a>";
+
+        return Formatter.addLF(html);
     }
 
     private static String getDirectory(String filePath) {

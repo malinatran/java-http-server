@@ -45,7 +45,7 @@ public class ServerSettings {
         if (InputValidator.isValidDirectory(tempDirectory)) {
             return tempDirectory;
         } else  {
-            printAndTerminate(ErrorHandler.DIRECTORY, tempDirectory);
+            printAndTerminate(ErrorMessagePrinter.DIRECTORY, tempDirectory);
         }
 
         return validDirectory;
@@ -55,7 +55,7 @@ public class ServerSettings {
         try {
             return Integer.parseInt(tempPort);
         } catch (Exception e) {
-            printAndTerminate(ErrorHandler.PORT, tempPort);
+            printAndTerminate(ErrorMessagePrinter.PORT, tempPort);
         }
 
         return validPort;
@@ -65,8 +65,8 @@ public class ServerSettings {
         return configuration.containsKey(flagType);
     }
 
-    private void printAndTerminate(String key, String value) {
-        ErrorHandler.print(key, value, ErrorHandler.INVALID);
+    protected void printAndTerminate(String key, String value) {
+        ErrorMessagePrinter.print(key, value, ErrorMessagePrinter.INVALID);
         System.exit(0);
     }
 }

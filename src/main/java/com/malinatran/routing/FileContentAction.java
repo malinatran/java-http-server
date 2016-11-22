@@ -1,7 +1,7 @@
 package com.malinatran.routing;
 
 import com.malinatran.utility.FileType;
-import com.malinatran.utility.Method;
+import com.malinatran.request.Method;
 import com.malinatran.utility.Status;
 import com.malinatran.request.Request;
 import com.malinatran.resource.Directory;

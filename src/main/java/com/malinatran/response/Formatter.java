@@ -4,12 +4,19 @@ import java.util.Map;
 
 public class Formatter {
 
+    public static final String LF = "\n";
+    public static final String CRLF = "\r\n";
+
     public static String addEOFCharacter(int end, int count) {
-        return (end == count ?  "\n" : "");
+        return (end == count ? LF : "");
     }
 
-    public static String addNewLine(String line) {
-        return line + "\r\n";
+    public static String addLF(String line) {
+        return line + LF;
+    }
+
+    public static String addCRLF(String line) {
+        return line + CRLF;
     }
 
     public static String formatHeaderLines(Map<String, String> headers) {
@@ -18,9 +25,9 @@ public class Formatter {
         for (Map.Entry<String, String> entry : headers.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
-            headerLines += addNewLine(key + ": " + value);
+            headerLines += addCRLF(String.format("%s: %s", key, value));
         }
 
-        return addNewLine(headerLines);
+        return addCRLF(headerLines);
     }
 }

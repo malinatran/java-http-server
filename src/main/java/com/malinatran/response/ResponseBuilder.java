@@ -1,7 +1,7 @@
 package com.malinatran.response;
 
 import com.malinatran.resource.ContentRangeHelper;
-import com.malinatran.utility.Header;
+import com.malinatran.routing.Header;
 import com.malinatran.utility.Status;
 
 import java.util.Map;
