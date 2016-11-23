@@ -1,5 +1,6 @@
 package com.malinatran.routing;
 
+import com.malinatran.utility.RequestLogger;
 import com.malinatran.utility.Status;
 import com.malinatran.request.Request;
 import com.malinatran.resource.Directory;
@@ -19,4 +20,8 @@ public class CreateOrUpdateAction implements Action {
             response.setStatus(Status.NOT_FOUND);
         }
     }
+
+    public void run(Response response, RequestLogger logger) {}
+
+    public void run(Request request, Response response, RequestLogger logger) {}
 }

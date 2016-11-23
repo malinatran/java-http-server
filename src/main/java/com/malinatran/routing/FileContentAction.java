@@ -2,6 +2,7 @@ package com.malinatran.routing;
 
 import com.malinatran.utility.FileType;
 import com.malinatran.request.Method;
+import com.malinatran.utility.RequestLogger;
 import com.malinatran.utility.Status;
 import com.malinatran.request.Request;
 import com.malinatran.resource.Directory;
@@ -24,6 +25,10 @@ public class FileContentAction implements Action {
 
         buildResponse();
     }
+
+    public void run(Response response, RequestLogger logger) {}
+
+    public void run(Request request, Response response, RequestLogger logger) {}
 
     private FileContentAction buildResponse() throws IOException {
         String absolutePath = request.getAbsolutePath();

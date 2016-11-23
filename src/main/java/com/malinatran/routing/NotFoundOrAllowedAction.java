@@ -1,6 +1,7 @@
 package com.malinatran.routing;
 
 import com.malinatran.request.Method;
+import com.malinatran.utility.RequestLogger;
 import com.malinatran.utility.Status;
 import com.malinatran.request.Request;
 import com.malinatran.response.Response;
@@ -16,4 +17,8 @@ public class NotFoundOrAllowedAction implements Action {
             response.setStatus(Status.METHOD_NOT_ALLOWED);
         }
     }
+
+    public void run(Response response, RequestLogger logger) {}
+
+    public void run(Request request, Response response, RequestLogger logger) {}
 }

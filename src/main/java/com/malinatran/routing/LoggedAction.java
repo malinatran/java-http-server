@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
-public class LoggedAction {
+public class LoggedAction implements Action {
 
     private static final String FORM_PATH = "/form";
     private Request request;
@@ -31,6 +31,8 @@ public class LoggedAction {
 
         buildResponse();
     }
+
+    public void run(Request request, Response response) throws IOException {}
 
     private LoggedAction buildResponse() throws IOException, NoSuchAlgorithmException {
         Map<String, Integer> ranges = request.getRangeValues();

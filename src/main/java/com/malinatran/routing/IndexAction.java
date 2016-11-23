@@ -1,5 +1,6 @@
 package com.malinatran.routing;
 
+import com.malinatran.utility.RequestLogger;
 import com.malinatran.utility.Status;
 import com.malinatran.resource.Directory;
 import com.malinatran.request.Request;
@@ -18,4 +19,8 @@ public class IndexAction implements Action {
             response.setBodyContent(Directory.getLinks(directory));
         }
     }
+
+    public void run(Response response, RequestLogger logger) {}
+
+    public void run(Request request, Response response, RequestLogger logger) {}
 }

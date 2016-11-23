@@ -1,5 +1,7 @@
 package com.malinatran.utility;
 
+import com.malinatran.request.Request;
+import com.malinatran.response.Response;
 import com.malinatran.routing.Action;
 import com.malinatran.routing.FormAction;
 import com.malinatran.routing.OptionsAction;
