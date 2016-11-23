@@ -1,12 +1,11 @@
 package com.malinatran.routing;
 
 import com.malinatran.request.Method;
-import com.malinatran.utility.RequestLogger;
 import com.malinatran.utility.Status;
 import com.malinatran.request.Request;
 import com.malinatran.response.Response;
 
-public class EasterEggAction implements Action {
+public class EasterEggAction extends Action {
 
     private static final String TEAPOT_MESSAGE = "I'm a teapot";
     private static final String COFFEE_PATH = "/coffee";
@@ -23,8 +22,4 @@ public class EasterEggAction implements Action {
             response.setStatus(Status.OK);
         }
     }
-
-    public void run(Response response, RequestLogger logger) {}
-
-    public void run(Request request, Response response, RequestLogger logger) {}
 }
