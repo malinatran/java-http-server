@@ -6,7 +6,8 @@ import com.malinatran.response.Response;
 
 import org.junit.Test;
 import java.io.IOException;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
 
 public class AuthorizedActionTest {
 
