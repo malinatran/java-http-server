@@ -2,6 +2,7 @@ package com.malinatran.routing;
 
 import com.malinatran.utility.FileType;
 import com.malinatran.request.Method;
+import com.malinatran.utility.RequestLogger;
 import com.malinatran.utility.Status;
 import com.malinatran.request.Request;
 import com.malinatran.resource.Directory;
@@ -18,7 +19,7 @@ public class FileContentAction extends Action {
     private Response response;
     private Request request;
 
-    public void run(Request request, Response response) throws IOException {
+    public void run(Request request, Response response, RequestLogger logger) throws IOException {
         this.request = request;
         this.response = response;
 
@@ -68,14 +69,6 @@ public class FileContentAction extends Action {
         return this;
     }
 
-    private FileContentAction setImageContent(String absolutePath) throws IOException {
-        byte[] image = FileContentReader.read(absolutePath);
-        String imageType = FileTypeReader.getFileExtension(absolutePath);
-        ResponseBuilder.image(response, imageType, image);
-
-        return this;
-    }
-
     private FileContentAction setTextContent(String absolutePath) throws IOException {
         Map<String, Integer> ranges = request.getRangeValues();
         String content = FileContentReader.read(absolutePath, ranges);
@@ -86,6 +79,14 @@ public class FileContentAction extends Action {
             int total = FileContentReader.getCharacterCount(absolutePath);
             ResponseBuilder.partialText(response, content, ranges, total);
         }
+
+        return this;
+    }
+
+    private FileContentAction setImageContent(String absolutePath) throws IOException {
+        byte[] image = FileContentReader.read(absolutePath);
+        String imageType = FileTypeReader.getFileExtension(absolutePath);
+        ResponseBuilder.image(response, imageType, image);
 
         return this;
     }

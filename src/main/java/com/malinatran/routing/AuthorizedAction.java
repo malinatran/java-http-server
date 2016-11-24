@@ -1,6 +1,7 @@
 package com.malinatran.routing;
 
 import com.malinatran.utility.Authorizer;
+import com.malinatran.utility.RequestLogger;
 import com.malinatran.utility.Status;
 import com.malinatran.request.Request;
 import com.malinatran.response.Response;
@@ -9,7 +10,7 @@ public class AuthorizedAction extends Action {
 
     public static final String MESSAGE = "Basic realm=MALINA_REALM";
 
-    public void run(Request request, Response response) {
+    public void run(Request request, Response response, RequestLogger logger) {
         String credentials = request.getHeaderValue(Header.AUTHORIZATION);
 
         if (isInvalid(credentials)) {

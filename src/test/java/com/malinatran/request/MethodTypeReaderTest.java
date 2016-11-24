@@ -5,9 +5,6 @@ import com.malinatran.utility.RequestLogger;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
-
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
@@ -34,7 +31,7 @@ public class MethodTypeReaderTest {
     }
 
     @Test
-    public void isGetRequestWithLoggedBodyReturnsTrueIfGetRequestToExistingFile() throws UnsupportedEncodingException, NoSuchAlgorithmException {
+    public void isGetRequestWithLoggedBodyReturnsTrueIfGetRequestToExistingFile() {
         String patched = "patched content";
         String hash = "dc50a0d27dda2eee9f65644cd7e4c9cf11de8bec";
         request.setDirectory(PATH);

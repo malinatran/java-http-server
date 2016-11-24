@@ -9,7 +9,7 @@ import com.malinatran.response.Response;
 import org.junit.Before;
 import org.junit.Test;
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
+
 
 import static com.malinatran.response.Formatter.CRLF;
 import static org.junit.Assert.assertEquals;
@@ -39,7 +39,7 @@ public class RouterTest {
     }
 
     @Test
-    public void getResponseForGetReturns200() throws IOException, NoSuchAlgorithmException {
+    public void getResponseForGetReturns200() throws IOException {
         request.setRequestLine("GET / HTTP/1.1");
         request.setBody(new char[10]);
 
@@ -49,7 +49,7 @@ public class RouterTest {
     }
 
     @Test
-    public void getResponseForBogusReturns405() throws IOException, NoSuchAlgorithmException {
+    public void getResponseForBogusReturns405() throws IOException {
         request.setRequestLine("BOGUS /file1 HTTP/1.1");
 
         response = router.getResponse(request, logger);
@@ -58,7 +58,7 @@ public class RouterTest {
     }
 
     @Test
-    public void getResponseForGetWithRandomPathReturns200() throws IOException, NoSuchAlgorithmException {
+    public void getResponseForGetWithRandomPathReturns200() throws IOException {
         request.setRequestLine("GET /file1 HTTP/1.1");
 
         response = mockRouter.getResponse(request, logger);
@@ -67,7 +67,7 @@ public class RouterTest {
     }
 
     @Test
-    public void getResponseForPutWithRandomPathReturns405() throws IOException, NoSuchAlgorithmException {
+    public void getResponseForPutWithRandomPathReturns405() throws IOException {
         request.setRequestLine("PUT /lala HTTP/1.1");
 
         response = router.getResponse(request, logger);
@@ -76,7 +76,7 @@ public class RouterTest {
     }
 
     @Test
-    public void getResponseForPostWithRandomPathReturns405() throws IOException, NoSuchAlgorithmException {
+    public void getResponseForPostWithRandomPathReturns405() throws IOException {
         request.setRequestLine("POST /hello HTTP/1.1");
 
         response = router.getResponse(request, logger);
@@ -85,7 +85,7 @@ public class RouterTest {
     }
 
     @Test
-    public void getResponseForPostWithFormPathReturns200() throws IOException, NoSuchAlgorithmException {
+    public void getResponseForPostWithFormPathReturns200() throws IOException {
         request.setRequestLine("GET /form HTTP/1.1");
         request.setBody(new char[10]);
 
@@ -95,7 +95,7 @@ public class RouterTest {
     }
 
     @Test
-    public void getResponseForGetWithFormPathAfterDeleteReturns200AndSetsBodyToBeEmpty() throws IOException, NoSuchAlgorithmException {
+    public void getResponseForGetWithFormPathAfterDeleteReturns200AndSetsBodyToBeEmpty() throws IOException {
         request.setRequestLine("DELETE /form HTTP/1.1");
         subsequentRequest.setRequestLine("GET /form HTTP/1.1");
 

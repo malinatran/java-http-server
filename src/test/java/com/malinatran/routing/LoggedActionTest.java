@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
+
 
 import static org.junit.Assert.*;
 
@@ -42,7 +42,7 @@ public class LoggedActionTest {
     }
 
     @Test
-    public void runReturnsOriginalContent() throws IOException, NoSuchAlgorithmException {
+    public void runReturnsOriginalContent() throws IOException {
         request.setRequestLine("GET /text-file.txt HTTP/1.1");
         request.setHeader("If-Match: random");
 
@@ -52,7 +52,7 @@ public class LoggedActionTest {
     }
 
     @Test
-    public void runReturnsBodyForFormPath() throws IOException, NoSuchAlgorithmException {
+    public void runReturnsBodyForFormPath() throws IOException {
         Request initialRequest = new Request();
         char[] content = "testing".toCharArray();
         initialRequest.setRequestLine("POST /form HTTP/1.1");
@@ -66,7 +66,7 @@ public class LoggedActionTest {
     }
 
     @Test
-    public void runReturnsPatchedContent() throws IOException, NoSuchAlgorithmException {
+    public void runReturnsPatchedContent() throws IOException {
         String patched = "patched content";
         String hash = "dc50a0d27dda2eee9f65644cd7e4c9cf11de8bec";
         request.setDirectory(PATH);

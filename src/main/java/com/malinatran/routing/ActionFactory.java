@@ -6,7 +6,7 @@ import com.malinatran.utility.Authorizer;
 import com.malinatran.utility.RequestLogger;
 
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
+
 import java.util.Map;
 
 public class ActionFactory {
@@ -21,7 +21,7 @@ public class ActionFactory {
         this.routes = routes;
     }
 
-    public Action getAction() throws IOException, NoSuchAlgorithmException {
+    public Action getAction() throws IOException {
         String route = request.getRoute();
         String method = request.getMethod();
         Action action = null;

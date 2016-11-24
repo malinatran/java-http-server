@@ -8,7 +8,7 @@ import com.malinatran.utility.ParameterDecoder;
 import com.malinatran.utility.Status;
 
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
+
 import java.util.Map;
 
 public class Router {
@@ -20,7 +20,7 @@ public class Router {
         routes = Mapping.getRoutes();
     }
 
-    public Response getResponse(Request request, RequestLogger logger) throws IOException, NoSuchAlgorithmException {
+    public Response getResponse(Request request, RequestLogger logger) throws IOException {
         Response response = new Response(request.getProtocolAndVersion());
         decodeParameter(request, response);
         logger.logRequest(request);
@@ -36,16 +36,14 @@ public class Router {
         return this;
     }
 
-    private Router runAction(Request request, Response response, RequestLogger logger) throws IOException, NoSuchAlgorithmException {
+    private Router runAction(Request request, Response response, RequestLogger logger) throws IOException {
         ActionFactory factory = new ActionFactory(request, logger, routes);
         action = factory.getAction();
 
         if (factory.hasBasicAuth(request)) {
             action.run(response, logger);
-        } else if (factory.hasLoggedBody(request, logger)) {
-            action.run(request, response, logger);
         } else if (action != null) {
-            action.run(request, response);
+            action.run(request, response, logger);
         } else {
             response.setStatus(Status.METHOD_NOT_ALLOWED);
         }

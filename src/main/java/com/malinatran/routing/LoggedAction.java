@@ -9,7 +9,6 @@ import com.malinatran.response.ResponseBuilder;
 import com.malinatran.utility.SHA1Encoder;
 
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
 public class LoggedAction extends Action {
@@ -24,7 +23,7 @@ public class LoggedAction extends Action {
         response.setBodyContent(logger.getLoggedRequests());
     }
 
-    public void run(Request request, Response response, RequestLogger logger) throws IOException, NoSuchAlgorithmException {
+    public void run(Request request, Response response, RequestLogger logger) throws IOException {
         this.request = request;
         this.response = response;
         this.logger = logger;
@@ -32,7 +31,7 @@ public class LoggedAction extends Action {
         buildResponse();
     }
 
-    private LoggedAction buildResponse() throws IOException, NoSuchAlgorithmException {
+    private LoggedAction buildResponse() throws IOException {
         Map<String, Integer> ranges = request.getRangeValues();
         String path = request.getPath();
 
@@ -50,7 +49,7 @@ public class LoggedAction extends Action {
         return encoded.equals(logger.getETag());
     }
 
-    private LoggedAction setContent(Map<String, Integer> ranges) throws IOException, NoSuchAlgorithmException {
+    private LoggedAction setContent(Map<String, Integer> ranges) throws IOException {
         String content = getOriginalOrPatchedContent(ranges);
 
         if (ranges.isEmpty()) {
@@ -63,7 +62,7 @@ public class LoggedAction extends Action {
         return this;
     }
 
-    private String getOriginalOrPatchedContent(Map<String, Integer> ranges) throws IOException, NoSuchAlgorithmException {
+    private String getOriginalOrPatchedContent(Map<String, Integer> ranges) throws IOException {
         String filePath = request.getAbsolutePath();
         String original = FileContentReader.read(filePath, ranges);
         String encoded = SHA1Encoder.encode(original);

@@ -1,5 +1,6 @@
 package com.malinatran.routing;
 
+import com.malinatran.utility.RequestLogger;
 import com.malinatran.utility.Status;
 import com.malinatran.resource.Directory;
 import com.malinatran.request.Request;
@@ -9,7 +10,7 @@ import java.io.IOException;
 
 public class IndexAction extends Action {
 
-    public void run(Request request, Response response) throws IOException {
+    public void run(Request request, Response response, RequestLogger logger) throws IOException {
         String path = request.getPath();
         String directory = request.getDirectory();
 
