@@ -6,6 +6,7 @@ import com.malinatran.setup.ClientHandler;
 import com.malinatran.setup.ErrorMessagePrinter;
 import com.malinatran.setup.OptionalArgs;
 import com.malinatran.setup.ServerSettings;
+import com.malinatran.utility.Mapping;
 import com.malinatran.utility.RequestLogger;
 import com.malinatran.routing.Router;
 import com.malinatran.writer.ResponseWriter;
@@ -51,7 +52,6 @@ public class Main {
     private static void setupLoggerAndRouter() {
         logger = new RequestLogger();
         router = new Router();
-        router.setupRoutes();
     }
 
     private static void startClientHandlerThread() throws IOException {

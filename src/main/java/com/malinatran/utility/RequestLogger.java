@@ -5,8 +5,6 @@ import com.malinatran.request.Request;
 import com.malinatran.response.Formatter;
 import com.malinatran.routing.Header;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Vector;
 
@@ -46,7 +44,7 @@ public class RequestLogger {
         return body.length > 0;
     }
 
-    public void logRequest(Request request) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+    public void logRequest(Request request) {
         String method = request.getMethod();
         String path = request.getPath();
         String protocolAndVersion = request.getProtocolAndVersion();
@@ -54,7 +52,7 @@ public class RequestLogger {
 
         if (method.equals(PATCH)) {
             handlePatch(request);
-       } else if (MethodTypeReader.isPutOrPostToForm(method, path)) {
+        } else if (MethodTypeReader.isPutOrPostToForm(method, path)) {
             handlePutOrPost(request);
         } else if (MethodTypeReader.isDeleteToForm(method, path)) {
             handleDelete();
@@ -68,16 +66,16 @@ public class RequestLogger {
         return loggedRequestLines;
     }
 
-    private RequestLogger handleDelete() {
-        setBody(new char[0]);
+    private RequestLogger handlePatch(Request request) {
+        String eTag = request.getHeaderValue(Header.IF_MATCH);
+        char[] body = request.getBody();
+        setETagAndBody(eTag, body);
 
         return this;
     }
 
-    private RequestLogger handlePatch(Request request) throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        String eTag = request.getHeaderValue(Header.IF_MATCH);
-        char[] body = request.getBody();
-        setETagAndBody(eTag, body);
+    private RequestLogger handleDelete() {
+        setBody(new char[0]);
 
         return this;
     }
@@ -89,7 +87,7 @@ public class RequestLogger {
         return this;
     }
 
-    private RequestLogger setETagAndBody(String eTag, char[] body) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+    private RequestLogger setETagAndBody(String eTag, char[] body) {
         if (eTag != null) {
             this.eTag = eTag;
             this.body = body;

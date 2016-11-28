@@ -1,15 +1,16 @@
 package com.malinatran.routing;
 
 import com.malinatran.request.Method;
+import com.malinatran.utility.RequestLogger;
 import com.malinatran.utility.Status;
 import com.malinatran.request.Request;
 import com.malinatran.response.Response;
 
-public class OptionsAction implements Action {
+public class OptionsAction extends Action {
 
     private static final String METHOD_OPTIONS_PATH = "/method_options";
 
-    public void run(Request request, Response response) {
+    public void run(Request request, Response response, RequestLogger logger) {
         String method = request.getMethod();
         String path = request.getPath();
         response.setStatus(Status.OK);

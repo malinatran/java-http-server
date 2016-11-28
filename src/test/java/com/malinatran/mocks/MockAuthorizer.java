@@ -1,10 +1,9 @@
-package com.malinatran.utility;
+package com.malinatran.mocks;
 
 import com.malinatran.request.Method;
+import com.malinatran.utility.Authorizer;
 
-public abstract class Authorizer {
-
-    private static final String CREDENTIALS = System.getenv("JAVA_SERVER_TOKEN");
+public class MockAuthorizer extends Authorizer {
 
     public static boolean hasValidRouteAndCredentials(String method, String path, String credentials) {
         return (method.equals(Method.GET) &&
@@ -13,6 +12,6 @@ public abstract class Authorizer {
     }
 
     public static boolean hasValidCredentials(String credentials) {
-        return ((credentials != null) && credentials.equals(CREDENTIALS));
+        return true;
     }
 }

@@ -21,6 +21,13 @@ public class FileTypeReader {
         }
     }
 
+    public static String getFileExtension(String fileName) {
+        int startIndex = fileName.indexOf(".") + 1;
+        int endIndex = fileName.length();
+
+        return fileName.substring(startIndex, endIndex);
+    }
+
     public static boolean isTextFile(String fileName) {
         return doesNotHaveFileExtension(fileName) || hasTxtExtension(fileName);
     }

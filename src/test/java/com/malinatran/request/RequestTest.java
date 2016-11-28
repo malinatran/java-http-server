@@ -55,23 +55,23 @@ public class RequestTest {
     @Test
     public void getRangeValuesWithStartAndEndRangeReturnsHashtableWithBothValues() {
         request.setHeader("Range: bytes=0-99");
-        expected.put(ContentRangeHelper.START, 0);
-        expected.put(ContentRangeHelper.END, 99);
 
         Map<String, Integer> actual = request.getRangeValues();
+        int start = actual.get(ContentRangeHelper.START);
+        int end = actual.get(ContentRangeHelper.END);
 
-        assertEquals(expected.get(ContentRangeHelper.START), actual.get(ContentRangeHelper.START));
-        assertEquals(expected.get(ContentRangeHelper.END), actual.get(ContentRangeHelper.END));
+        assertEquals(0, start);
+        assertEquals(99, end);
     }
 
     @Test
     public void getRangeValuesWithStartRangeAndNoEndRangeReturnsHashtableWithStartValue() {
         request.setHeader("Range: bytes=4-");
-        expected.put(ContentRangeHelper.START, 4);
 
         Map<String, Integer> actual = request.getRangeValues();
+        int start = actual.get(ContentRangeHelper.START);
 
-        assertEquals(expected.get(ContentRangeHelper.START), actual.get(ContentRangeHelper.START));
+        assertEquals(4, start);
         assertNull(actual.get(ContentRangeHelper.END));
     }
 
@@ -81,8 +81,9 @@ public class RequestTest {
         expected.put(ContentRangeHelper.END, 10);
 
         Map<String, Integer> actual = request.getRangeValues();
+        int end = actual.get(ContentRangeHelper.END);
 
-        assertEquals(expected.get(ContentRangeHelper.END), actual.get(ContentRangeHelper.END));
+        assertEquals(10, end);
         assertNull(actual.get(ContentRangeHelper.START));
     }
 }
