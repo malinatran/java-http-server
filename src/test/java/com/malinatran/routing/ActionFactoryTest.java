@@ -2,7 +2,7 @@ package com.malinatran.routing;
 
 import com.malinatran.mocks.MockActionFactory;
 import com.malinatran.request.Request;
-import com.malinatran.setup.ServerSettings;
+import com.malinatran.setup.DirectoryArg;
 import com.malinatran.utility.Mapping;
 import com.malinatran.utility.RequestLogger;
 
@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
 
 public class ActionFactoryTest {
 
-    private String PATH = ServerSettings.HOME_DIRECTORY + ServerSettings.DEFAULT_DIRECTORY;
+    private String PATH = DirectoryArg.HOME_DIRECTORY + DirectoryArg.DEFAULT_DIRECTORY;
     private Request request;
     private RequestLogger logger;
     private Map<String, Action> routes = Mapping.getRoutes();

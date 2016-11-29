@@ -1,22 +1,21 @@
 package com.malinatran.routing;
 
+import com.malinatran.setup.DirectoryArg;
 import com.malinatran.utility.RequestLogger;
 import com.malinatran.utility.Status;
 import com.malinatran.request.Request;
 import com.malinatran.response.Response;
-import com.malinatran.setup.ServerSettings;
 
 import org.junit.Before;
 import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
 
-
 import static org.junit.Assert.*;
 
 public class FileContentActionTest {
 
-    private String PATH = ServerSettings.HOME_DIRECTORY + ServerSettings.DEFAULT_DIRECTORY;
+    private String PATH = DirectoryArg.HOME_DIRECTORY + DirectoryArg.DEFAULT_DIRECTORY;
     private Action action;
     private Request request;
     private Response response;
