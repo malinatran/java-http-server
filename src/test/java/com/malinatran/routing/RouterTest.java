@@ -2,7 +2,7 @@ package com.malinatran.routing;
 
 import com.malinatran.mocks.MockRouter;
 import com.malinatran.request.Request;
-import com.malinatran.setup.ServerSettings;
+import com.malinatran.setup.DirectoryArg;
 import com.malinatran.utility.RequestLogger;
 import com.malinatran.response.Response;
 
@@ -16,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 
 public class RouterTest {
 
-    private String PATH = ServerSettings.HOME_DIRECTORY + ServerSettings.DEFAULT_DIRECTORY;
+    private String PATH = DirectoryArg.HOME_DIRECTORY + DirectoryArg.DEFAULT_DIRECTORY;
     private String responseNotAllowed = "HTTP/1.1 405 Method Not Allowed";
     private String responseNotFound = "HTTP/1.1 404 Not Found";
     private String responseOK = "HTTP/1.1 200 OK";

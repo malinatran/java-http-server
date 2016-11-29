@@ -1,6 +1,6 @@
 package com.malinatran.routing;
 
-import com.malinatran.setup.ServerSettings;
+import com.malinatran.setup.DirectoryArg;
 import com.malinatran.utility.RequestLogger;
 import com.malinatran.utility.Status;
 import com.malinatran.request.Request;
@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
 
 public class CreateOrUpdateActionTest {
 
-    private String PATH = ServerSettings.HOME_DIRECTORY + ServerSettings.DEFAULT_DIRECTORY;
+    private String PATH = DirectoryArg.HOME_DIRECTORY + DirectoryArg.DEFAULT_DIRECTORY;
     private Action action;
     private Request request;
     private Response response;

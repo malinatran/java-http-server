@@ -1,6 +1,6 @@
 package com.malinatran.resource;
 
-import com.malinatran.setup.ServerSettings;
+import com.malinatran.setup.DirectoryArg;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 
 public class DirectoryTest {
 
-    private String PATH = ServerSettings.HOME_DIRECTORY + ServerSettings.DEFAULT_DIRECTORY;
+    private String PATH = DirectoryArg.HOME_DIRECTORY + DirectoryArg.DEFAULT_DIRECTORY;
     private Map<String, Integer> map;
     private boolean result;
 

@@ -1,6 +1,6 @@
 package com.malinatran.request;
 
-import com.malinatran.setup.ServerSettings;
+import com.malinatran.setup.DirectoryArg;
 import com.malinatran.utility.RequestLogger;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,7 +10,7 @@ import static junit.framework.Assert.assertTrue;
 
 public class MethodTypeReaderTest {
 
-    private String PATH = ServerSettings.HOME_DIRECTORY + ServerSettings.DEFAULT_DIRECTORY;
+    private String PATH = DirectoryArg.HOME_DIRECTORY + DirectoryArg.DEFAULT_DIRECTORY;
     private Request request;
     private RequestLogger logger;
     private boolean result;
