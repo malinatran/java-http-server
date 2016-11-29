@@ -31,7 +31,7 @@ public class PortArg extends Arg {
     private int getPortOrErrorMessage(int valid, String temp) {
         try {
             return Integer.parseInt(temp);
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             printError(temp);
         }
 

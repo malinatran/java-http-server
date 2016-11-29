@@ -11,6 +11,7 @@ import com.malinatran.writer.ResponseWriter;
 import com.malinatran.writer.Writer;
 
 import java.io.IOException;
+import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
@@ -46,10 +47,10 @@ public class Main {
         }
     }
 
-    private static void setupSocket() {
+    private static void setupSocket() throws IOException {
         try {
             serverSocket = new ServerSocket(port);
-        } catch (Exception e) {
+        } catch (BindException e) {
             printAndTerminate();
         }
     }

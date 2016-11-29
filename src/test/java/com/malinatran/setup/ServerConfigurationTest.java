@@ -47,14 +47,6 @@ public class ServerConfigurationTest {
 
     @Test
     public void constructorSetsSettingsMapWithValidPortAndDirectory() throws IOException {
-//        args = new String[] { "-p", "testing", "-d", "again" };
-//        expected.put("-p", "testing");
-//        expected.put("-d", "/again/");
-//
-//        config = new ServerConfiguration(args);
-//
-//        assertEquals(expected, config.getSettings());
-
         String fileName = File.separator + "directory" + File.separator;
         File file = new File(CURRENT_DIRECTORY + fileName);
         file.mkdir();
