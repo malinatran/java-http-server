@@ -2,7 +2,9 @@ package com.malinatran.setup;
 
 import com.malinatran.utility.FileSeparator;
 
+import java.util.Arrays;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
 
 public class ServerConfiguration {
@@ -38,7 +40,7 @@ public class ServerConfiguration {
         String currentKey = "";
 
         for (String arg : args) {
-            if (isFlag(arg)) {
+            if (isValidFlag(arg)) {
                 currentKey = arg;
             } else if (!currentKey.isEmpty()) {
                 String formattedValue = addFileSeparators(currentKey, arg);
@@ -50,13 +52,21 @@ public class ServerConfiguration {
         return settings;
     }
 
+    private boolean isValidFlag(String flag) {
+        List<String> validFlags = Arrays.asList(PortArg.FLAG, DirectoryArg.FLAG);
+
+        for (String validFlag : validFlags) {
+            if (flag.equals(validFlag)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     private void setArgValues() {
         this.port = portArg.setInteger(settings);
         this.directory = directoryArg.setString(settings);
-    }
-
-    private boolean isFlag(String arg) {
-        return portArg.isFlag(arg) || directoryArg.isFlag(arg);
     }
 
     private String addFileSeparators(String key, String arg) {
@@ -68,6 +78,6 @@ public class ServerConfiguration {
     }
 
     private boolean isValidPath(String key, String arg) {
-        return (!portArg.isValidInteger(arg) && directoryArg.isFlag(key));
+        return (!portArg.isInteger(arg) && directoryArg.isFlag(key));
     }
 }

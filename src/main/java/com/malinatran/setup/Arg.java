@@ -15,10 +15,6 @@ public abstract class Arg {
         return 0;
     }
 
-    boolean isValidInteger(String value) {
-        return false;
-    }
-
     boolean isFlag(String arg) {
         return false;
     }

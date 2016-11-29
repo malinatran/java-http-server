@@ -13,7 +13,7 @@ public class PortArg extends Arg {
         return arg.equals(FLAG);
     }
 
-    public boolean isValidInteger(String arg) {
+    public boolean isInteger(String arg) {
         return arg.matches(DIGITS_REGEX);
     }
 

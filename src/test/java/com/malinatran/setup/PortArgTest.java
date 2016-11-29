@@ -39,15 +39,15 @@ public class PortArgTest {
     }
 
     @Test
-    public void isValidIntegerReturnsTrue() throws Exception {
-        result = portArg.isValidInteger("1000");
+    public void isIntegerReturnsTrue() throws Exception {
+        result = portArg.isInteger("1000");
 
         assertTrue(result);
     }
 
     @Test
-    public void isValidIntegerReturnsFalse() throws Exception {
-        result = portArg.isValidInteger("lalala");
+    public void isIntegerReturnsFalse() throws Exception {
+        result = portArg.isInteger("lalala");
 
         assertFalse(result);
     }

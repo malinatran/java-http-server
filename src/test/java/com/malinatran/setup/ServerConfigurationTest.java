@@ -9,6 +9,8 @@ import java.util.Hashtable;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class ServerConfigurationTest {
 
@@ -25,12 +27,11 @@ public class ServerConfigurationTest {
     public void setUp() {
         args = new String[] { PortArg.FLAG, String.valueOf(PORT_5000), DirectoryArg.FLAG, DEFAULT_DIRECTORY };
         expected = new Hashtable<String, String>();
+        config = new ServerConfiguration(args);
     }
 
     @Test
     public void constructorSetsPortAndDirectoryWithNewValues() {
-        config = new ServerConfiguration(args);
-
         assertEquals(PORT_5000, config.getPort());
         assertEquals(DEFAULT_PATH, config.getDirectory());
     }
@@ -62,7 +63,7 @@ public class ServerConfigurationTest {
 
     @Test
     public void constructorDoesNotSetSettingsMapWithoutPrecedingFlag() {
-        args = new String[] { "this", "is", "just", "a", "test"};
+        args = new String[] { "-x", "test", "-o", "test"};
 
         config = new ServerConfiguration(args);
 

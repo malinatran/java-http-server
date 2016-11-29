@@ -12,6 +12,7 @@ import static com.malinatran.request.Method.PATCH;
 
 public class RequestLogger {
 
+    // TODO: Add more tests
     private Vector<String> loggedRequestLines;
     private String eTag;
     private char[] body;
@@ -44,6 +45,7 @@ public class RequestLogger {
         return body.length > 0;
     }
 
+    // TODO: Handles different types of request (should wrap to handle polymorphically)
     public void logRequest(Request request) {
         String method = request.getMethod();
         String path = request.getPath();
