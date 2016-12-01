@@ -1,37 +1,26 @@
 package com.malinatran;
 
-import com.malinatran.reader.Reader;
-import com.malinatran.reader.RequestReader;
-import com.malinatran.setup.ClientHandler;
+import com.malinatran.routing.Router;
 import com.malinatran.setup.CommandLinePrinter;
 import com.malinatran.setup.ServerConfiguration;
 import com.malinatran.utility.RequestLogger;
-import com.malinatran.routing.Router;
-import com.malinatran.writer.ResponseWriter;
-import com.malinatran.writer.Writer;
 
 import java.io.IOException;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import static com.malinatran.setup.Arg.BUSY;
 import static com.malinatran.setup.PortArg.PORT;
 
-public class Main {
+public class MockMain extends Main {
 
-    private static Socket clientSocket;
-    private static ExecutorService executor = Executors.newFixedThreadPool(50);
-    private static Reader in;
     private static RequestLogger logger;
-    private static Writer out;
     private static Router router;
     private static ServerConfiguration config;
     private static ServerSocket serverSocket;
-    private static int port;
     private static String directory;
+    private static int port;
 
     public static void main(String[] args) throws IOException {
         config = new ServerConfiguration(args);
@@ -41,10 +30,30 @@ public class Main {
         setupSocket();
         setupLoggerAndRouter();
         CommandLinePrinter.print(port, directory);
+    }
 
-        while (true) {
-            startClientHandlerThread();
-        }
+    public int getPort() {
+        return port;
+    }
+
+    public String getDirectory() {
+        return directory;
+    }
+
+    public RequestLogger getLogger() {
+        return logger;
+    }
+
+    public Router getRouter() {
+        return router;
+    }
+
+    public ServerSocket getServerSocket() {
+        return serverSocket;
+    }
+
+    public Socket getClientSocket() {
+        return clientSocket;
     }
 
     private static void setupSocket() throws IOException {
@@ -53,11 +62,12 @@ public class Main {
         } catch (BindException e) {
             printAndTerminate();
         }
+
+        serverSocket.close();
     }
 
     private static void printAndTerminate() {
         CommandLinePrinter.print(PORT, String.valueOf(port), BUSY);
-        System.exit(-1);
     }
 
     private static void setupLoggerAndRouter() {
@@ -65,16 +75,7 @@ public class Main {
         router = new Router();
     }
 
-    static void startClientHandlerThread() throws IOException {
-        clientSocket = serverSocket.accept();
-        out = new ResponseWriter(clientSocket);
-        in = new RequestReader(clientSocket);
-        ClientHandler clientHandler = new ClientHandler(out, in, logger, router, directory);
-        executor.execute(clientHandler);
-    }
-
     protected void finalize() throws IOException {
-        clientSocket.close();
         serverSocket.close();
     }
 }
