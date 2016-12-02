@@ -7,9 +7,19 @@
 * Pass acceptance tests outlined by [Cob Spec](http://github.com/8thlight/cob_spec)
 
 ### Installation
-- Requires Java 1.8 and Maven
-- Setup environment variable: `export JAVA_SERVER_TOKEN='Basic YWRtaW46aHVudGVyMg=='`
-- Instructions:
+Requires Java 1.8 and Maven
+
+**1.** Set the following environment variable:
+```
+export JAVA_SERVER_TOKEN='Basic YWRtaW46aHVudGVyMg=='
+```
+
+**2.** In your terminal, kill process on port 5000:
+```
+kill -9 `lsof -i :5000 | tail -1 | awk '{print $2}'`
+```
+
+**3.** Clone, compile, and package the code:
 ```
 $ git clone https://github.com/malinatran/java-http-server
 $ cd java-http-server
@@ -17,7 +27,9 @@ $ mvn package
 ```
 
 ### Run
-From the root directory, run `java -jar target/java-http-server-1.0-SNAPSHOT.jar`. To specify a port and/or directory, you may pass in the following arguments: `-p [PORT] -d [DIRECTORY]`, `-p [PORT]`, or `-d [DIRECTORY]`. The port and directory are optional; if not provided, default values for both will be set (to port 5000 and `public` directory, respectively).
+From the root directory, run `java -jar target/java-http-server-1.0-SNAPSHOT.jar`.
+
+To specify a port and/or directory, you may pass in the following arguments: `-p [PORT] -d [DIRECTORY]`, `-p [PORT]`, or `-d [DIRECTORY]`. The port and directory are optional; if not provided, default values for both will be set (to port 5000 and `public` directory, respectively).
 
 ### Tests
 JUnit is the unit testing framework used for this project. Through the command line, run `mvn test`. For acceptance tests via Cob Spec, run the server and follow instructions listed [here](http://github.com/8thlight/cob_spec).
