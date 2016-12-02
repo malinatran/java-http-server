@@ -46,6 +46,7 @@ public class MainTest {
 
         assertEquals(PORT_5000, main.getPort());
         assertEquals(DirectoryArg.DEFAULT_PATH, main.getDirectory());
+        main.closeSocket();
     }
 
     @Test
@@ -60,6 +61,7 @@ public class MainTest {
 
         assertEquals(testRouter.getClass(), router.getClass());
         assertEquals(testLogger.getClass(), logger.getClass());
+        main.closeSocket();
     }
 
     @Test

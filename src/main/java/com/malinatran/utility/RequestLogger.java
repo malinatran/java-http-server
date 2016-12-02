@@ -10,7 +10,7 @@ import java.util.Vector;
 
 import static com.malinatran.request.Method.PATCH;
 
-public class RequestLogger {
+public class RequestLogger extends Logger {
 
     // TODO: Add more tests
     private Vector<String> loggedRequestLines;
@@ -46,7 +46,7 @@ public class RequestLogger {
     }
 
     // TODO: Handles different types of request (should wrap to handle polymorphically)
-    public void logRequest(Request request) {
+    public Request logRequest(Request request) {
         String method = request.getMethod();
         String path = request.getPath();
         String protocolAndVersion = request.getProtocolAndVersion();
@@ -59,6 +59,8 @@ public class RequestLogger {
         } else if (MethodTypeReader.isDeleteToForm(method, path)) {
             handleDelete();
         }
+
+        return request;
     }
 
     private List<String> addRequestLine(String method, String path, String protocolAndVersion) {
