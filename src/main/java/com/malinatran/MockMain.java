@@ -52,8 +52,8 @@ public class MockMain extends Main {
         return serverSocket;
     }
 
-    public Socket getClientSocket() {
-        return clientSocket;
+    public void closeSocket() throws IOException {
+        serverSocket.close();
     }
 
     private static void setupSocket() throws IOException {
@@ -62,8 +62,6 @@ public class MockMain extends Main {
         } catch (BindException e) {
             printAndTerminate();
         }
-
-        serverSocket.close();
     }
 
     private static void printAndTerminate() {
