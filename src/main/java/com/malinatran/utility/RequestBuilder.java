@@ -12,45 +12,42 @@ import static com.malinatran.request.Method.PATCH;
 public class RequestBuilder {
 
     public Map<String, String> getRequestBody(Request request) {
-        Map<String, String> result = new Hashtable<String, String>();
+        Map<String, String> map = new Hashtable<String, String>();
         String method = request.getMethod();
         String path = request.getPath();
 
         if (method.equals(PATCH)) {
-            return handlePatch(request, result);
+            return handlePatch(request, map);
         } else if (MethodTypeReader.isPutOrPostToForm(method, path)) {
-            return handlePutOrPost(request, result);
+            return handlePutOrPost(request, map);
         } else if (MethodTypeReader.isDeleteToForm(method, path)) {
-            return handleDelete(result);
+            return handleDelete(map);
         }
 
-        return new Hashtable<String, String>();
+        return map;
     }
 
-    private Map<String, String> handlePatch(Request request, Map<String, String> result) {
+    private Map<String, String> handlePatch(Request request, Map<String, String> map) {
         String eTag = request.getHeaderValue(Header.IF_MATCH);
         char[] bodyAsCharArray = request.getBody();
         String body = new String(bodyAsCharArray);
+        map.put(RequestLogger.ETAG, eTag);
+        map.put(RequestLogger.BODY, body);
 
-        result.put(RequestLogger.ETAG, eTag);
-        result.put(RequestLogger.BODY, body);
-
-        return result;
+        return map;
     }
 
-    private Map<String, String> handlePutOrPost(Request request, Map<String, String> result) {
+    private Map<String, String> handlePutOrPost(Request request, Map<String, String> map) {
         char[] bodyAsCharArray = request.getBody();
-
         String body = new String(bodyAsCharArray);
+        map.put(RequestLogger.BODY, body);
 
-        result.put(RequestLogger.BODY, body);
-
-        return result;
+        return map;
     }
 
-    private Map<String,String> handleDelete(Map<String, String> result) {
-        result.put(RequestLogger.BODY, "");
+    private Map<String,String> handleDelete(Map<String, String> map) {
+        map.put(RequestLogger.BODY, "");
 
-        return result;
+        return map;
     }
 }
