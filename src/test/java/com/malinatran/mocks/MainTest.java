@@ -1,4 +1,4 @@
-package com.malinatran;
+package com.malinatran.mocks;
 
 import com.malinatran.response.Formatter;
 import com.malinatran.routing.Router;
@@ -27,7 +27,7 @@ public class MainTest {
     private PrintStream mainOut;
 
     @Before
-    public void setUp() {
+    public void setUp() throws IOException {
         out = new ByteArrayOutputStream();
         mainOut = System.out;
         System.setOut(new PrintStream(out));
@@ -76,7 +76,7 @@ public class MainTest {
 
     @Test
     public void mainPrintsPortAndDirectoryInCommandLine() throws Exception {
-        expected = "Port: 1111\nDirectory: " + DirectoryArg.DEFAULT_PATH +  "\n";
+        expected = Formatter.addLF("Port: 1111" + Formatter.LF + "Directory: " + DirectoryArg.DEFAULT_PATH);
         String[] args = {PortArg.FLAG, "1111"};
 
         main.main(args);

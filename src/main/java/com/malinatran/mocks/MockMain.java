@@ -1,5 +1,6 @@
-package com.malinatran;
+package com.malinatran.mocks;
 
+import com.malinatran.Main;
 import com.malinatran.routing.Router;
 import com.malinatran.setup.CommandLinePrinter;
 import com.malinatran.setup.ServerConfiguration;
@@ -8,7 +9,6 @@ import com.malinatran.utility.RequestLogger;
 import java.io.IOException;
 import java.net.BindException;
 import java.net.ServerSocket;
-import java.net.Socket;
 
 import static com.malinatran.setup.Arg.BUSY;
 import static com.malinatran.setup.PortArg.PORT;

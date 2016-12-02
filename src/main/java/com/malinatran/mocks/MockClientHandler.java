@@ -1,7 +1,8 @@
-package com.malinatran.setup;
+package com.malinatran.mocks;
 
 import com.malinatran.reader.Reader;
 import com.malinatran.routing.Router;
+import com.malinatran.setup.ClientHandler;
 import com.malinatran.utility.RequestLogger;
 import com.malinatran.writer.Writer;
 

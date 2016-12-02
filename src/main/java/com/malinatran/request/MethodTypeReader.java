@@ -35,7 +35,7 @@ public class MethodTypeReader {
     }
 
     public static boolean isPutOrPostToForm(String method, String path) {
-        return (method.equals(POST) || method.equals(PUT) && path.equals(FORM_PATH));
+        return (method.equals(POST) || method.equals(PUT)) && path.equals(FORM_PATH);
     }
 
     public static boolean isDeleteToForm(String method, String path) {
