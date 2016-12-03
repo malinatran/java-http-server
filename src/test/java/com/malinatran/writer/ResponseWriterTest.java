@@ -1,15 +1,16 @@
 package com.malinatran.writer;
 
 import com.malinatran.mocks.MockResponseWriter;
-import com.malinatran.mocks.ResponseLogger;
+import com.malinatran.utility.ResponseLogger;
 import com.malinatran.response.Response;
+
 import org.junit.Before;
 import org.junit.Test;
-
 import java.io.IOException;
 
 import static com.malinatran.utility.Status.OK;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 public class ResponseWriterTest {
 

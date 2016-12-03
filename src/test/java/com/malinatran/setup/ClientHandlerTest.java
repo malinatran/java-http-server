@@ -5,14 +5,16 @@ import com.malinatran.reader.Reader;
 import com.malinatran.reader.RequestReader;
 import com.malinatran.utility.RequestLogger;
 import com.malinatran.routing.Router;
+import com.malinatran.utility.ResponseLogger;
 import com.malinatran.writer.Writer;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-
 import org.junit.Test;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class ClientHandlerTest {
 

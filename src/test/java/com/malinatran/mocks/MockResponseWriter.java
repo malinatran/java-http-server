@@ -1,6 +1,7 @@
 package com.malinatran.mocks;
 
 import com.malinatran.response.Response;
+import com.malinatran.utility.ResponseLogger;
 import com.malinatran.writer.Writer;
 
 import java.io.IOException;

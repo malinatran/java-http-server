@@ -1,4 +1,4 @@
-package com.malinatran.mocks;
+package com.malinatran.utility;
 
 import com.malinatran.response.Response;
 
