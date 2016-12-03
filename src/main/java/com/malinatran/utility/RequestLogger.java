@@ -43,17 +43,16 @@ public class RequestLogger extends Logger {
     }
 
     public Request logRequest(Request request) {
-        String method = request.getMethod();
-        String path = request.getPath();
-        String protocolAndVersion = request.getProtocolAndVersion();
-
-        addRequestLine(method, path, protocolAndVersion);
+        addRequestLine(request);
         addETagAndBody(request);
 
         return request;
     }
 
-    private List<String> addRequestLine(String method, String path, String protocolAndVersion) {
+    private List<String> addRequestLine(Request request) {
+        String method = request.getMethod();
+        String path = request.getPath();
+        String protocolAndVersion = request.getProtocolAndVersion();
         String initialLine = String.format("%s %s %s", method, path, protocolAndVersion);
         loggedRequestLines.add(Formatter.addCRLF(initialLine));
 
@@ -65,15 +64,12 @@ public class RequestLogger extends Logger {
         Map<String, String> array = builder.getRequestBody(request);
 
         if (containsETagAndBody(array)) {
-            String eTag = array.get(ETAG);
-            char[] body = array.get(BODY).toCharArray();
-            setETagAndBody(eTag, body);
+            setETagAndBody(array);
         } else if (containsBody(array)) {
-            char[] body = array.get(BODY).toCharArray();
-            setBody(body);
+            setBody(array);
         }
 
-       return request;
+        return request;
     }
 
     private boolean containsETagAndBody(Map<String, String> array) {
@@ -84,16 +80,20 @@ public class RequestLogger extends Logger {
         return array.containsKey(BODY);
     }
 
-   private RequestLogger setETagAndBody(String eTag, char[] body) {
-        if (eTag != null) {
-            this.eTag = eTag;
-            this.body = body;
-        }
+    private RequestLogger setETagAndBody(Map<String, String> array) {
+       String eTag = array.get(ETAG);
+       char[] body = array.get(BODY).toCharArray();
+
+       if (eTag != null) {
+           this.eTag = eTag;
+           this.body = body;
+       }
 
         return this;
     }
 
-    private RequestLogger setBody(char[] body) {
+    private RequestLogger setBody(Map<String, String> array) {
+        char[] body = array.get(BODY).toCharArray();
         this.body = body;
 
         return this;
