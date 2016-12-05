@@ -22,7 +22,8 @@ public class Request {
     }
 
     public String getAbsolutePath() {
-        return getDirectory() + getPath().replace("/", "").trim();
+        String path = getPath().replaceFirst("/", "");
+        return getDirectory() + path;
     }
 
     public char[] getBody() {

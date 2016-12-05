@@ -1,6 +1,7 @@
 package com.malinatran.response;
 
 import com.malinatran.resource.ContentRangeHelper;
+import com.malinatran.resource.Directory;
 import com.malinatran.routing.Header;
 import com.malinatran.utility.Status;
 
@@ -10,6 +11,13 @@ public class ResponseBuilder {
 
     private static final String IMAGE = "image/";
     private static final String TEXT_PLAIN = "text/plain";
+
+    public static Response directory(Response response, String directory, String absolutePath) {
+        response.setStatus(Status.OK);
+        response.setBodyContent(Directory.getLinks(directory, absolutePath));
+
+        return response;
+    }
 
     public static Response image(Response response, String imageType, byte[] image) {
         response.setStatus(Status.OK);

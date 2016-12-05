@@ -31,6 +31,15 @@ public class FileContentActionTest {
     }
 
     @Test
+    public void runWithGetRequestToDirectoryReturns200AndServesFiles() throws IOException {
+        request.setRequestLine("GET /subfolder HTTP/1.1");
+
+        action.run(request, response, logger);
+
+        assertEquals(Status.OK, response.getStatus());
+    }
+
+    @Test
     public void runWithGetRequestToExistingResourceAndValidTextFileReturns200() throws IOException {
         request.setRequestLine("GET /patch-content.txt HTTP/1.1");
 
@@ -40,8 +49,26 @@ public class FileContentActionTest {
     }
 
     @Test
+    public void runWithGetRequestToExistingResourceWithSpacesInFileNameReturns200() throws IOException {
+        request.setRequestLine("GET /this%20is%20kirby.jpg HTTP/1.1");
+
+        action.run(request, response, logger);
+
+        assertEquals(Status.OK, response.getStatus());
+    }
+
+    @Test
     public void runWithGetRequestToValidImageFileReturns404() throws IOException {
         request.setRequestLine("GET /image.gif HTTP/1.1");
+
+        action.run(request, response, logger);
+
+        assertEquals(Status.OK, response.getStatus());
+    }
+
+    @Test
+    public void runWithGetRequestToNestedImageReturns200() throws IOException {
+        request.setRequestLine("GET /subfolder/arthur.gif HTTP/1.1");
 
         action.run(request, response, logger);
 
