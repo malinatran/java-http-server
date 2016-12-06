@@ -22,7 +22,7 @@ public class DirectoryTest {
 
     @Test
     public void getLinksWithExistingDirectoryReturnsLinks() {
-        String link = Directory.getLinks(PATH);
+        String link = Directory.getLinks("", PATH);
 
         assertTrue(link.contains("<a style=\"display: block\" href=\"/image.png\">image.png</a>"));
     }

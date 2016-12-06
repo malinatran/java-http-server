@@ -30,18 +30,6 @@ public class Directory {
         return message;
     }
 
-    public static String getLinks(String filePath) {
-        File file = new File(filePath);
-        String message = "";
-
-        if (file.isDirectory()) {
-            String[] files = file.list();
-            message = (files != null ? getAnchorTagLinks(files) : "");
-        }
-
-        return message;
-    }
-
     private static String getAnchorTagLinks(String directory, String[] files) {
         String links = "";
 
@@ -52,24 +40,14 @@ public class Directory {
         return links;
     }
 
-    private static String getAnchorTagLinks(String[] files) {
-        String links = "";
-
-        for (String file : files) {
-            links += getAnchorTagLink(file);
-        }
-
-        return links;
-    }
-
     private static String getAnchorTagLink(String directory, String file) {
-        String html = "<a style=\"display: block\" href=\"/" + directory + "/" + file + "\">" + file + "</a>";
-
-        return Formatter.addLF(html);
-    }
-
-    private static String getAnchorTagLink(String file) {
-        String html = "<a style=\"display: block\" href=\"/" + file + "\">" + file + "</a>";
+        String html = ""; 
+        
+        if (directory != "") {
+            html += "<a style=\"display: block\" href=\"/" + directory + "/" + file + "\">" + file + "</a>";
+        } else {
+          html = "<a style=\"display: block\" href=\"/" + file + "\">" + file + "</a>";
+        }
 
         return Formatter.addLF(html);
     }

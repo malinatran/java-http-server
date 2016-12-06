@@ -16,7 +16,7 @@ public class IndexAction extends Action {
 
         if (path.equals("/")) {
             response.setStatus(Status.OK);
-            response.setBodyContent(Directory.getLinks(directory));
+            response.setBodyContent(Directory.getLinks("", directory));
         }
     }
 }
