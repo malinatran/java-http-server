@@ -2,9 +2,7 @@ package com.malinatran.resource;
 
 import com.malinatran.utility.FileType;
 
-import static com.malinatran.utility.FileType.TEXT;
-import static com.malinatran.utility.FileType.IMAGE;
-import static com.malinatran.utility.FileType.UNSUPPORTED;
+import static com.malinatran.utility.FileType.*;
 
 public class FileTypeReader {
 

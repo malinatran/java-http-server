@@ -11,6 +11,7 @@ import com.malinatran.resource.FileContentReader;
 import com.malinatran.response.Response;
 import com.malinatran.response.ResponseBuilder;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
@@ -27,16 +28,22 @@ public class FileContentAction extends Action {
     }
 
     private FileContentAction buildResponse() throws IOException {
-        String absolutePath = request.getAbsolutePath();
-        boolean exists = Directory.existsInDirectory(absolutePath);
+        String absolutePath = replaceSpaces(request.getAbsolutePath());
+        File file = new File(absolutePath);
 
-        if (exists) {
+        if (file.isDirectory()) {
+            readDirectory(absolutePath);
+        } else if (file.exists()) {
             buildResponseByMethod(absolutePath);
         } else {
             response.setStatus(Status.NOT_FOUND);
         }
 
         return this;
+    }
+
+    private String replaceSpaces(String url) {
+        return url.replace("%20", " ");
     }
 
     private FileContentAction buildResponseByMethod(String absolutePath) throws IOException {
@@ -65,6 +72,14 @@ public class FileContentAction extends Action {
                 response.setStatus(Status.UNSUPPORTED_MEDIA_TYPE);
                 break;
         }
+
+        return this;
+    }
+
+    private FileContentAction readDirectory(String absolutePath) throws IOException {
+        int delimiter = absolutePath.lastIndexOf("/") + 1;
+        String directory = absolutePath.substring(delimiter, absolutePath.length());
+        ResponseBuilder.directory(response, directory, absolutePath);
 
         return this;
     }

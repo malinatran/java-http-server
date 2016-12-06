@@ -88,6 +88,6 @@ public class FileContentReaderTest {
     public void readReturnsByteArray() {
         byte[] result = FileContentReader.read(PATH + "/image.gif");
 
-        assertEquals(7169, result.length);
+        assertEquals(81892, result.length);
     }
 }
