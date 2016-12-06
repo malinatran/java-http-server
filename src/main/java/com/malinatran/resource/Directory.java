@@ -46,7 +46,7 @@ public class Directory {
         if (directory != "") {
             html += "<a style=\"display: block\" href=\"/" + directory + "/" + file + "\">" + file + "</a>";
         } else {
-          html = "<a style=\"display: block\" href=\"/" + file + "\">" + file + "</a>";
+            html += "<a style=\"display: block\" href=\"/" + file + "\">" + file + "</a>";
         }
 
         return Formatter.addLF(html);
