@@ -32,7 +32,7 @@ public class RouterTest {
     public void setUp() {
         Map<String, Action> routes = Mapping.getRoutes();
         logger = new RequestLogger();
-        mockRouter = new MockRouter();
+        mockRouter = new MockRouter(routes);
         request = new Request();
         request.setDirectory(PATH);
         response = new Response("HTTP/1.1");
