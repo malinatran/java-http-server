@@ -2,9 +2,11 @@ package com.malinatran;
 
 import com.malinatran.reader.Reader;
 import com.malinatran.reader.RequestReader;
+import com.malinatran.routing.Action;
 import com.malinatran.setup.ClientHandler;
 import com.malinatran.setup.CommandLinePrinter;
 import com.malinatran.setup.ServerConfiguration;
+import com.malinatran.utility.Mapping;
 import com.malinatran.utility.RequestLogger;
 import com.malinatran.routing.Router;
 import com.malinatran.writer.ResponseWriter;
@@ -14,6 +16,7 @@ import java.io.IOException;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -34,12 +37,16 @@ public class Main {
     private static String directory;
 
     public static void main(String[] args) throws IOException {
+        runServer(Mapping.getRoutes(), args);
+    }
+
+    public static void runServer(Map<String, Action> routes, String[] args) throws IOException {
         config = new ServerConfiguration(args);
         port = config.getPort();
         directory = config.getDirectory();
 
         setupSocket();
-        setupLoggerAndRouter();
+        setupLoggerAndRouter(routes);
         CommandLinePrinter.print(port, directory);
 
         while (true) {
@@ -60,9 +67,9 @@ public class Main {
         System.exit(-1);
     }
 
-    private static void setupLoggerAndRouter() {
+    private static void setupLoggerAndRouter(Map<String, Action> routes) {
         logger = new RequestLogger();
-        router = new Router();
+        router = new Router(routes);
     }
 
     static void startClientHandlerThread() throws IOException {

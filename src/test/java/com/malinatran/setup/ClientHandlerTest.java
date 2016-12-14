@@ -3,6 +3,8 @@ package com.malinatran.setup;
 import com.malinatran.mocks.*;
 import com.malinatran.reader.Reader;
 import com.malinatran.reader.RequestReader;
+import com.malinatran.routing.Action;
+import com.malinatran.utility.Mapping;
 import com.malinatran.utility.RequestLogger;
 import com.malinatran.routing.Router;
 import com.malinatran.utility.ResponseLogger;
@@ -11,6 +13,8 @@ import com.malinatran.writer.Writer;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Map;
+
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -18,10 +22,13 @@ import static org.junit.Assert.assertTrue;
 
 public class ClientHandlerTest {
 
+    Map<String, Action> routes = Mapping.getRoutes();
+
     @Test
     public void runWritesResponse() throws IOException {
+        Map<String, Action> routes = Mapping.getRoutes();
         ResponseLogger messageLogger = new ResponseLogger();
-        Router mockRouter = new MockRouter();
+        Router mockRouter = new MockRouter(routes);
         RequestLogger requestLogger = new RequestLogger();
         Writer writer = new MockResponseWriter(messageLogger);
         Reader reader = new MockRequestReader(new String[]
@@ -35,11 +42,10 @@ public class ClientHandlerTest {
 
     @Test(expected=IOException.class)
     public void runThrowsIOException() throws IOException {
-
         ServerSocket serverSocket = new ServerSocket(1001);
         Socket socket = serverSocket.accept();
         ResponseLogger messageLogger = new ResponseLogger();
-        Router mockRouter = new MockRouter();
+        Router mockRouter = new MockRouter(routes);
         RequestLogger requestLogger = new RequestLogger();
         Writer writer = new MockResponseWriter(messageLogger);
         Reader reader = new RequestReader(socket);
@@ -53,7 +59,7 @@ public class ClientHandlerTest {
     @Test
     public void runClosesStreams() throws IOException {
         ResponseLogger messageLogger = new ResponseLogger();
-        Router mockRouter = new MockRouter();
+        Router mockRouter = new MockRouter(routes);
         RequestLogger requestLogger = new RequestLogger();
         Writer writer = new MockResponseWriter(messageLogger);
         Reader reader = new MockRequestReader(new String[]

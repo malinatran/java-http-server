@@ -3,13 +3,14 @@ package com.malinatran.routing;
 import com.malinatran.mocks.MockRouter;
 import com.malinatran.request.Request;
 import com.malinatran.setup.DirectoryArg;
+import com.malinatran.utility.Mapping;
 import com.malinatran.utility.RequestLogger;
 import com.malinatran.response.Response;
 
 import org.junit.Before;
 import org.junit.Test;
 import java.io.IOException;
-
+import java.util.Map;
 
 import static com.malinatran.response.Formatter.CRLF;
 import static org.junit.Assert.assertEquals;
@@ -29,12 +30,13 @@ public class RouterTest {
 
     @Before
     public void setUp() {
+        Map<String, Action> routes = Mapping.getRoutes();
         logger = new RequestLogger();
-        mockRouter = new MockRouter();
+        mockRouter = new MockRouter(routes);
         request = new Request();
         request.setDirectory(PATH);
         response = new Response("HTTP/1.1");
-        router = new Router();
+        router = new Router(routes);
         subsequentRequest = new Request();
     }
 
