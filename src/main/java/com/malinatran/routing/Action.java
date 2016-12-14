@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public abstract class Action {
 
-    void run(Response response, RequestLogger logger) {};
+    public void run(Response response, RequestLogger logger) {};
 
-    void run(Request request, Response response, RequestLogger logger) throws IOException {};
+    public void run(Request request, Response response, RequestLogger logger) throws IOException {};
 }
