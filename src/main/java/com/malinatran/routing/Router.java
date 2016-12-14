@@ -2,7 +2,6 @@ package com.malinatran.routing;
 
 import com.malinatran.request.Request;
 import com.malinatran.response.Response;
-import com.malinatran.utility.Mapping;
 import com.malinatran.utility.RequestLogger;
 import com.malinatran.utility.ParameterDecoder;
 import com.malinatran.utility.Status;
@@ -16,8 +15,8 @@ public class Router {
     private Map<String, Action> routes;
     private Action action;
 
-    public Router() {
-        routes = Mapping.getRoutes();
+    public Router(Map<String, Action> routes) {
+        this.routes = routes;
     }
 
     public Response getResponse(Request request, RequestLogger logger) throws IOException {

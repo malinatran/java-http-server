@@ -1,14 +1,17 @@
 package com.malinatran.mocks;
 
 import com.malinatran.Main;
+import com.malinatran.routing.Action;
 import com.malinatran.routing.Router;
 import com.malinatran.setup.CommandLinePrinter;
 import com.malinatran.setup.ServerConfiguration;
+import com.malinatran.utility.Mapping;
 import com.malinatran.utility.RequestLogger;
 
 import java.io.IOException;
 import java.net.BindException;
 import java.net.ServerSocket;
+import java.util.Map;
 
 import static com.malinatran.setup.Arg.BUSY;
 import static com.malinatran.setup.PortArg.PORT;
@@ -23,12 +26,16 @@ public class MockMain extends Main {
     private static int port;
 
     public static void main(String[] args) throws IOException {
+        runServer(Mapping.getRoutes(), args);
+    }
+
+    public static void runServer(Map<String, Action> routes, String[] args) throws IOException {
         config = new ServerConfiguration(args);
         port = config.getPort();
         directory = config.getDirectory();
 
         setupSocket();
-        setupLoggerAndRouter();
+        setupLoggerAndRouter(routes);
         CommandLinePrinter.print(port, directory);
     }
 
@@ -68,9 +75,9 @@ public class MockMain extends Main {
         CommandLinePrinter.print(PORT, String.valueOf(port), BUSY);
     }
 
-    private static void setupLoggerAndRouter() {
+    private static void setupLoggerAndRouter(Map<String, Action> routes) {
         logger = new RequestLogger();
-        router = new Router();
+        router = new Router(routes);
     }
 
     protected void finalize() throws IOException {

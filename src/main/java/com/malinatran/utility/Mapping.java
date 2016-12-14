@@ -74,7 +74,7 @@ public class Mapping {
         return routes;
     }
 
-    private static Map<String, Action> addRoute(String method, String path, Action action) {
+    public static Map<String, Action> addRoute(String method, String path, Action action) {
         String key = String.format("%s %s", method, path);
         routes.put(key, action);
 
